@@ -6,9 +6,36 @@
   },
   "license": "MIT",
   "private": true,
+  "xo": {
+    "rules": {
+      "unicorn/filename-case": [
+        "error",
+        {
+          "cases": {
+            "camelCase": true,
+            "pascalCase": true
+          }
+        }
+      ],
+      "import/no-unassigned-import": [
+        "error",
+        {
+          "allow": [
+            "**/*.css"
+          ]
+        }
+      ]
+    },
+    "extends": [
+      "xo/browser",
+      "xo-react"
+    ],
+    "prettier": true
+  },
   "scripts": {
     "start": "webpack-dev-server --host=localhost --port=9091",
-    "build": "webpack --bail --env.production --env.analyze"
+    "build": "webpack --bail --env.production --env.analyze",
+    "test": "xo"
   },
   "dependencies": {
     "@jetbrains/icons": "^3.7.0",
@@ -17,9 +44,13 @@
     "react": "^16.13.1"
   },
   "devDependencies": {
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "xo": "^0.32.1"
   }
 }
