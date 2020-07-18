@@ -13,6 +13,7 @@
   "dependencies": {
     "@jetbrains/icons": "^3.7.0",
     "@jetbrains/ring-ui": "^3.0.46",
+    "core-js": "2.6.11",
     "react": "^16.13.1"
   },
   "devDependencies": {
