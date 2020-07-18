@@ -1,3 +1,3 @@
-const getRingConfig = require('@jetbrains/ring-ui/postcss.config')
+const getRingConfig = require('@jetbrains/ring-ui/postcss.config');
 
-module.exports = getRingConfig
+module.exports = getRingConfig;

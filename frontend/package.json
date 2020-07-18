@@ -30,7 +30,11 @@
       "xo/browser",
       "xo-react"
     ],
-    "prettier": true
+    "prettier": true,
+    "ignores": [
+      "postcss.config.js",
+      "webpack.config.js"
+    ]
   },
   "scripts": {
     "start": "webpack-dev-server --host=localhost --port=9091",
