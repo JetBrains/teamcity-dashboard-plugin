@@ -1,9 +1,8 @@
+/* eslint-disable */
 import React from 'react';
 import Button from '@jetbrains/ring-ui/components/button/button';
 
-const App = () => (
-	<Button onClick={() => alert('Yes')}>This is a button</Button>
-);
+import App from './App.js';
 
 const dashboardTab = document.querySelector('#app');
 if (dashboardTab !== null) {
