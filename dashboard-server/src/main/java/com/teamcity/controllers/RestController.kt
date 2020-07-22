@@ -5,7 +5,6 @@ import com.teamcity.store.db.TeamcityUserPropertyDB
 import dashboarddata.DashboardData
 import jetbrains.buildServer.controllers.BaseController
 import jetbrains.buildServer.users.SUser
-import jetbrains.buildServer.web.openapi.PluginDescriptor
 import jetbrains.buildServer.web.openapi.WebControllerManager
 import jetbrains.buildServer.web.util.SessionUser
 import org.springframework.http.HttpStatus
@@ -17,7 +16,7 @@ import java.nio.charset.StandardCharsets
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class RestController(private val manager: WebControllerManager, private val descriptor: PluginDescriptor) : BaseController() {
+class RestController(manager: WebControllerManager) : BaseController() {
 
     companion object {
         val initialDashboardData = DashboardData(listOf(), listOf())
@@ -29,7 +28,7 @@ class RestController(private val manager: WebControllerManager, private val desc
         manager.registerController("/dashboardData.html", this)
     }
 
-    private fun respondWithData(user: SUser, request: HttpServletRequest, response: HttpServletResponse): ModelAndView?  {
+    private fun respondWithData(user: SUser, response: HttpServletResponse): ModelAndView?  {
         val data = store.getVerifiedString(user)
         response.contentType = "application/json"
         val writer = OutputStreamWriter(response.outputStream, StandardCharsets.UTF_8)
@@ -50,25 +49,23 @@ class RestController(private val manager: WebControllerManager, private val desc
         reader.close()
         try {
             store.put(user, data)
+            response.status = HttpStatus.ACCEPTED.value()
         } catch (e: DashboardsStore.ReceivedInvalidData) {
             response.status = HttpStatus.BAD_REQUEST.value()
         }
-        response.status = HttpStatus.ACCEPTED.value()
         return null
     }
 
     override fun doHandle(request: HttpServletRequest, response: HttpServletResponse): ModelAndView? {
         val user = SessionUser.getUser(request)
         if (user == null) {
-            // TODO: talk to Denis about it
             response.status = HttpStatus.UNAUTHORIZED.value()
             return null
         }
         return when {
-            isGet(request) -> respondWithData(user, request, response)
+            isGet(request) -> respondWithData(user, response)
             isPost(request) -> acceptData(user, request, response)
             else -> {
-                // TODO: talk to Denis about it too
                 response.status = HttpStatus.METHOD_NOT_ALLOWED.value()
                 null
             }

@@ -6,8 +6,8 @@ import jetbrains.buildServer.users.SUser
 
 class TeamcityUserPropertyDB : UserPropertyDB<SUser> {
     companion object {
-        val PLUGIN_TYPE = "WebUI_Extension"
-        val PLUGIN_NAME = "Dashboard"
+        const val PLUGIN_TYPE = "WebUI_Extension"
+        const val PLUGIN_NAME = "Dashboard"
 
         val dashboardDataPropertyKey = PluginPropertyKey(PLUGIN_TYPE, PLUGIN_NAME, "data")
     }
