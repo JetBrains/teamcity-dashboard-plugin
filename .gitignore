@@ -3,6 +3,9 @@ dashboard-server/target
 # Maven
 target/
 
+# Http Tests Teamcity Credentials
+dashboard-server/src/main/http/http-client.private.env.json
+
 # Frontend
 dashboard-server/src/main/resources/buildServerResources/bundle.js
 dashboard-server/src/main/resources/buildServerResources/bundle-report.html

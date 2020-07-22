@@ -1,0 +1,64 @@
+# Get dashboard data
+GET  {{host}}/dashboardData.html
+Authorization: Basic {{username}} {{password}}
+
+###
+
+# Post dashboard data !!! but with wrong credentials
+POST {{host}}/dashboardData.html
+Origin: http://localhost:8111
+Authorization: Basic wrong credentials
+
+{"layout": [{"w": 1, "h", 1, "x": 2, "y": 2, "i": "0"}], "widgets": [{"id": "0", "type": "text", "data": {}}]}
+
+###
+
+# Post dashboard data !!! but with wrong content type
+POST {{host}}/dashboardData.html
+Origin: http://localhost:8111
+Authorization: Basic {{username}} {{password}}
+
+{"layout": [{"w": 1, "h", 1, "x": 2, "y": 2, "i": "0"}], "widgets": [{"id": "0", "type": "text", "data": {}}]}
+
+###
+
+# Post dashboard data !!! but with missing props
+POST {{host}}/dashboardData.html
+Origin: http://localhost:8111
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{"layout": [{"w": 1, "h": 1, "x": 2}], "widgets": [{"id": "0", "type": "text", "data": {}}]}
+
+###
+
+# Post dashboard data !!! but with wrong id types
+POST {{host}}/dashboardData.html
+Origin: http://localhost:8111
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{"layout": [{"w": 1, "h": 1, "x": 2, "y": 2, "i": 6}], "widgets": [{"id": "0", "type": "text", "data": {}}]}
+
+###
+
+# Post dashboard data (valid)
+POST {{host}}/dashboardData.html
+Origin: http://localhost:8111
+Content-Type: application/json
+Authorization: Basic {{username}} {{password}}
+
+{
+  "layout": [
+    {"w": 1, "h": 1, "x": 2, "y": 2, "i": "7"}
+  ],
+  "widgets": [
+    {
+      "id": "0",
+      "type": "text",
+      "data": {"value":  "8"}
+    }
+  ]
+}
+
+###
