@@ -1,13 +1,13 @@
 package parser
 
-import dashboarddata.DashboardData
-import interfaces.DashboardDataSerializer
+import com.teamcity.store.dashboarddata.DashboardData
+import com.teamcity.store.interfaces.DashboardDataSerializer
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.json.JsonException
 
-class JsonDashboardDataSerializer : DashboardDataSerializer{
+class JsonDashboardDataSerializer : DashboardDataSerializer {
     private val jsonConfig = JsonConfiguration.Stable.copy(ignoreUnknownKeys = true)
     private val jsonParser = Json(jsonConfig)
 

@@ -1,4 +1,4 @@
-package interfaces
+package com.teamcity.store.interfaces
 
 interface UserPropertyDB<U> {
     fun get(user: U): String?

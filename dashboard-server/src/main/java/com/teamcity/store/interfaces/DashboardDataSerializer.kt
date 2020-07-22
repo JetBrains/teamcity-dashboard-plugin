@@ -1,6 +1,6 @@
-package interfaces
+package com.teamcity.store.interfaces
 
-import dashboarddata.DashboardData
+import com.teamcity.store.dashboarddata.DashboardData
 import java.lang.Exception
 
 interface DashboardDataSerializer {

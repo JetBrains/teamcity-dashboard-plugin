@@ -1,9 +1,8 @@
-import dashboarddata.DashboardData
-import dashboarddata.GridElementData
-import dashboarddata.WidgetData
-import db.DummyMapDB
-import interfaces.DashboardDataSerializer
-import interfaces.UserPropertyDB
+import com.teamcity.store.dashboarddata.DashboardData
+import com.teamcity.store.dashboarddata.GridElementData
+import com.teamcity.store.dashboarddata.WidgetData
+import com.teamcity.store.interfaces.DashboardDataSerializer
+import com.teamcity.store.interfaces.UserPropertyDB
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

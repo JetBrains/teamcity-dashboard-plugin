@@ -8,9 +8,9 @@ import org.springframework.web.servlet.ModelAndView
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-class TestController(private val manager: WebControllerManager, private val descriptor: PluginDescriptor) : BaseController() {
+class TestController(manager: WebControllerManager, private val descriptor: PluginDescriptor) : BaseController() {
     companion object {
-        val BUNDLE_DEV_URL = "http://localhost:9091"
+        const val BUNDLE_DEV_URL = "http://localhost:9091"
     }
 
     init {

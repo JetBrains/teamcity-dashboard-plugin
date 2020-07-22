@@ -2,7 +2,7 @@ package com.teamcity.controllers
 
 import DashboardsStore
 import com.teamcity.store.db.TeamcityUserPropertyDB
-import dashboarddata.DashboardData
+import com.teamcity.store.dashboarddata.DashboardData
 import jetbrains.buildServer.controllers.BaseController
 import jetbrains.buildServer.users.SUser
 import jetbrains.buildServer.web.openapi.WebControllerManager
@@ -28,7 +28,7 @@ class RestController(manager: WebControllerManager) : BaseController() {
         manager.registerController("/dashboardData.html", this)
     }
 
-    private fun respondWithData(user: SUser, response: HttpServletResponse): ModelAndView?  {
+    private fun respondWithData(user: SUser, response: HttpServletResponse): ModelAndView? {
         val data = store.getVerifiedString(user)
         response.contentType = "application/json"
         val writer = OutputStreamWriter(response.outputStream, StandardCharsets.UTF_8)

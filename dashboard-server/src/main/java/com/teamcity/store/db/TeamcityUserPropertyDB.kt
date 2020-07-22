@@ -1,13 +1,13 @@
 package com.teamcity.store.db
 
-import interfaces.UserPropertyDB
+import com.teamcity.store.interfaces.UserPropertyDB
 import jetbrains.buildServer.users.PluginPropertyKey
 import jetbrains.buildServer.users.SUser
 
 class TeamcityUserPropertyDB : UserPropertyDB<SUser> {
     companion object {
-        const val PLUGIN_TYPE = "WebUI_Extension"
-        const val PLUGIN_NAME = "Dashboard"
+        private const val PLUGIN_TYPE = "WebUI_Extension"
+        private const val PLUGIN_NAME = "Dashboard"
 
         val dashboardDataPropertyKey = PluginPropertyKey(PLUGIN_TYPE, PLUGIN_NAME, "data")
     }
@@ -19,5 +19,4 @@ class TeamcityUserPropertyDB : UserPropertyDB<SUser> {
     override fun put(user: SUser, value: String) {
         user.setUserProperty(dashboardDataPropertyKey, value)
     }
-
 }

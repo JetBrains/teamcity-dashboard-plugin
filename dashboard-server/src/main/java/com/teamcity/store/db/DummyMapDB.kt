@@ -1,6 +1,6 @@
-package db
+package com.teamcity.store.db
 
-import interfaces.UserPropertyDB
+import com.teamcity.store.interfaces.UserPropertyDB
 
 class DummyMapDB : UserPropertyDB<Int> {
     private val data = mutableMapOf<Int, String>()

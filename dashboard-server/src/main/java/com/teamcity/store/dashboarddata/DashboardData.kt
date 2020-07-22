@@ -1,4 +1,4 @@
-package dashboarddata
+package com.teamcity.store.dashboarddata
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient

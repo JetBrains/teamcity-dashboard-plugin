@@ -1,0 +1,2 @@
+config:
+  excludes: 'src/test/'

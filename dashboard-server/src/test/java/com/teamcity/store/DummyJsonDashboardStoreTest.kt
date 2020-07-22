@@ -1,7 +1,7 @@
-import dashboarddata.DashboardData
-import db.DummyMapDB
-import interfaces.DashboardDataSerializer
-import interfaces.UserPropertyDB
+import com.teamcity.store.dashboarddata.DashboardData
+import com.teamcity.store.db.DummyMapDB
+import com.teamcity.store.interfaces.DashboardDataSerializer
+import com.teamcity.store.interfaces.UserPropertyDB
 import parser.JsonDashboardDataSerializer
 
 internal class DummyJsonDashboardStoreTest : DashboardsStoreTest<Int>(){
@@ -19,5 +19,6 @@ internal class DummyJsonDashboardStoreTest : DashboardsStoreTest<Int>(){
 
     override fun getCleanDB(): UserPropertyDB<Int> = DummyMapDB()
 
-    override fun getCleanStore(db: UserPropertyDB<Int>, serializer: DashboardDataSerializer): DashboardsStore<Int> = DashboardsStore(db, serializer, initialDashboardData)
+    override fun getCleanStore(db: UserPropertyDB<Int>, serializer: DashboardDataSerializer): DashboardsStore<Int>
+            = DashboardsStore(db, serializer, initialDashboardData)
 }

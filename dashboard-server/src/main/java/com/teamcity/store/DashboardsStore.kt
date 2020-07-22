@@ -1,6 +1,6 @@
-import dashboarddata.DashboardData
-import interfaces.DashboardDataSerializer
-import interfaces.UserPropertyDB
+import com.teamcity.store.dashboarddata.DashboardData
+import com.teamcity.store.interfaces.DashboardDataSerializer
+import com.teamcity.store.interfaces.UserPropertyDB
 import java.lang.IllegalArgumentException
 
 class DashboardsStore<U>(
@@ -47,5 +47,4 @@ class DashboardsStore<U>(
     class InvalidDataInDatabaseException(msg: String?) : Exception(msg)
 
     class ReceivedInvalidData(msg: String?) : IllegalArgumentException(msg)
-
 }
