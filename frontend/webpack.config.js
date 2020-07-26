@@ -8,11 +8,21 @@ const bundlePath = path.resolve(
 );
 const srcPath = path.join(__dirname, 'src');
 
-[ringUiConfig.loaders.babelLoader, ringUiConfig.loaders.cssLoader].forEach(
-	(loader) => {
-		loader.include = [...loader.include, srcPath];
+ringUiConfig.loaders.cssLoader.include = [
+	...ringUiConfig.loaders.cssLoader.include,
+	srcPath
+];
+
+const babelLoader = {
+	loader: 'babel-loader',
+	options: {
+		cacheDirectory: true,
+		babelrc: false,
+		extends: './babel.config.js'
 	}
-);
+};
+
+Object.assign(ringUiConfig.loaders.babelLoader, babelLoader);
 
 module.exports = (env = {}, argv = {}) => ({
 	mode: env.production ? 'production' : 'development',
@@ -21,7 +31,17 @@ module.exports = (env = {}, argv = {}) => ({
 		path: bundlePath,
 		filename: 'bundle.js'
 	},
-	module: ringUiConfig.config.module,
+	module: {
+		rules: [
+			...ringUiConfig.config.module.rules,
+			{
+				test: /\.js$/,
+				include: [srcPath],
+				exclude: [/node_modules/],
+				use: [babelLoader]
+			}
+		]
+	},
 	devServer: {
 		hot: true,
 		contentBase: bundlePath,
@@ -33,14 +53,11 @@ module.exports = (env = {}, argv = {}) => ({
 			'Access-Control-Allow-Origin': '*'
 		}
 	},
-	externals: [
-		//        Function(context, request, callback) {
-		//            if (['react', 'react-dom'].includes(request)) {
-		//                return callback(null, `window.ReactAPI.Dependencies['${request}']`);
-		//            }
-		//            return callback();
-		//        }
-	],
+	externals: {
+		'react': 'TeamcityReactAPI.React',
+		'@teamcity/react-api': 'TeamcityReactApi',
+		'react-dom': 'TeamcityReactAPI.ReactDOM'
+	},
 	plugins: [
 		env.analyze &&
 			new BundleAnalyzerPlugin({
