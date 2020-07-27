@@ -41,6 +41,7 @@ export const { updateWidget } = widgetsSlice.actions
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
 export const selectAllWidgets = selectors.selectAll
+export const selectAllWidgetIds = selectors.selectIds
 export const selectWidgetById = selectors.selectById
 
 export default widgetsSlice.reducer

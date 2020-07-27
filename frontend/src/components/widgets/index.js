@@ -1,5 +1,5 @@
 // @flow
-import React, { useCallback } from 'react'
+import React, { useCallback, memo } from 'react'
 import useWidgetData from '../../hooks/useWidgetData'
 import TextWidget from './TextWidget'
 import NumberWidget from './NumberWidget'
@@ -8,7 +8,7 @@ interface Properties {
 	id: string;
 }
 
-const Widget = ({ id }: Properties) => {
+const Widget = memo(({ id }: Properties) => {
 	const [widgetData, setWidgetData] = useWidgetData(id)
 	const { type, data } = widgetData
 	const setValue = useCallback(
@@ -34,6 +34,8 @@ const Widget = ({ id }: Properties) => {
 	}
 
 	return <span>Element not supported</span>
-}
+})
+
+Widget.displayName = 'WidgetWrapper'
 
 export default Widget

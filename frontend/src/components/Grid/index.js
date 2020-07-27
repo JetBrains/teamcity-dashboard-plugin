@@ -2,29 +2,32 @@
 import React, { useMemo } from 'react'
 import ReactGridLayout from 'react-grid-layout'
 import useLayoutData from '../../hooks/useLayoutData'
-import { type GridElementData } from '../../store/slices/layoutSlice'
 import Island, {
 	Header,
 	Content,
 } from '@jetbrains/ring-ui/components/island/island'
 import Widget from '../widgets'
+import { useSelector } from 'react-redux'
+import { selectAllWidgetIds } from '../../store/slices/widgetsSlice'
 
 const Grid = () => {
 	const [layout, setLayout] = useLayoutData()
+	const widgetIds = useSelector(selectAllWidgetIds)
+
 	const children = useMemo(() => {
-		return layout.map((element: GridElementData) => (
-			<div key={element.i}>
+		return widgetIds.map((id: string) => (
+			<div key={id}>
 				<Island style={{ width: '100%', height: '100%' }}>
 					<Header border className="draggable-handle">
 						Widget
 					</Header>
 					<Content>
-						<Widget id={element.i} />
+						<Widget id={id} />
 					</Content>
 				</Island>
 			</div>
 		))
-	}, [layout])
+	}, [widgetIds])
 
 	return (
 		<ReactGridLayout
