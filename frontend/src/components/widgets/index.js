@@ -3,12 +3,16 @@ import React, { useCallback, memo } from 'react'
 import useWidgetData from '../../hooks/useWidgetData'
 import TextWidget from './TextWidget'
 import NumberWidget from './NumberWidget'
+import Island, {
+	Header,
+	Content,
+} from '@jetbrains/ring-ui/components/island/island'
 
 interface Properties {
 	id: string;
 }
 
-const Widget = memo(({ id }: Properties) => {
+const Widget = memo<Properties>(({ id }: Properties) => {
 	const [widgetData, setWidgetData] = useWidgetData(id)
 	const { type, data } = widgetData
 	const setValue = useCallback(
@@ -23,17 +27,24 @@ const Widget = memo(({ id }: Properties) => {
 			}),
 		[data, id, setWidgetData, type]
 	)
+	let widget
 	if (type === 'text') {
 		console.log('text widget rendered')
-		return <TextWidget value={data.value} setValue={setValue} />
+		widget = <TextWidget value={data.value} setValue={setValue} />
 	}
 
 	if (type === 'number') {
 		console.log('number widget rendered')
-		return <NumberWidget value={data.value} setValue={setValue} />
+		widget = <NumberWidget value={data.value} setValue={setValue} />
 	}
-
-	return <span>Element not supported</span>
+	return (
+		<Island style={{ width: '100%', height: '100%' }}>
+			<Header border className="draggable-handle">
+				Widget
+			</Header>
+			<Content>{widget}</Content>
+		</Island>
+	)
 })
 
 Widget.displayName = 'WidgetWrapper'
