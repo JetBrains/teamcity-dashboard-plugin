@@ -2,7 +2,10 @@
 import {
 	createEntityAdapter,
 	createSlice,
+	Dispatch,
+	nanoid,
 	PayloadAction,
+	ThunkAction,
 } from '@reduxjs/toolkit'
 import { fetchDashboardData } from './fetchingDashboardData'
 import { type Record } from '../../commontypes'
@@ -12,6 +15,8 @@ export interface WidgetData {
 	type: string;
 	data: Record<string, string>;
 }
+
+export type WidgetDataWithoutId = $Diff<WidgetData, {| id: string |}>
 
 export interface WidgetsState {
 	ids: string[];
@@ -27,6 +32,9 @@ const widgetsSlice = createSlice<WidgetsState>({
 		updateWidget: (state, action: PayloadAction<WidgetData>) => {
 			widgetsAdapter.upsertOne(state, action.payload)
 		},
+		addWidgetWithId: (state, action: PayloadAction<WidgetData>) => {
+			widgetsAdapter.addOne(state, action.payload)
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
@@ -35,8 +43,19 @@ const widgetsSlice = createSlice<WidgetsState>({
 	},
 })
 
+export const addWidget = (data: WidgetDataWithoutId): ThunkAction => (
+	dispatch: Dispatch
+) => {
+	const id = nanoid()
+	const widgetData: WidgetData = {
+		...data,
+		id,
+	}
+	dispatch(widgetsSlice.actions.addWidgetWithId(widgetData))
+}
+
 // Actions
-export const { updateWidget } = widgetsSlice.actions
+export const { updateWidget, addWidgetWithId } = widgetsSlice.actions
 
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)

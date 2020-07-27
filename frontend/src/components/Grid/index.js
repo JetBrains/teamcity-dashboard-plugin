@@ -9,6 +9,7 @@ import Island, {
 import Widget from '../widgets'
 import { useSelector } from 'react-redux'
 import { selectAllWidgetIds } from '../../store/slices/widgetsSlice'
+import './style.css'
 
 const Grid = () => {
 	const [layout, setLayout] = useLayoutData()
