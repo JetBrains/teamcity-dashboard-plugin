@@ -1,7 +1,11 @@
 // @flow strict
-import {createEntityAdapter, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchDashboardData} from './fetchingDashboardData';
-import type {Record} from '../../commontypes';
+import {
+	createEntityAdapter,
+	createSlice,
+	PayloadAction,
+} from '@reduxjs/toolkit'
+import { fetchDashboardData } from './fetchingDashboardData'
+import { type Record } from '../../commontypes'
 
 export interface WidgetData {
 	id: string;
@@ -14,31 +18,29 @@ export interface WidgetsState {
 	entities: Record<string, WidgetData>;
 }
 
-const widgetsAdapter = createEntityAdapter<WidgetData>();
+const widgetsAdapter = createEntityAdapter<WidgetData>()
 
 const widgetsSlice = createSlice<WidgetsState>({
 	name: 'widgets',
 	initialState: widgetsAdapter.getInitialState(),
 	reducers: {
 		updateWidget: (state, action: PayloadAction<WidgetData>) => {
-			widgetsAdapter.upsertOne(state, action.payload);
-		}
+			widgetsAdapter.upsertOne(state, action.payload)
+		},
 	},
-	extraReducers: builder => {
+	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
-			widgetsAdapter.upsertMany(state, action.payload.widgets);
-		});
-	}
-
-});
+			widgetsAdapter.upsertMany(state, action.payload.widgets)
+		})
+	},
+})
 
 // Actions
-export const {updateWidget} = widgetsSlice.actions;
+export const { updateWidget } = widgetsSlice.actions
 
 // Selectors
-const selectors = widgetsAdapter.getSelectors(state => state.widgets);
-export const selectAllWidgets = selectors.selectAll;
-export const selectWidgetById = selectors.selectById;
+const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
+export const selectAllWidgets = selectors.selectAll
+export const selectWidgetById = selectors.selectById
 
-export default widgetsSlice.reducer;
-
+export default widgetsSlice.reducer

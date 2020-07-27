@@ -1,31 +1,54 @@
 {
   "parser": "babel-eslint",
   "env": {
-    "browser": true,
-    "es6": true
+	"browser": true,
+	"es6": true
   },
+  "plugins": [
+	"flowtype",
+	"import",
+	"unicorn",
+	"no-use-extend-native",
+	"promise",
+	"react",
+	"react-hooks"
+  ],
   "extends": [
-    "xo/esnext",
-    "xo-react",
-    "./node_modules/xo/config/plugins.js"
+	"eslint:recommended",
+	"plugin:flowtype/recommended",
+	"plugin:import/errors",
+	"plugin:import/warnings",
+	"plugin:unicorn/recommended",
+	"plugin:no-use-extend-native/recommended",
+	"plugin:promise/recommended",
+	"plugin:react/recommended",
+	"plugin:react-hooks/recommended",
+	"prettier",
+	"prettier/babel",
+	"prettier/flowtype",
+	"prettier/react",
+	"prettier/standard",
+	"prettier/unicorn"
   ],
   "rules": {
-    "unicorn/filename-case": [
-      "error",
-      {
-        "cases": {
-          "camelCase": true,
-          "pascalCase": true
-        }
-      }
-    ],
-    "import/no-unassigned-import": [
-      "error",
-      {
-        "allow": [
-          "**/*.css"
-        ]
-      }
-    ]
+	// TODO: had to do it because react is unresolved. Fix later!
+	"import/no-unresolved": "off",
+	"unicorn/filename-case": [
+	  "error",
+	  {
+		"cases": {
+		  "camelCase": true,
+		  "pascalCase": true
+		}
+	  }
+	],
+	"import/no-unassigned-import": [
+	  "error",
+	  {
+		"allow": [
+		  "**/*.css"
+		]
+	  }
+	]
   }
 }

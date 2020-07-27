@@ -1,6 +1,6 @@
 // @flow
-import {type Layout} from './store/slices/layoutSlice';
-import {type WidgetData} from './store/slices/widgetsSlice';
+import { type Layout } from './store/slices/layoutSlice'
+import { type WidgetData } from './store/slices/widgetsSlice'
 
 export interface Record<K, V> {
 	[key: K]: V;
@@ -16,4 +16,4 @@ export interface AsyncState {
 	error: string | null;
 }
 
-export type SetNewDataFunction<T> = (newData: T) => void;
+export type SetNewDataFunction<T> = (newData: T) => void

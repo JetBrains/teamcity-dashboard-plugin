@@ -56,7 +56,7 @@ Authorization: Basic {{username}} {{password}}
     {
       "id": "0",
       "type": "text",
-      "data": {"value":  "888"}
+      "data": {"value":  "somef"}
     }
   ]
 }
