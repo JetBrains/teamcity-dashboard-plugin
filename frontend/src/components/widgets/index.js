@@ -7,6 +7,8 @@ import Island, {
 	Header,
 	Content,
 } from '@jetbrains/ring-ui/components/island/island'
+import { useDispatch } from 'react-redux'
+import { openWidgetSettings } from '../../store/slices/widgetsSlice'
 
 interface Properties {
 	id: string;
@@ -14,6 +16,7 @@ interface Properties {
 
 const Widget = memo<Properties>(({ id }: Properties) => {
 	const [widgetData, setWidgetData, removeWidget] = useWidgetData(id)
+	const dispatch = useDispatch();
 	const { type, data } = widgetData
 	const setValue = useCallback(
 		(newValue: string) =>
@@ -27,6 +30,9 @@ const Widget = memo<Properties>(({ id }: Properties) => {
 			}),
 		[data, id, setWidgetData, type]
 	)
+	const openSettings = () => {
+		dispatch(openWidgetSettings(widgetData))
+	}
 	let widget
 	if (type === 'text') {
 		console.log('text widget rendered')
@@ -42,6 +48,7 @@ const Widget = memo<Properties>(({ id }: Properties) => {
 			<Header border className="draggable-handle">
 				Widget
 				<button onClick={removeWidget}>X</button>
+				<button onClick={openSettings}>Settings</button>
 			</Header>
 			<Content>{widget}</Content>
 		</Island>
