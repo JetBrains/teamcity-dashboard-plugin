@@ -8,7 +8,7 @@ import {
 	type WidgetData,
 } from '../store/slices/widgetsSlice'
 import { type RootState } from '../store'
-import { postDashboardData } from '../store/slices/postingDashboardData'
+import usePostDashboardData from './usePostDashboardData'
 
 export default function useWidgetData(
 	id: string
@@ -16,23 +16,21 @@ export default function useWidgetData(
 	const widgetData: ?WidgetData = useSelector((state: RootState) =>
 		selectWidgetById(state, id)
 	)
+	const postDashboardData = usePostDashboardData()
+	const dispatch = useDispatch()
 	if (widgetData === undefined || widgetData === null) {
 		throw new Error(`WidgetData with id=${id} does not exist`)
-	}
 
-	const dispatch = useDispatch()
+	}
 	const setWidgetData = useCallback(
 		(newWidgetData: WidgetData) => {
 			dispatch(updateWidget(newWidgetData))
-			dispatch(postDashboardData())
+			postDashboardData()
 		},
-		[dispatch]
+		[dispatch, postDashboardData]
 	)
-	const deleteWidget = useCallback(
-		() => {
-			dispatch(removeWidget(widgetData))
-		},
-		[dispatch, widgetData]
-	)
+	const deleteWidget = useCallback(() => {
+		dispatch(removeWidget(widgetData))
+	}, [dispatch, widgetData])
 	return [widgetData, setWidgetData, deleteWidget]
 }
