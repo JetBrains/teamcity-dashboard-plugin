@@ -27,7 +27,7 @@ const fetchingDashboardDataSlice = createSlice<AsyncState>({
 			state: AsyncState,
 			action: PayloadAction<string>
 		) => {
-			state.error = action.payload
+			state.error = action.error.message
 		},
 	},
 })

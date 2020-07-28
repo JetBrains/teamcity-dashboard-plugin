@@ -55,7 +55,7 @@ module.exports = (env = {}, argv = {}) => ({
 	},
 	externals: {
 		'react': 'TeamcityReactAPI.React',
-		'@teamcity/react-api': 'TeamcityReactApi',
+		'@teamcity/react-api': 'TeamcityReactAPI',
 		'react-dom': 'TeamcityReactAPI.ReactDOM'
 	},
 	plugins: [
