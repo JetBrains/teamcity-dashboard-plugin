@@ -13,7 +13,7 @@ interface Properties {
 }
 
 const Widget = memo<Properties>(({ id }: Properties) => {
-	const [widgetData, setWidgetData] = useWidgetData(id)
+	const [widgetData, setWidgetData, removeWidget] = useWidgetData(id)
 	const { type, data } = widgetData
 	const setValue = useCallback(
 		(newValue: string) =>
@@ -41,6 +41,7 @@ const Widget = memo<Properties>(({ id }: Properties) => {
 		<Island style={{ width: '100%', height: '100%' }}>
 			<Header border className="draggable-handle">
 				Widget
+				<button onClick={removeWidget}>X</button>
 			</Header>
 			<Content>{widget}</Content>
 		</Island>

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchDashboardData } from './fetchingDashboardData'
 import { type DashboardData } from '../../commontypes'
 import { type RootState } from '..'
-import { addWidgetWithId, type WidgetData } from './widgetsSlice'
+import { addWidgetWithId, removeWidget, type WidgetData } from './widgetsSlice'
 
 export interface GridElementData {
 	i: string;
@@ -39,6 +39,11 @@ const layoutSlice = createSlice<Layout>({
 				}
 				state.push(element)
 			}
+		)
+		builder.addCase(
+			removeWidget,
+			(state, action: PayloadAction<WidgetData>) =>
+				state.filter((element) => element.id !== action.payload.id)
 		)
 	},
 })

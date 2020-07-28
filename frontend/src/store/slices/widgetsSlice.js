@@ -35,6 +35,9 @@ const widgetsSlice = createSlice<WidgetsState>({
 		addWidgetWithId: (state, action: PayloadAction<WidgetData>) => {
 			widgetsAdapter.addOne(state, action.payload)
 		},
+		removeWidget: (state, action: PayloadAction<WidgetData>) => {
+			widgetsAdapter.removeOne(state, action.payload.id)
+		}
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
@@ -43,6 +46,7 @@ const widgetsSlice = createSlice<WidgetsState>({
 	},
 })
 
+// Actions
 export const addWidget = (data: WidgetDataWithoutId): ThunkAction => (
 	dispatch: Dispatch
 ) => {
@@ -54,8 +58,7 @@ export const addWidget = (data: WidgetDataWithoutId): ThunkAction => (
 	dispatch(widgetsSlice.actions.addWidgetWithId(widgetData))
 }
 
-// Actions
-export const { updateWidget, addWidgetWithId } = widgetsSlice.actions
+export const { updateWidget, addWidgetWithId, removeWidget } = widgetsSlice.actions
 
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
