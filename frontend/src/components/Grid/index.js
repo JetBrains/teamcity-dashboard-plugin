@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React, { useMemo } from 'react'
 import ReactGridLayout from 'react-grid-layout'
 import useLayoutData from '../../hooks/useLayoutData'

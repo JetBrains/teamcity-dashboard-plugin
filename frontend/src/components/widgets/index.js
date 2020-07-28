@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import React, { useCallback, memo } from 'react'
 import useWidgetData from '../../hooks/useWidgetData'
 import TextWidget from './TextWidget'

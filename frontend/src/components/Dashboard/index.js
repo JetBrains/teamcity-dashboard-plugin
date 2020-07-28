@@ -1,24 +1,41 @@
+// @flow strict
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { addWidget } from '../../store/slices/widgetsSlice'
 import Grid from '../Grid'
+import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
+import Button from '@jetbrains/ring-ui/components/button/button'
+import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 
 const Dashboard = () => {
 	const dispatch = useDispatch()
 
-	const onAddClick = () =>
+	const data = ['Text', 'Number'].map((label) => {
+		return {
+			label,
+			type: label.toLowerCase(),
+		}
+	})
+
+	const onSelect = ({ type }: { label: string, type: string, ... }) =>
 		dispatch(
 			addWidget({
-				type: 'number',
+				type,
 				data: {
-					value: '77',
+					value: '1',
 				},
 			})
 		)
 
 	return (
 		<>
-			<button onClick={onAddClick}>Add a widget</button>
+			<Dropdown anchor={<Button delayed>Add a widget</Button>}>
+				<PopupMenu
+					closeOnSelect
+					data={data}
+					onSelect={onSelect}
+				/>
+			</Dropdown>
 			<Grid />
 		</>
 	)

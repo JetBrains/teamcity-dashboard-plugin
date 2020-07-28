@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -12,10 +12,10 @@ import { postDashboardData } from '../store/slices/postingDashboardData'
 export default function useWidgetData(
 	id: string
 ): [WidgetData, (newWidgetData: WidgetData) => void] {
-	const widgetData: WidgetData | undefined = useSelector((state: RootState) =>
+	const widgetData: ?WidgetData = useSelector((state: RootState) =>
 		selectWidgetById(state, id)
 	)
-	if (widgetData === undefined) {
+	if (widgetData === undefined || widgetData === null) {
 		throw new Error(`WidgetData with id=${id} does not exist`)
 	}
 

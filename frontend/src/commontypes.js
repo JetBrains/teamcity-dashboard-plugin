@@ -1,4 +1,4 @@
-// @flow
+// @flow strict
 import { type Layout } from './store/slices/layoutSlice'
 import { type WidgetData } from './store/slices/widgetsSlice'
 
