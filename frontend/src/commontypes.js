@@ -11,9 +11,13 @@ export interface DashboardData {
 	widgets: WidgetData[];
 }
 
+export type AsyncStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
+
 export interface AsyncState {
-	status: 'idle' | 'loading' | 'succeeded' | 'failed';
-	error: string | null;
+	status: AsyncStatus;
+	error: ?string;
 }
+
+export type UserId = number
 
 export type SetNewDataFunction<T> = (newData: T) => void

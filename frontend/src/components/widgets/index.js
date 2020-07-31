@@ -1,7 +1,6 @@
 // @flow strict
 import React, { useCallback, memo } from 'react'
 import useWidgetData from '../../hooks/useWidgetData'
-import TextWidget from './TextWidget'
 import NumberWidget from './NumberWidget'
 import Island, {
 	Header,
@@ -9,6 +8,7 @@ import Island, {
 } from '@jetbrains/ring-ui/components/island/island'
 import { useDispatch } from 'react-redux'
 import { openWidgetSettings } from '../../store/slices/widgetsSlice'
+import InvestigationsWidget from './InvestigationsWidget'
 
 interface Properties {
 	id: string;
@@ -36,7 +36,7 @@ const Widget = memo<Properties>(({ id }: Properties) => {
 	let widget
 	if (type === 'text') {
 		console.log('text widget rendered')
-		widget = <TextWidget value={data.value} setValue={setValue} />
+		widget = <InvestigationsWidget />
 	}
 
 	if (type === 'number') {
