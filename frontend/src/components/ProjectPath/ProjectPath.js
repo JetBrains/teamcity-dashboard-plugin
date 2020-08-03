@@ -9,18 +9,25 @@ import { selectProjectsStatus } from '../../store/slices/projectsSlice'
 const { BuildPath } = TC.Components
 
 interface Properties {
-	projectId: ProjectId
+	projectId: ProjectId;
 }
 
-const ProjectPath = ({projectId}: Properties) => {
-	const path = useProjectPath(projectId);
+const ProjectPath = React.memo<Properties>(({ projectId }: Properties) => {
+	const path = useProjectPath(projectId)
 	const projectFetchingStatus = useSelector(selectProjectsStatus)
 	console.log('project path', path)
 	if (projectFetchingStatus !== 'succeeded') {
 		return <span>Loading</span>
 	} else {
 		return <BuildPath path={path} withIcons />
+		// return (
+		// 	<BuildPathContainer
+		// 		projectOrBuildTypeNode={{ nodeType: 'project', id: projectId }}
+		// 	/>
+		// )
 	}
-}
+})
+
+ProjectPath.displayName = 'ProjectPath'
 
 export default ProjectPath

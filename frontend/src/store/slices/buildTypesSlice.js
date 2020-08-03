@@ -12,8 +12,11 @@ import type { ProjectId } from './projectsSlice'
 
 export type BuildTypeId = string
 
+export type BuildTypeInternalId = string
+
 export type BuildType = {
 	id: BuildTypeId,
+	internalId: BuildTypeInternalId,
 	name: string,
 	projectId: ProjectId,
 	projectName: string,
@@ -24,12 +27,14 @@ export type BuildType = {
 
 const buildTypesAdapter = createEntityAdapter<BuildType>()
 
+export type BuildTypesHash = {
+	[id: BuildTypeId]: BuildType,
+	...
+}
+
 export type BuildTypesState = AsyncState & {|
 	ids: BuildTypeId[],
-	entities: {
-		[id: BuildTypeId]: BuildType,
-		...
-	},
+	entities: BuildTypesHash,
 |}
 
 export const fetchBuildTypes = createAsyncThunk(
@@ -65,11 +70,12 @@ const buildTypesSlice = createSlice<BuildTypesState>({
 		)
 	},
 })
-
 // Selectors
 const selectBuildTypes = (state: RootState) => state.buildTypes
 const selectors = buildTypesAdapter.getSelectors(selectBuildTypes)
 
+export const selectBuildTypesHash: (RootState) => BuildTypesHash =
+	selectors.selectEntities
 export const selectAllBuildTypes: (RootState) => BuildType[] =
 	selectors.selectAll
 export const selectBuildTypeById: (RootState, BuildTypeId) => BuildType =

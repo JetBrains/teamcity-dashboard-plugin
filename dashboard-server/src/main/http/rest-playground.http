@@ -1,0 +1,63 @@
+GET {{host}}/app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(id,state,scope(buildTypes(buildType(id,projectName,projectId)),project(id,name,parentProjectName)),target(anyProblem,tests(test($long)),problems(problem($long,id,build,problemOccurrences(*),investigations(*)))),assignment(timestamp,user(id,username)))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/projects/id:_Root/parentProject
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/buildTypes/ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/projects?fields=project(id,parentProjectId,name,description,href,webUrl)
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/investigations/test:(id:5109987273551514521),assignmentProject:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest)?fields=target(tests(test(*)))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/testOccurrences?locator=test:(id:5109987273551514521)&fields=testOccurrence($long,build(branchName))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/mutes/id:10
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+###
+
+problem:(id:10),assignmentProject:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest)
+
+
+###
+GET {{host}}/app/rest/problemOccurrences/problem:13
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}

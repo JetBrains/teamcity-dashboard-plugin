@@ -7,7 +7,7 @@ import { selectProjectPath } from '../../store/slices/projectsSlice'
 const useProjectPath = (projectId: ProjectId): Project[] => {
 	console.log('selectProjectPath', selectProjectPath)
 	console.log('createdSelector', selectProjectPath(projectId))
-	if (projectId === undefined || projectId) {
+	if (projectId === undefined || projectId === null) {
 		console.error('useProjectPath called with undefined projectId')
 	}
 	const selectProjectPathForThisProject = useMemo(

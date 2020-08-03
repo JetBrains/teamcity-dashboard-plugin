@@ -11,10 +11,15 @@ import { fetchDashboardData } from './fetchingDashboardData'
 import { type Record } from '../../commontypes'
 import type { RootState } from '..'
 
-export interface WidgetData {
-	id: string;
-	type: string;
-	data: Record<string, string>;
+export type WidgetData = {
+	id: string,
+	type: 'investigationsWidget',
+	data: {
+		sortBy?: 'time' | 'name',
+		showFixed?: 'true' | 'false',
+		...
+	},
+	...
 }
 
 export type WidgetDataWithoutId = $Diff<WidgetData, {| id: string |}>

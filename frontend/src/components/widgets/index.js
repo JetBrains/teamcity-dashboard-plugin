@@ -36,7 +36,7 @@ const Widget = memo<Properties>(({ id }: Properties) => {
 	let widget
 	if (type === 'text') {
 		console.log('text widget rendered')
-		widget = <InvestigationsWidget />
+		widget = <InvestigationsWidget widgetId={id}/>
 	}
 
 	if (type === 'number') {

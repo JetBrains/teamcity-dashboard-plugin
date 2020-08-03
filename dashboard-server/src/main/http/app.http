@@ -62,3 +62,5 @@ Authorization: Basic {{username}} {{password}}
 }
 
 ###
+
+GET {{host}}

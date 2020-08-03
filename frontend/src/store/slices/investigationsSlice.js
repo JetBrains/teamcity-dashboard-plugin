@@ -2,6 +2,7 @@
 import {
 	createAsyncThunk,
 	createEntityAdapter,
+	createSelector,
 	createSlice,
 	PayloadAction,
 } from '@reduxjs/toolkit'
@@ -13,9 +14,11 @@ import type { UserId } from '../../commontypes'
 
 export type InvestigationId = string
 
+export type InvestigationState = 'TAKEN' | 'FIXED' | 'GIVEN_UP'
+
 export type Investigation = {
 	id: InvestigationId,
-	state: 'TAKEN' | 'FIXED' | 'GIVEN_UP',
+	state: InvestigationState,
 	date: string, // the string that is returned by Date.prototype.toUTCString()
 	projectId: ProjectId,
 	projectFullName: string, // Actually a project-path-like string `Project A / Project B`
@@ -118,10 +121,36 @@ export const selectInvestigationsSortedByName = (
 	const investigations = selectAllInvestigations(state)
 	const copy = investigations.slice()
 	copy.sort((investigation1, investigation2) =>
-		investigation1.projectFullName.localeCompare(investigation2.projectFullName)
+		investigation1.projectFullName.localeCompare(
+			investigation2.projectFullName
+		)
 	)
 	return copy
 }
+
+export type InvestigationsVisibilityFilter = {
+	showFixed: boolean,
+	...
+}
+
+export const selectInvestigationsWithVisibilityFilter: (
+	RootState,
+	InvestigationsVisibilityFilter
+) => Investigation[] = createSelector(
+	selectAllInvestigations,
+	(_, visibilityFilter: InvestigationsVisibilityFilter) => visibilityFilter,
+	(
+		investigations: Investigation[],
+		visibilityFilter: InvestigationsVisibilityFilter
+	) => {
+		return investigations.filter(
+			(investigation) =>
+				(investigation.state !== 'FIXED' ||
+					visibilityFilter.showFixed) &&
+				investigation.target.type === 'buildType'
+		)
+	}
+)
 
 // Reducers
 export default investigationsSlice.reducer
