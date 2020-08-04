@@ -59,7 +59,11 @@ export type FetchedTestInvestigation = FetchedInvestigationCommonFields & {
 	target: {
 		anyProblem: false,
 		tests: {
-			test: {id: string, ...}[],
+			test: {
+				id: string,
+				parsedTestName: { testShortName: string, ... },
+				...
+			}[],
 			...
 		},
 		...
@@ -80,7 +84,7 @@ export type FetchedProblemInvestigation = FetchedInvestigationCommonFields & {
 	target: {
 		anyProblem: false,
 		problems: {
-			problem: {id: string, ...}[],
+			problem: { id: string, ... }[],
 			...
 		},
 		...
@@ -88,7 +92,10 @@ export type FetchedProblemInvestigation = FetchedInvestigationCommonFields & {
 	...
 }
 
-export type FetchedInvestigation = FetchedBuildTypeInvestigation | FetchedTestInvestigation | FetchedProblemInvestigation
+export type FetchedInvestigation =
+	| FetchedBuildTypeInvestigation
+	| FetchedTestInvestigation
+	| FetchedProblemInvestigation
 
 export interface FetchedInvestigations {
 	count: number;

@@ -1,6 +1,7 @@
 // @flow strict
 import {
 	createEntityAdapter,
+	createSelector,
 	createSlice,
 	Dispatch,
 	nanoid,
@@ -11,16 +12,24 @@ import { fetchDashboardData } from './fetchingDashboardData'
 import { type Record } from '../../commontypes'
 import type { RootState } from '..'
 
+export type WidgetId = string
+
+export type InvestigationsWidgetSortByOption = 'time' | 'name'
+
+export type WidgetOptions = {
+	sortBy?: InvestigationsWidgetSortByOption,
+	showFixed?: 'true' | 'false',
+	...
+}
+
 export type WidgetData = {
 	id: string,
 	type: 'investigationsWidget',
-	data: {
-		sortBy?: 'time' | 'name',
-		showFixed?: 'true' | 'false',
-		...
-	},
+	data: WidgetOptions,
 	...
 }
+
+export type WidgetType = $PropertyType<WidgetType, 'type'>
 
 export type WidgetDataWithoutId = $Diff<WidgetData, {| id: string |}>
 
@@ -44,9 +53,9 @@ const widgetsSlice = createSlice<WidgetsState>({
 		addWidgetWithId: (state, action: PayloadAction<WidgetData>) => {
 			widgetsAdapter.addOne(state, action.payload)
 		},
-		removeWidget: (state, action: PayloadAction<WidgetData>) => {
-			widgetsAdapter.removeOne(state, action.payload.id)
-			if (state.widgetWithOpenedSettings === action.payload.id) {
+		removeWidget: (state, action: PayloadAction<WidgetId>) => {
+			widgetsAdapter.removeOne(state, action.payload)
+			if (state.widgetWithOpenedSettings === action.payload) {
 				state.widgetWithOpenedSettings = undefined
 			}
 		},
@@ -76,12 +85,10 @@ export const addWidget = (data: WidgetDataWithoutId): ThunkAction => (
 	dispatch(widgetsSlice.actions.addWidgetWithId(widgetData))
 }
 
-export const {
-	updateWidget,
-	addWidgetWithId,
-	removeWidget,
-	openWidgetSettings,
-} = widgetsSlice.actions
+export const updateWidget: (WidgetData) => void = widgetsSlice.actions.updateWidget
+export const addWidgetWithId: (WidgetData) => void = widgetsSlice.actions.addWidgetWithId
+export const removeWidget: (WidgetId) => void = widgetsSlice.actions.removeWidget
+export const openWidgetSettings : (WidgetData) => void = widgetsSlice.actions.openWidgetSettings
 
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
@@ -89,6 +96,32 @@ export const selectAllWidgets = selectors.selectAll
 export const selectAllWidgetIds = selectors.selectIds
 export const selectWidgetById = selectors.selectById
 
-export const selectWidgetWithOpenedSettings = (state: RootState) => state.widgets.widgetWithOpenedSettings;
+export const selectWidgetWithOpenedSettings = (state: RootState) =>
+	state.widgets.widgetWithOpenedSettings
+
+export const selectWidgetDataType: (
+	RootState,
+	widgetId: string
+) => ?$PropertyType<WidgetData, 'type'> = createSelector(
+	selectWidgetById,
+	(widget: WidgetData) => (widget ? widget.type : undefined)
+)
+
+// Investigations Widget
+
+export const selectWidgetSortByOption: (
+	RootState,
+	widgetId: string
+) => ?$PropertyType<WidgetOptions, 'sortBy'> = createSelector(
+	selectWidgetById,
+	(widget: ?WidgetData) => widget?.data?.sortBy
+)
+
+export const selectWidgetShowFixedOption: (
+	RootState,
+	widgetId: string
+) => ?boolean = createSelector(selectWidgetById, (widget: ?WidgetData) =>
+	widget?.data?.showFixed ? widget.data.showFixed === 'true' : undefined
+)
 
 export default widgetsSlice.reducer

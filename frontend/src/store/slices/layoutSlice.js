@@ -4,6 +4,7 @@ import { fetchDashboardData } from './fetchingDashboardData'
 import { type DashboardData } from '../../commontypes'
 import { type RootState } from '..'
 import { addWidgetWithId, removeWidget, type WidgetData } from './widgetsSlice'
+import type { WidgetId } from './widgetsSlice'
 
 export interface GridElementData {
 	i: string;
@@ -42,8 +43,8 @@ const layoutSlice = createSlice<Layout>({
 		)
 		builder.addCase(
 			removeWidget,
-			(state, action: PayloadAction<WidgetData>) =>
-				state.filter((element) => element.id !== action.payload.id)
+			(state, action: PayloadAction<WidgetId>) =>
+				state.filter((element) => element.id !== action.payload)
 		)
 	},
 })

@@ -11,6 +11,8 @@ import type { RootState } from '..'
 import type { ProjectId } from './projectsSlice'
 import type { BuildTypeId } from './buildTypesSlice'
 import type { UserId } from '../../commontypes'
+import type { InvestigationsWidgetSortByOption, WidgetId } from './widgetsSlice'
+import { selectWidgetShowFixedOption, selectWidgetSortByOption } from './widgetsSlice'
 
 export type InvestigationId = string
 
@@ -21,12 +23,15 @@ export type Investigation = {
 	state: InvestigationState,
 	date: string, // the string that is returned by Date.prototype.toUTCString()
 	projectId: ProjectId,
+	// TODO: breaks data normalization principle => may be outdated!!!
 	projectFullName: string, // Actually a project-path-like string `Project A / Project B`
 	assignedBy: UserId,
 	target: {
 		type: 'buildType' | 'test' | 'problem',
 		// TODO: maybe needs clarification
 		id: BuildTypeId | string | string,
+		// TODO: breaks data normalization principle => may be outdated!!!
+		name: string,
 		...
 	},
 	...
@@ -97,23 +102,10 @@ export const selectInvestigationById: (
 ) => Investigation = selectors.selectById
 export const selectAllInvestigations: (RootState) => Investigation[] =
 	selectors.selectAll
+export const selectAllInvestigationsIds: (RootState) => InvestigationId[] =
+	selectors.selectIds
 export const selectInvestigationsStatus = (state: RootState) =>
 	state.investigations.status
-
-// export const selectProjectsWithInvestigations = (
-// 	state: RootState
-// ): ProjectWithInvestigations[] => {
-// 	const investigations = selectAllInvestigations(state)
-// 	const projectHash = selectProjectsHash(state)
-// 	const paths: Project[][] = []
-// 	for (const investigation of investigations) {
-// 		const path = selectProjectPath(investigation.projectId)(state)
-// 		paths.push(path)
-// 	}
-// 	const tree = buildProjectsTreeFromPaths(projectHash, paths)
-// 	populateProjectsTreeWithInvestigations(tree, investigations)
-// 	return collectProjectsWithInvestigationsFromTree(tree)
-// }
 
 export const selectInvestigationsSortedByName = (
 	state: RootState
@@ -151,6 +143,63 @@ export const selectInvestigationsWithVisibilityFilter: (
 		)
 	}
 )
+
+export const selectFilteredInvestigations: (WidgetId) => (RootState) => Investigation[] = (
+	widgetId
+) =>
+	createSelector(
+		selectAllInvestigations,
+		(state) => selectWidgetShowFixedOption(state, widgetId),
+		(investigations: Investigation[], showFixed: boolean) =>
+			investigations.filter(
+				(investigation: Investigation) =>
+					investigation.state !== 'GIVEN_UP' &&
+					(investigation.state !== 'FIXED' || showFixed) &&
+					(investigation.target.type === 'buildType' ||
+						investigation.target.type === 'test')
+			)
+	)
+
+export const selectFilteredInvestigationsCount: (WidgetId) => (RootState) => number = (
+	widgetId
+) =>
+	createSelector(
+		// TODO: this breaks memoization :c
+		selectFilteredInvestigations(widgetId),
+		(investigations: Investigation[]) => investigations.length
+	)
+
+const investigationsSortByNameComparator = (
+	investigation1: Investigation,
+	investigation2: Investigation
+): number => {
+	const pathComparisonResult = investigation1.projectFullName.localeCompare(
+		investigation2.projectFullName
+	)
+	return pathComparisonResult === 0
+		? investigation1.target.name.localeCompare(investigation2.target.name)
+		: pathComparisonResult
+}
+
+export const selectFilteredSortedInvestigations: (
+	widgetId: string
+) => (RootState) => Investigation[] = (widgetId: string) =>
+	createSelector(
+		// TODO: breaks memoization
+		selectFilteredInvestigations(widgetId),
+		(state) => selectWidgetSortByOption(state, widgetId),
+		(
+			investigations: Investigation[],
+			sortBy: InvestigationsWidgetSortByOption
+		) => {
+			if (sortBy === 'time') {
+				return investigations
+			}
+			const copy = investigations.slice()
+			copy.sort(investigationsSortByNameComparator)
+			return copy
+		}
+	)
 
 // Reducers
 export default investigationsSlice.reducer

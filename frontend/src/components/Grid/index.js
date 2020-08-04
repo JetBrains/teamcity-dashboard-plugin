@@ -2,10 +2,10 @@
 import React, { useMemo } from 'react'
 import ReactGridLayout from 'react-grid-layout'
 import useLayoutData from '../../hooks/useLayoutData'
-import Widget from '../widgets'
 import { useSelector } from 'react-redux'
 import { selectAllWidgetIds } from '../../store/slices/widgetsSlice'
 import './style.css'
+import WidgetWrapper from '../WidgetWrapper/WidgetWrapper'
 
 const Grid = () => {
 	const [layout, setLayout] = useLayoutData()
@@ -14,7 +14,7 @@ const Grid = () => {
 	const children = useMemo(() => {
 		return widgetIds.map((id: string) => (
 			<div key={id}>
-				<Widget id={id} />
+				<WidgetWrapper widgetId={id} />
 			</div>
 		))
 	}, [widgetIds])

@@ -37,6 +37,7 @@ const parseFetchedBuildTypeInvestigation = (
 		target: {
 			type: 'buildType',
 			id: investigation.scope.buildTypes.buildType[0].id,
+			name: investigation.scope.buildTypes.buildType[0].name,
 		},
 	}
 }
@@ -54,6 +55,8 @@ const parseFetchedTestInvestigation = (
 		target: {
 			type: 'test',
 			id: investigation.target.tests.test[0].id,
+			name:
+				investigation.target.tests.test[0].parsedTestName.testShortName,
 		},
 	}
 }
@@ -71,6 +74,7 @@ const parseFetchedProblemInvestigation = (
 		target: {
 			type: 'problem',
 			id: investigation.target.problems.problem[0].id,
+			name: 'Problem names are not implemented yet :c',
 		},
 	}
 }
@@ -104,7 +108,7 @@ const fetchInvestigationsByAssignee = async (
 	username: string = 'admin'
 ): Promise<Investigation[]> => {
 	const json: FetchedInvestigations = await TC.requestJSON(
-		`app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(id,state,scope(buildTypes(buildType(id,projectName,projectId)),project(id,name,parentProjectName)),target(anyProblem,tests(test),problems(problem)),assignment(timestamp,user(id,username)))`
+		`app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(id,username)))`
 	)
 	console.log('fetched json', json)
 	return json.investigation

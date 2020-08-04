@@ -1,0 +1,72 @@
+.widgetIsland {
+	--header-bg-color: #f7f9fa;
+	--border-color: #dfe5eb;
+
+	display: flex;
+	flex-flow: column nowrap;
+
+	width: 100%;
+	height: 100%;
+	border-radius: 5px;
+	border: 1px solid var(--border-color)
+}
+
+.header {
+	box-sizing: border-box;
+
+	width: 100%;
+	min-height: 30px;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	padding: 0 5px;
+
+	border-bottom: 1px solid var(--border-color);
+	background-color: var(--header-bg-color);
+}
+
+.headerTitle {
+	width: 70%;
+	/*height: 100%;*/
+}
+
+.headerOptions {
+}
+
+.body {
+	width: 100%;
+	/*height: 100%;*/
+
+	flex-grow: 1;
+
+	box-sizing: border-box;
+	padding: 5px;
+
+	overflow: hidden scroll;
+}
+
+.bodyOptions {
+	width: 100%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.bodyWidgetSpecificOptions {
+	width: 80%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.bodyScrollToTopOption {
+	width: 20%;
+}
+
+.content {
+
+}

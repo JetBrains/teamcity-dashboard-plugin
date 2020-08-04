@@ -20,7 +20,6 @@ export default function useWidgetData(
 	const dispatch = useDispatch()
 	if (widgetData === undefined || widgetData === null) {
 		throw new Error(`WidgetData with id=${id} does not exist`)
-
 	}
 	const setWidgetData = useCallback(
 		(newWidgetData: WidgetData) => {
@@ -30,7 +29,7 @@ export default function useWidgetData(
 		[dispatch, postDashboardData]
 	)
 	const deleteWidget = useCallback(() => {
-		dispatch(removeWidget(widgetData))
+		dispatch(removeWidget(widgetData.id))
 	}, [dispatch, widgetData])
 	return [widgetData, setWidgetData, deleteWidget]
 }

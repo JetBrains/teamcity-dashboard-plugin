@@ -1,9 +1,7 @@
 // @flow strict
 import React from 'react'
-import type {
-	Investigation,
-} from '../../../store/slices/investigationsSlice'
-import InvestigationsListItem from './InvestigationsListItem'
+import InvestigationsListItem from './InvestigationsListItem/InvestigationsListItem'
+import type { Investigation } from '../../../store/slices/investigationsSlice'
 
 interface Properties {
 	investigations: Investigation[];
@@ -23,8 +21,7 @@ const InvestigationsList = ({ investigations, loading }: Properties) => {
 						withPath={
 							index === 0 ||
 							investigation.projectId !==
-							investigations[index - 1]
-									.projectId
+								investigations[index - 1].projectId
 						}
 					/>
 				</div>

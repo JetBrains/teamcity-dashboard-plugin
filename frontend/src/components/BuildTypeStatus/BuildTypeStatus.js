@@ -18,14 +18,10 @@ const BuildTypeStatus = React.memo<Properties>(({ buildTypeId }: Properties) => 
 		return <span>Loading</span>
 	} else {
 		return (
-			<div>
-				{/*<ProjectOrBuildTypeIcon*/}
-				{/*	type="buildType"*/}
-				{/*	status={status === 'SUCCESS' ? 'successful' : 'failed'}*/}
-				{/*/>*/}
+			<span>
 				<OverviewStatusIcon type="buildType" id={buildType.id} />
-				<span>{buildType.name}</span>
-			</div>
+				{/*<span>{buildType.name}</span>*/}
+			</span>
 		)
 	}
 })

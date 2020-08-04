@@ -1,13 +1,11 @@
 // @flow strict
-import React, { memo } from 'react'
-import type {
-	Investigation,
-} from '../../../store/slices/investigationsSlice'
-import ProjectPath from '../../ProjectPath/ProjectPath'
+import React, { memo, useMemo } from 'react'
+import type { Investigation } from '../../../../store/slices/investigationsSlice'
 import styles from './styles.css'
 import InvestigationInfoDropdown from './InvestigationInfoDropdown'
-import BuildTypeStatus from '../../BuildTypeStatus/BuildTypeStatus'
-
+import ProjectPath from '../../../../components/ProjectPath/ProjectPath'
+import BuildTypeInvestigationPanel from './BuildTypeInvestigationPanel'
+import TestInvestigationPanel from './TestInvestigationPanel'
 
 const areInvestigationsEqual = (
 	investigation1: Investigation,
@@ -19,25 +17,38 @@ interface Properties {
 	withPath: boolean;
 }
 
+const panels = {
+	buildType: BuildTypeInvestigationPanel,
+	test: TestInvestigationPanel,
+	problem: undefined,
+}
+
 const InvestigationsListItem = memo<Properties>(
 	({ investigation, withPath }: Properties) => {
+		const date = useMemo(() => new Date(investigation.date), [
+			investigation.date,
+		])
+
+		const Panel = panels[investigation.target.type]
+
 		return (
 			<div>
 				{withPath && (
 					<ProjectPath projectId={investigation.projectId} />
 				)}
-				{investigation.target.type === 'buildType' ? (
+				{Panel ? (
 					<div className={styles.listItem}>
 						<div className={styles.mainContent}>
-							<BuildTypeStatus
-								buildTypeId={investigation.target.id}
+							<Panel
+								id={investigation.target.id}
+								name={investigation.target.name}
 							/>
 						</div>
 						<div className={styles.right}>
 							<InvestigationInfoDropdown
 								state={investigation.state}
 								assignedBy={investigation.assignedBy}
-								date={new Date(investigation.date)}
+								date={date}
 							/>
 						</div>
 					</div>
