@@ -1,22 +1,16 @@
 // @flow strict
-import React, { useMemo, useCallback } from 'react'
-import { Responsive, WidthProvider } from 'react-grid-layout'
+import React, { useMemo } from 'react'
+import ReactGridLayout, { WidthProvider } from 'react-grid-layout'
 import { useSelector } from 'react-redux'
 import { selectAllWidgetIds } from '../../store/slices/widgetsSlice'
 import './style.css'
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper'
-import useResponsiveLayoutData from '../../hooks/layout/useResponsiveLayoutData'
-import type { Layouts } from '../../hooks/layout/useResponsiveLayoutData'
+import useLayoutData from '../../hooks/layout/useLayoutData'
 
-const ResponsiveGridLayout = WidthProvider(Responsive)
+const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
 
 const Grid = () => {
-	const [layouts, setLayouts, breakpoints, cols] = useResponsiveLayoutData()
-
-	const onLayoutChange = useCallback(
-		(_, layouts: Layouts) => setLayouts(layouts),
-		[setLayouts]
-	)
+	const [layout, setLayout] = useLayoutData()
 
 	const widgetIds = useSelector(selectAllWidgetIds)
 
@@ -30,11 +24,9 @@ const Grid = () => {
 
 	return (
 		<ResponsiveGridLayout
-			breakpoints={breakpoints}
-			cols={cols}
-			layouts={layouts}
+			layout={layout}
 			draggableHandle=".draggable-handle"
-			onLayoutChange={onLayoutChange}
+			onLayoutChange={setLayout}
 		>
 			{children}
 		</ResponsiveGridLayout>

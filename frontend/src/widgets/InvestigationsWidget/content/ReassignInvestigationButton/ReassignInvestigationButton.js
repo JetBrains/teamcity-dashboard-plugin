@@ -10,7 +10,7 @@ interface Properties {
 	fix: boolean;
 }
 
-const ReassignInvestigationButton = ({ investigationId, fix }: Properties) => {
+const ReassignInvestigationButton = ({ investigationId, fix, ...restProperties }: Properties) => {
 	const investigation = useInvestigation(investigationId)
 	const reassignInvestigation: () => void = TC.hooks.useReassignInvestigation(
 		{
@@ -32,6 +32,7 @@ const ReassignInvestigationButton = ({ investigationId, fix }: Properties) => {
 		<Button
 			loader={investigation === undefined || investigation === null}
 			onClick={reassignInvestigation}
+			{...restProperties}
 		>
 			{fix ? 'Fix' : 'Reassign investigation'}
 		</Button>

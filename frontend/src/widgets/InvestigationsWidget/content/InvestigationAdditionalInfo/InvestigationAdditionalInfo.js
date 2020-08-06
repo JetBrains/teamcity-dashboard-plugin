@@ -11,6 +11,7 @@ import getUserDisplayName from '../../../../api/user/getUserDisplayName'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import type { User } from '../../../../api/user/schemata'
 import ReassignInvestigationButton from '../ReassignInvestigationButton/ReassignInvestigationButton'
+import styles from './styles.css'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -27,22 +28,27 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 		selectInvestigationState(state, investigationId)
 	)
 	return (
-		<div>
-			<div>State: {state}</div>
-			<div>
-				Assigned by: {user ? getUserDisplayName(user) : 'Loading...'}
+		<div className={styles.InvestigationAdditionalInfo}>
+			<div className={styles.user}>
+				{user ? getUserDisplayName(user) : 'Loading...'}
 			</div>
-			<div>at {date ? <FormattedDate date={date} /> : 'Loading...'}</div>
-			<ReassignInvestigationButton
-				investigationId={investigationId}
-				fix={false}
-			/>
-			{state !== 'FIXED' && (
+			<div className={styles.time}>
+				at {date ? <FormattedDate date={date} /> : 'Loading...'}
+			</div>
+			<div className={styles.buttonsContainer}>
+				{state !== 'FIXED' && (
+					<ReassignInvestigationButton
+						className={styles.fix}
+						investigationId={investigationId}
+						fix
+					/>
+				)}
 				<ReassignInvestigationButton
+					className={styles.reassign}
 					investigationId={investigationId}
-					fix
+					fix={false}
 				/>
-			)}
+			</div>
 		</div>
 	)
 }

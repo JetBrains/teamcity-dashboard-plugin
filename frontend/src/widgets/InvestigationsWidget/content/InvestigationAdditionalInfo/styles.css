@@ -1,0 +1,45 @@
+.InvestigationAdditionalInfo {
+
+	box-sizing: border-box;
+
+	width: 250px;
+
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: flex-start;
+
+	padding: 10px;
+	overflow: hidden;
+}
+
+.user {
+	width: 100%;
+	margin-bottom: 5px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.time {
+	width: 100%;
+	margin-bottom: 10px;
+}
+
+.buttonsContainer {
+	width: 100%;
+
+	margin-top: auto;
+
+	display: flex;
+	flex-flow: row nowrap;
+
+	justify-content: space-between;
+}
+
+.fix {
+	margin-right: 5px;
+}
+
+.reassign {
+	flex-grow: 1;
+}
