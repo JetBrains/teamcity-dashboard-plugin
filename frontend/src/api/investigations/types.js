@@ -1,6 +1,5 @@
 // @flow strict
-import type { BuildType } from '../../store/slices/buildTypesSlice'
-import type { ProjectId } from '../../store/slices/projectsSlice'
+import type { BuildType, ProjectId } from '../../hooks/TC/schemata'
 
 export interface User {
 	username: string;
@@ -24,6 +23,7 @@ type FetchedInvestigationCommonFields = {
 		user: {
 			id: number,
 			username: string,
+			name?: string,
 			...
 		},
 		...

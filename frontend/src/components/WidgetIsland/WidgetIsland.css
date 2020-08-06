@@ -41,10 +41,9 @@
 
 	flex-grow: 1;
 
-	box-sizing: border-box;
-	padding: 5px;
+	overflow: hidden auto;
 
-	overflow: hidden scroll;
+	box-sizing: border-box;
 }
 
 .bodyOptions {

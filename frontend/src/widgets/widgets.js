@@ -1,5 +1,5 @@
 // @flow strict
-import InvestigationsWidget from './InvestigationsWidget'
+import InvestigationsWidget from './InvestigationsWidget/InvestigationsWidget'
 import type { WidgetType } from '../store/slices/widgetsSlice'
 
 type WidgetProperties = {|

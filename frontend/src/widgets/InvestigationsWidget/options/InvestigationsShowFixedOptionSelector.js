@@ -1,7 +1,7 @@
 // @flow strict
 import React, { useCallback } from 'react'
-import Checkbox from '@jetbrains/ring-ui/components/checkbox/checkbox'
 import useInvestigationsWidgetShowFixedOption from '../../../hooks/widgets/investigationsWidget/useInvestigationsWidgetShowFixedOption'
+import Button from '@jetbrains/ring-ui/components/button/button'
 
 interface Properties {
 	widgetId: string;
@@ -12,17 +12,15 @@ const InvestigationsShowFixedOptionsSelector = ({ widgetId }: Properties) => {
 		widgetId
 	)
 
-	const onChange = useCallback(() => setShowFixed(!showFixed), [
+	const onClick = useCallback(() => setShowFixed(!(showFixed ?? false)), [
 		setShowFixed,
 		showFixed,
 	])
 
 	return (
-		<Checkbox
-			label="Show fixed"
-			onChange={onChange}
-			defaultChecked={showFixed}
-		/>
+		<Button onClick={onClick}>
+			{showFixed ?? false ? 'Hide Fixed' : 'Show Fixed'}
+		</Button>
 	)
 }
 

@@ -6,9 +6,8 @@ import Dashboard from './components/Dashboard'
 import TC from '@teamcity/react-api'
 
 const App = () => {
-	const buildTypes = TC.hooks.useBuildTypes()
-	console.log('BUILDTYPES', buildTypes)
-	TC.hooks.useProjects()
+	TC.hooks.useCurrentUserId()
+	// TC.hooks.useProjects()
 	return (
 		<div className="dashboard-root">
 			<Provider store={store}>

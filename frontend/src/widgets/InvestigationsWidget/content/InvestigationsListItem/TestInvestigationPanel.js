@@ -5,13 +5,14 @@ import styles from './styles.css'
 interface Properties {
 	id: string,
 	name: string,
+	webUrl: string;
 }
 
-const TestInvestigationPanel = ({ name }: Properties) => {
+const TestInvestigationPanel = ({ name, webUrl }: Properties) => {
 	return (
 		<div>
 			<span className={styles.TestRedText}>Test:</span>
-			<span className={styles.TestName}>{name}</span>
+			<a className={styles.TestName} href={webUrl}>{name}</a>
 		</div>
 	)
 }

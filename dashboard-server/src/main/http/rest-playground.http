@@ -1,4 +1,4 @@
-GET {{host}}/app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(id,state,scope(target(tests(test(build)))))
+GET {{host}}/app/rest/investigations?locator=assignee:(username:admin)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
@@ -40,7 +40,14 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/testOccurrences?locator=test:(id:5109987273551514521)&fields=testOccurrence(*)
+GET {{host}}/app/rest/testOccurrences?locator=test:(id:5109987273551514521)&fields=testOccurrence(build(buildType(name)))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/testOccurrences?locator=test:(id:7285631191500789829)&fields=testOccurrence(build(id,webUrl,finishDate))
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
@@ -57,14 +64,28 @@ problem:(id:10),assignmentProject:(id:ManyProjects_DeeperProject_1PassingTest1Fa
 
 
 ###
-GET {{host}}/app/rest/problemOccurrences/problem:13
+GET {{host}}/app/rest/problemOccurrences/problem:(id:15)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(scope(buildTypes(buildType(name))),target(problems(problem($long)),tests(test(*,parsedTestName(testShortName)))))
+GET {{host}}/app/rest/investigations/problem:(id:15)
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/tests/id:5109987273551514521
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/problems/13?fields=problemOccurrences(*)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}

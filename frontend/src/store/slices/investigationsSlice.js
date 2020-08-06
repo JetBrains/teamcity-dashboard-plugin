@@ -8,15 +8,22 @@ import {
 } from '@reduxjs/toolkit'
 import fetchInvestigationsByAssignee from '../../api/investigations/fetchInvestigationsByAssignee'
 import type { RootState } from '..'
-import type { ProjectId } from './projectsSlice'
-import type { BuildTypeId } from './buildTypesSlice'
 import type { UserId } from '../../commontypes'
 import type { InvestigationsWidgetSortByOption, WidgetId } from './widgetsSlice'
-import { selectWidgetShowFixedOption, selectWidgetSortByOption } from './widgetsSlice'
+import {
+	selectWidgetShowFixedOption,
+	selectWidgetSortByOption,
+} from './widgetsSlice'
+import type { User } from '../../api/user/schemata'
+import type { BuildTypeId, ProjectId } from '../../hooks/TC/schemata'
 
 export type InvestigationId = string
 
 export type InvestigationState = 'TAKEN' | 'FIXED' | 'GIVEN_UP'
+
+export type InvestigationTargetType = 'buildType' | 'test' | 'problem'
+
+export type BuildId = number
 
 export type Investigation = {
 	id: InvestigationId,
@@ -25,13 +32,15 @@ export type Investigation = {
 	projectId: ProjectId,
 	// TODO: breaks data normalization principle => may be outdated!!!
 	projectFullName: string, // Actually a project-path-like string `Project A / Project B`
-	assignedBy: UserId,
+	assignedBy: User,
 	target: {
-		type: 'buildType' | 'test' | 'problem',
+		type: InvestigationTargetType,
 		// TODO: maybe needs clarification
-		id: BuildTypeId | string | string,
+		id: BuildTypeId | number,
 		// TODO: breaks data normalization principle => may be outdated!!!
 		name: string,
+		buildIds: BuildId[],
+		webUrl: string,
 		...
 	},
 	...
@@ -54,7 +63,7 @@ export interface InvestigationsState {
 
 export const fetchInvestigations = createAsyncThunk(
 	'investigations/fetchInvestigations',
-	(userId: string) => fetchInvestigationsByAssignee(userId)
+	(userId: UserId) => fetchInvestigationsByAssignee(userId)
 )
 
 const investigationsSlice = createSlice<InvestigationsState>({
@@ -107,6 +116,39 @@ export const selectAllInvestigationsIds: (RootState) => InvestigationId[] =
 export const selectInvestigationsStatus = (state: RootState) =>
 	state.investigations.status
 
+export const selectInvestigationState: (
+	RootState,
+	InvestigationId
+) => ?InvestigationState = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation) => investigation?.state
+)
+
+export const selectInvestigationTargetType: (
+	RootState,
+	InvestigationId
+) => ?InvestigationTargetType = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation) => investigation?.target?.type
+)
+
+export const selectInvestigationAssignedBy: (
+	RootState,
+	InvestigationId
+) => ?User = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation) => investigation?.assignedBy
+)
+
+export const selectInvestigationAssignmentDate: (
+	RootState,
+	InvestigationId
+) => ?Date = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation) =>
+		investigation?.date ? new Date(investigation.date) : undefined
+)
+
 export const selectInvestigationsSortedByName = (
 	state: RootState
 ): Investigation[] => {
@@ -154,9 +196,7 @@ export const selectFilteredInvestigations: (WidgetId) => (RootState) => Investig
 			investigations.filter(
 				(investigation: Investigation) =>
 					investigation.state !== 'GIVEN_UP' &&
-					(investigation.state !== 'FIXED' || showFixed) &&
-					(investigation.target.type === 'buildType' ||
-						investigation.target.type === 'test')
+					(investigation.state !== 'FIXED' || showFixed)
 			)
 	)
 

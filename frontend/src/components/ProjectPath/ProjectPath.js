@@ -1,10 +1,8 @@
 // @flow strict
 import React from 'react'
 import TC from '@teamcity/react-api'
-import type { ProjectId } from '../../store/slices/projectsSlice'
-import useProjectPath from '../../hooks/projects/useProjectPath'
-import { useSelector } from 'react-redux'
-import { selectProjectsStatus } from '../../store/slices/projectsSlice'
+import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
+import type { ProjectId } from '../../hooks/TC/schemata'
 
 const { BuildPath } = TC.Components
 
@@ -13,19 +11,8 @@ interface Properties {
 }
 
 const ProjectPath = React.memo<Properties>(({ projectId }: Properties) => {
-	const path = useProjectPath(projectId)
-	const projectFetchingStatus = useSelector(selectProjectsStatus)
-	console.log('project path', path)
-	if (projectFetchingStatus !== 'succeeded') {
-		return <span>Loading</span>
-	} else {
-		return <BuildPath path={path} withIcons />
-		// return (
-		// 	<BuildPathContainer
-		// 		projectOrBuildTypeNode={{ nodeType: 'project', id: projectId }}
-		// 	/>
-		// )
-	}
+	const fullPath = usePathToProjectOrBuildType('project', projectId)
+	return <BuildPath path={fullPath} withIcons/>
 })
 
 ProjectPath.displayName = 'ProjectPath'

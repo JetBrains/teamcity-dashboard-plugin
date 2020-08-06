@@ -5,11 +5,13 @@ import type { Investigation } from '../../store/slices/investigationsSlice'
 import { useSelector } from 'react-redux'
 import { selectInvestigationsStatus, selectFilteredSortedInvestigations } from '../../store/slices/investigationsSlice'
 import useInvestigationsSubscription from './useInvestigationsSubscription'
+import useCurrentUserId from '../TC/useCurrentUserId'
 
 const useFilteredSortedInvestigations = (
 	widgetId: string
 ): [AsyncStatus, Investigation[]] => {
-	useInvestigationsSubscription()
+	const userId = useCurrentUserId()
+	useInvestigationsSubscription(userId)
 	const status = useSelector(selectInvestigationsStatus)
 	const selector = useMemo(
 		() => selectFilteredSortedInvestigations(widgetId),

@@ -1,0 +1,29 @@
+.WidgetBody {
+	width: 100%;
+	/*height: 100%;*/
+
+	flex-grow: 1;
+
+	display: flex;
+	flex-flow: column nowrap;
+
+	box-sizing: border-box;
+	padding: 5px;
+}
+
+.WidgetBody .options {
+	width: 100%;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.WidgetBody .content {
+	width: 100%;
+
+	box-sizing: border-box;
+
+	flex-grow: 1;
+	flex-shrink: 1;
+}

@@ -1,25 +1,19 @@
 // @flow strict
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchInvestigations } from '../../store/slices/investigationsSlice'
-import { nanoid } from '@reduxjs/toolkit'
+import type { UserId } from '../../commontypes'
+import useInvestigationsCounterOnUpdate from '../TC/useInvestigationsCounterOnUpdate'
 
-const useInvestigationsSubscription = (userId: number = 1) => {
+const useInvestigationsSubscription = (userId: UserId) => {
 	const dispatch = useDispatch()
 	useEffect(() => {
-		dispatch(fetchInvestigations())
-	}, [dispatch])
-	useEffect(() => {
-		// eslint-disable-next-line no-undef
-		return BS.SubscriptionManager.subscribe(
-			`investigationsCounter/${userId}`,
-			() => {
-				console.log('investigationsCounter/ BS update')
-				dispatch(fetchInvestigations())
-			},
-			nanoid()
-		)
+		dispatch(fetchInvestigations(userId))
 	}, [dispatch, userId])
+	const onCounterUpdate = useCallback(() => {
+		dispatch(fetchInvestigations(userId))
+	}, [dispatch, userId])
+	useInvestigationsCounterOnUpdate(userId, onCounterUpdate)
 }
 
 export default useInvestigationsSubscription

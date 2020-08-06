@@ -1,11 +1,12 @@
 // @flow strict
-import React, { memo, useMemo } from 'react'
+import React, { memo } from 'react'
 import type { Investigation } from '../../../../store/slices/investigationsSlice'
 import styles from './styles.css'
-import InvestigationInfoDropdown from './InvestigationInfoDropdown'
 import ProjectPath from '../../../../components/ProjectPath/ProjectPath'
 import BuildTypeInvestigationPanel from './BuildTypeInvestigationPanel'
 import TestInvestigationPanel from './TestInvestigationPanel'
+import ProblemInvestigationPanel from './ProblemInvestigationPanel'
+import InvestigationAdditionalInfoDropdown from '../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
 
 const areInvestigationsEqual = (
 	investigation1: Investigation,
@@ -20,17 +21,12 @@ interface Properties {
 const panels = {
 	buildType: BuildTypeInvestigationPanel,
 	test: TestInvestigationPanel,
-	problem: undefined,
+	problem: ProblemInvestigationPanel,
 }
 
 const InvestigationsListItem = memo<Properties>(
 	({ investigation, withPath }: Properties) => {
-		const date = useMemo(() => new Date(investigation.date), [
-			investigation.date,
-		])
-
 		const Panel = panels[investigation.target.type]
-
 		return (
 			<div>
 				{withPath && (
@@ -40,20 +36,23 @@ const InvestigationsListItem = memo<Properties>(
 					<div className={styles.listItem}>
 						<div className={styles.mainContent}>
 							<Panel
+								// TODO: fix this
+								// $FlowFixMe
 								id={investigation.target.id}
 								name={investigation.target.name}
+								webUrl={investigation.target.webUrl}
 							/>
 						</div>
 						<div className={styles.right}>
-							<InvestigationInfoDropdown
-								state={investigation.state}
-								assignedBy={investigation.assignedBy}
-								date={date}
+							<InvestigationAdditionalInfoDropdown
+								investigationId={investigation.id}
 							/>
 						</div>
 					</div>
 				) : (
-					<span>This is a test or a problem investigation</span>
+					<span>
+						This investigation cannot be rendered, this is a bug
+					</span>
 				)}
 			</div>
 		)

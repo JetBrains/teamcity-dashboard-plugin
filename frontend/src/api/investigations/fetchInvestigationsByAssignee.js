@@ -7,9 +7,19 @@ import type {
 	FetchedProblemInvestigation,
 	FetchedTestInvestigation,
 } from './types'
-import type { Investigation } from '../../store/slices/investigationsSlice'
+import type {
+	Investigation,
+	InvestigationId,
+	InvestigationState,
+} from '../../store/slices/investigationsSlice'
+import requestProblemOccurrence from '../problemOccurrences/requestProblemOccurrence'
+import type { UserId } from '../../commontypes'
+import requestTestOccurrences from '../testOccurrences/requestTestOccurrences'
+import maxBy from '../../utils/maxBy'
+import type { Build } from '../build/schemata'
+import { userFields } from '../user/schemata'
 
-const parseTimestamp = (timestamp: string): string => {
+const parseTimestamp = (timestamp: string): Date => {
 	const beatifulTimestamp = `${timestamp.slice(0, 4)}-${timestamp.slice(
 		4,
 		6
@@ -20,24 +30,49 @@ const parseTimestamp = (timestamp: string): string => {
 		18,
 		20
 	)}`
-	return new Date(beatifulTimestamp).toUTCString()
+	return new Date(beatifulTimestamp)
+}
+
+const parseInvestigationCommonFields = (
+	investigation: FetchedInvestigation
+): {
+	id: InvestigationId,
+	state: InvestigationState,
+	date: string,
+	assignedBy: {
+		id: UserId,
+		displayName: string,
+		username: string,
+		...
+	},
+	...
+} => {
+	return {
+		id: investigation.id,
+		state: investigation.state,
+		date: parseTimestamp(investigation.assignment.timestamp).toUTCString(),
+		assignedBy: {
+			id: investigation.assignment.user.id,
+			name: investigation.assignment.user.name,
+			username: investigation.assignment.user.username,
+		},
+	}
 }
 
 const parseFetchedBuildTypeInvestigation = (
 	investigation: FetchedBuildTypeInvestigation
 ): Investigation => {
 	return {
-		id: investigation.id,
-		state: investigation.state,
-		date: parseTimestamp(investigation.assignment.timestamp),
+		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.buildTypes.buildType[0].projectId,
 		projectFullName:
 			investigation.scope.buildTypes.buildType[0].projectName,
-		assignedBy: investigation.assignment.user.id,
 		target: {
 			type: 'buildType',
 			id: investigation.scope.buildTypes.buildType[0].id,
 			name: investigation.scope.buildTypes.buildType[0].name,
+			buildIds: [], // none
+			webUrl: investigation.scope.buildTypes.buildType[0].webUrl,
 		},
 	}
 }
@@ -46,17 +81,16 @@ const parseFetchedTestInvestigation = (
 	investigation: FetchedTestInvestigation
 ): Investigation => {
 	return {
-		id: investigation.id,
-		state: investigation.state,
-		date: parseTimestamp(investigation.assignment.timestamp),
+		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.project.id,
 		projectFullName: `${investigation.scope.project.parentProjectName} / ${investigation.scope.project.name}`,
-		assignedBy: investigation.assignment.user.id,
 		target: {
 			type: 'test',
 			id: investigation.target.tests.test[0].id,
 			name:
 				investigation.target.tests.test[0].parsedTestName.testShortName,
+			buildIds: [], // to be added later by addTestOccurrencesFieldsToTestInvestigation
+			webUrl: '', // to be added later by addTestOccurrencesFieldsToTestInvestigation
 		},
 	}
 }
@@ -65,35 +99,62 @@ const parseFetchedProblemInvestigation = (
 	investigation: FetchedProblemInvestigation
 ): Investigation => {
 	return {
-		id: investigation.id,
-		state: investigation.state,
-		date: parseTimestamp(investigation.assignment.timestamp),
+		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.project.id,
 		projectFullName: `${investigation.scope.project.parentProjectName} / ${investigation.scope.project.name}`,
-		assignedBy: investigation.assignment.user.id,
 		target: {
 			type: 'problem',
 			id: investigation.target.problems.problem[0].id,
 			name: 'Problem names are not implemented yet :c',
+			buildIds: [], // to be added later by addProblemOccurrenceFieldsToProblemInvestigation
+			webUrl: '', // to be added later by addProblemOccurrenceFieldsToProblemInvestigation
 		},
 	}
 }
 
+const addProblemOccurrenceFieldsToProblemInvestigation = async (
+	investigation: Investigation
+) => {
+	const problemId = investigation.target.id
+	const problemOccurrence = await requestProblemOccurrence(problemId)
+	investigation.target.name = problemOccurrence.details
+	investigation.target.buildIds = [problemOccurrence.build.id]
+	investigation.target.webUrl = problemOccurrence.build.webUrl
+}
+
+const addTestOccurrencesFieldsToTestInvestigation = async (
+	investigation: Investigation
+) => {
+	const testId = investigation.target.id
+	const testOccurrences = await requestTestOccurrences(testId)
+	const testBuilds: Build[] = testOccurrences.map(
+		(testOccurrence) => testOccurrence.build
+	)
+	investigation.target.buildIds = testBuilds.map((build) => build.id)
+	investigation.target.webUrl = maxBy(testBuilds, (build) =>
+		parseTimestamp(build.finishDate).getTime()
+	).webUrl
+}
+
+// TODO: many things are marked with $FlowFixMe because i'm unsure how the received data looks
 const parseFetchedInvestigation = (
 	investigation: FetchedInvestigation
 ): ?Investigation => {
 	try {
 		if (investigation.target.anyProblem === true) {
+			// $FlowFixMe
 			return parseFetchedBuildTypeInvestigation(investigation)
 		} else if (
 			investigation.target.tests !== undefined &&
 			investigation.target.tests !== null
 		) {
+			// $FlowFixMe
 			return parseFetchedTestInvestigation(investigation)
 		} else if (
 			investigation.target.problems !== undefined &&
 			investigation.target.problems !== null
 		) {
+			// $FlowFixMe
 			return parseFetchedProblemInvestigation(investigation)
 		}
 	} catch (error) {
@@ -105,20 +166,35 @@ const parseFetchedInvestigation = (
 }
 
 const fetchInvestigationsByAssignee = async (
-	username: string = 'admin'
+	userId: UserId
 ): Promise<Investigation[]> => {
 	const json: FetchedInvestigations = await TC.requestJSON(
-		`app/rest/investigations?locator=assignee:(username:admin)&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(id,username)))`
+		`app/rest/investigations?locator=assignee:(id:${userId})&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId,webUrl)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(${userFields})))`
 	)
-	console.log('fetched json', json)
-	return json.investigation
+	const investigations: Investigation[] = json.investigation
 		.map((investigation: FetchedInvestigation) =>
+			// $FlowFixMe
 			parseFetchedInvestigation(investigation)
 		)
 		.filter(
 			(investigation) =>
 				investigation !== undefined && investigation !== null
 		)
+	await Promise.all(
+		investigations
+			.filter((investigation) => investigation.target.type === 'problem')
+			.map((investigation) =>
+				addProblemOccurrenceFieldsToProblemInvestigation(investigation)
+			)
+	)
+	await Promise.all(
+		investigations
+			.filter((investigation) => investigation.target.type === 'test')
+			.map((investigation) =>
+				addTestOccurrencesFieldsToTestInvestigation(investigation)
+			)
+	)
+	return investigations
 }
 
 export default fetchInvestigationsByAssignee

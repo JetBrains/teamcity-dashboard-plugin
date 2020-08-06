@@ -7,6 +7,7 @@ import InvestigationsShowFixedOptionsSelector from './options/InvestigationsShow
 import InvestigationsWidgetContent from './content/InvestigationsWidgetContent'
 import InvestigationsWidgetHeader from './content/header/InvestigationsWidgetHeader'
 import WidgetEllipsisOptions from '../../components/WidgetEllipsisOptions/WidgetEllipsisOptions'
+import WidgetBody from '../../components/WidgetBody/WidgetBody'
 
 interface Properties {
 	widgetId: string;
@@ -23,8 +24,8 @@ const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
 		[widgetId]
 	)
 
-	const inBodyOptions = useMemo(
-		() => [
+	const inBodyOptions: Array<React$Node> = useMemo(
+		(): Array<React$Node> => [
 			<InvestigationsSortingOptionSelector key={0} widgetId={widgetId} />,
 			<InvestigationsShowFixedOptionsSelector
 				key={1}
@@ -43,9 +44,10 @@ const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
 		<WidgetIsland
 			title={title}
 			headerOptions={headerOptions}
-			inBodyOptions={inBodyOptions}
 		>
-			{content}
+			<WidgetBody options={inBodyOptions}>
+				{content}
+			</WidgetBody>
 		</WidgetIsland>
 	)
 }
