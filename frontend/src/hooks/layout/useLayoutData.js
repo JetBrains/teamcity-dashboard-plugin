@@ -5,9 +5,9 @@ import {
 	selectLayout,
 	setLayout,
 	type Layout,
-} from '../store/slices/layoutSlice'
-import { type SetNewDataFunction } from '../commontypes'
-import usePostDashboardData from './usePostDashboardData'
+} from '../../store/slices/layoutSlice'
+import { type SetNewDataFunction } from '../../commontypes'
+import usePostDashboardData from '../usePostDashboardData'
 
 export default function useLayoutData(): [Layout, SetNewDataFunction<Layout>] {
 	const layout = useSelector(selectLayout)
@@ -17,7 +17,7 @@ export default function useLayoutData(): [Layout, SetNewDataFunction<Layout>] {
 	const setNewLayout = useCallback(
 		(newLayout: Layout) => {
 			dispatch(setLayout(newLayout))
-			postDashboardData();
+			postDashboardData()
 		},
 		[dispatch, postDashboardData]
 	)
