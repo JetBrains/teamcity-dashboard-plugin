@@ -1,9 +1,9 @@
 // @flow strict
 import React from 'react'
 import TC from '@teamcity/react-api'
-import useInvestigation from '../../../hooks/investigations/useInvestigation'
+import useInvestigation from '../../../../hooks/investigations/useInvestigation'
 import Button from '@jetbrains/ring-ui/components/button/button'
-import type { InvestigationId } from '../../../store/slices/investigationsSlice'
+import type { InvestigationId } from '../../../../store/slices/investigationsSlice'
 
 interface Properties {
 	investigationId: InvestigationId;

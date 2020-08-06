@@ -4,12 +4,13 @@ import type { InvestigationId } from '../../../../store/slices/investigationsSli
 import { useSelector } from 'react-redux'
 import {
 	selectInvestigationAssignedBy,
-	selectInvestigationAssignmentDate, selectInvestigationState,
+	selectInvestigationAssignmentDate,
+	selectInvestigationState,
 } from '../../../../store/slices/investigationsSlice'
 import getUserDisplayName from '../../../../api/user/getUserDisplayName'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import type { User } from '../../../../api/user/schemata'
-import ReassignInvestigationButton from '../../buttons/ReassignInvestigationButton'
+import ReassignInvestigationButton from '../ReassignInvestigationButton/ReassignInvestigationButton'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -22,7 +23,9 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 	const date: ?Date = useSelector((state) =>
 		selectInvestigationAssignmentDate(state, investigationId)
 	)
-	const state: ?string = useSelector(state => selectInvestigationState(state, investigationId))
+	const state: ?string = useSelector((state) =>
+		selectInvestigationState(state, investigationId)
+	)
 	return (
 		<div>
 			<div>State: {state}</div>
@@ -30,8 +33,16 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 				Assigned by: {user ? getUserDisplayName(user) : 'Loading...'}
 			</div>
 			<div>at {date ? <FormattedDate date={date} /> : 'Loading...'}</div>
-			<ReassignInvestigationButton investigationId={investigationId} fix={false} />
-			{state !== 'FIXED' && <ReassignInvestigationButton investigationId={investigationId} fix />}
+			<ReassignInvestigationButton
+				investigationId={investigationId}
+				fix={false}
+			/>
+			{state !== 'FIXED' && (
+				<ReassignInvestigationButton
+					investigationId={investigationId}
+					fix
+				/>
+			)}
 		</div>
 	)
 }

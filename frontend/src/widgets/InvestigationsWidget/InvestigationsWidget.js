@@ -5,7 +5,7 @@ import InvestigationsSortingOptionSelector from './options/InvestigationsSorting
 import type { WidgetComponent } from '../widgets'
 import InvestigationsShowFixedOptionsSelector from './options/InvestigationsShowFixedOptionSelector'
 import InvestigationsWidgetContent from './content/InvestigationsWidgetContent'
-import InvestigationsWidgetHeader from './content/header/InvestigationsWidgetHeader'
+import InvestigationsWidgetHeader from './header/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
 import WidgetEllipsisOptions from '../../components/WidgetEllipsisOptions/WidgetEllipsisOptions'
 import WidgetBody from '../../components/WidgetBody/WidgetBody'
 
@@ -41,13 +41,8 @@ const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
 	)
 
 	return (
-		<WidgetIsland
-			title={title}
-			headerOptions={headerOptions}
-		>
-			<WidgetBody options={inBodyOptions}>
-				{content}
-			</WidgetBody>
+		<WidgetIsland title={title} headerOptions={headerOptions}>
+			<WidgetBody options={inBodyOptions}>{content}</WidgetBody>
 		</WidgetIsland>
 	)
 }
