@@ -113,10 +113,10 @@ export const selectWidgetDataType: (
 
 // Widget Options
 
-const selectWidgetOption: (
+const selectWidgetOption: <T: string>(
 	optionName: string,
-	defaultValue: string
-) => (RootState, widgetId: string) => string = (optionName, defaultValue) =>
+	defaultValue: T
+) => (RootState, widgetId: string) => T = (optionName, defaultValue) =>
 	createSelector(selectWidgetById, (widget: ?WidgetData) =>
 		widget?.data ? widget.data[optionName] ?? defaultValue : defaultValue
 	)
@@ -135,17 +135,15 @@ const selectWidgetBooleanOption: (
 export const selectWidgetSortByOption: (
 	RootState,
 	widgetId: string
-) => ?$PropertyType<WidgetOptions, 'sortBy'> = createSelector(
-	selectWidgetById,
-	(widget: ?WidgetData) => widget?.data?.sortBy
+) => $PropertyType<WidgetOptions, 'sortBy'> = selectWidgetOption(
+	'sortBy',
+	'time'
 )
 
 export const selectWidgetShowFixedOption: (
 	RootState,
 	widgetId: string
-) => ?boolean = createSelector(selectWidgetById, (widget: ?WidgetData) =>
-	widget?.data?.showFixed ? widget.data.showFixed === 'true' : undefined
-)
+) => ?boolean = selectWidgetBooleanOption('showFixed', false)
 
 export const selectWidgetShowOnlyDefaultBranchOption = selectWidgetBooleanOption(
 	'showOnlyDefaultBranch',

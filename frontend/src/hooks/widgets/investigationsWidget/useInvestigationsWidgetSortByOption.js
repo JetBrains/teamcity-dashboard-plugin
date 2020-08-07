@@ -2,6 +2,8 @@
 import { useCallback } from 'react'
 import type { InvestigationsWidgetSortByOption } from '../../../store/slices/widgetsSlice'
 import useWidgetData from '../../useWidgetData'
+import { useSelector } from 'react-redux'
+import { selectWidgetSortByOption } from '../../../store/slices/widgetsSlice'
 
 const useInvestigationsWidgetSortByOption = (
 	widgetId: string
@@ -10,7 +12,7 @@ const useInvestigationsWidgetSortByOption = (
 	(InvestigationsWidgetSortByOption) => void
 ] => {
 	const [widgetData, setWidgetData] = useWidgetData(widgetId)
-	const sortBy = widgetData.data.sortBy
+	const sortBy = useSelector(state => selectWidgetSortByOption(state, widgetId))
 	const setSortBy = useCallback(
 		(newSortBy: InvestigationsWidgetSortByOption) =>
 			setWidgetData({
