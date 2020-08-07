@@ -16,11 +16,11 @@ export type WidgetId = string
 
 export type InvestigationsWidgetSortByOption = 'time' | 'name'
 
-export type WidgetOptions = {
+export type WidgetOptions = {|
 	sortBy?: InvestigationsWidgetSortByOption,
 	showFixed?: 'true' | 'false',
-	...
-}
+	showOnlyDefaultBranch?: 'true' | 'false',
+|}
 
 export type WidgetData = {
 	id: string,
@@ -85,10 +85,14 @@ export const addWidget = (data: WidgetDataWithoutId): ThunkAction => (
 	dispatch(widgetsSlice.actions.addWidgetWithId(widgetData))
 }
 
-export const updateWidget: (WidgetData) => void = widgetsSlice.actions.updateWidget
-export const addWidgetWithId: (WidgetData) => void = widgetsSlice.actions.addWidgetWithId
-export const removeWidget: (WidgetId) => void = widgetsSlice.actions.removeWidget
-export const openWidgetSettings : (WidgetData) => void = widgetsSlice.actions.openWidgetSettings
+export const updateWidget: (WidgetData) => void =
+	widgetsSlice.actions.updateWidget
+export const addWidgetWithId: (WidgetData) => void =
+	widgetsSlice.actions.addWidgetWithId
+export const removeWidget: (WidgetId) => void =
+	widgetsSlice.actions.removeWidget
+export const openWidgetSettings: (WidgetData) => void =
+	widgetsSlice.actions.openWidgetSettings
 
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
@@ -107,6 +111,25 @@ export const selectWidgetDataType: (
 	(widget: WidgetData) => (widget ? widget.type : undefined)
 )
 
+// Widget Options
+
+const selectWidgetOption: (
+	optionName: string,
+	defaultValue: string
+) => (RootState, widgetId: string) => string = (optionName, defaultValue) =>
+	createSelector(selectWidgetById, (widget: ?WidgetData) =>
+		widget?.data ? widget.data[optionName] ?? defaultValue : defaultValue
+	)
+
+const selectWidgetBooleanOption: (
+	optionName: string,
+	defaultValue: boolean
+) => (RootState, widgetId: string) => boolean = (optionName, defaultValue) =>
+	createSelector(
+		selectWidgetOption(optionName, defaultValue ? 'true' : 'false'),
+		(option: string) => option === 'true'
+	)
+
 // Investigations Widget
 
 export const selectWidgetSortByOption: (
@@ -122,6 +145,11 @@ export const selectWidgetShowFixedOption: (
 	widgetId: string
 ) => ?boolean = createSelector(selectWidgetById, (widget: ?WidgetData) =>
 	widget?.data?.showFixed ? widget.data.showFixed === 'true' : undefined
+)
+
+export const selectWidgetShowOnlyDefaultBranchOption = selectWidgetBooleanOption(
+	'showOnlyDefaultBranch',
+	true
 )
 
 export default widgetsSlice.reducer

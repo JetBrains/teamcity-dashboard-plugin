@@ -40,14 +40,14 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/testOccurrences?locator=test:(id:5109987273551514521)&fields=testOccurrence(build(buildType(name)))
+GET {{host}}/app/rest/testOccurrences?locator=test:(id:5109987273551514521)&fields=testOccurrence(build(*,defaultBranch))
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/testOccurrences?locator=test:(id:7285631191500789829)&fields=testOccurrence(build(id,webUrl,finishDate))
+GET {{host}}/app/rest/testOccurrences?locator=test:(id:7285631191500789829)&fields=testOccurrence(build(*))
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
@@ -64,7 +64,7 @@ problem:(id:10),assignmentProject:(id:ManyProjects_DeeperProject_1PassingTest1Fa
 
 
 ###
-GET {{host}}/app/rest/problemOccurrences/problem:(id:15)
+GET {{host}}/app/rest/problemOccurrences/problem:(id:13)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}

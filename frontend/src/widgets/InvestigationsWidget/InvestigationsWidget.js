@@ -8,6 +8,7 @@ import InvestigationsWidgetContent from './content/InvestigationsWidgetContent'
 import InvestigationsWidgetHeader from './header/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
 import WidgetEllipsisOptions from '../../components/WidgetEllipsisOptions/WidgetEllipsisOptions'
 import WidgetBody from '../../components/WidgetBody/WidgetBody'
+import InvestigationShowOnlyDefaultBranchButton from './options/InvestigationShowOnlyDefaultBranchButton'
 
 interface Properties {
 	widgetId: string;
@@ -31,6 +32,7 @@ const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
 				key={1}
 				widgetId={widgetId}
 			/>,
+			<InvestigationShowOnlyDefaultBranchButton key={2} widgetId={widgetId} />
 		],
 		[widgetId]
 	)

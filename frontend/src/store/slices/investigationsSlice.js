@@ -12,6 +12,7 @@ import type { UserId } from '../../commontypes'
 import type { InvestigationsWidgetSortByOption, WidgetId } from './widgetsSlice'
 import {
 	selectWidgetShowFixedOption,
+	selectWidgetShowOnlyDefaultBranchOption,
 	selectWidgetSortByOption,
 } from './widgetsSlice'
 import type { User } from '../../api/user/schemata'
@@ -33,6 +34,7 @@ export type Investigation = {
 	// TODO: breaks data normalization principle => may be outdated!!!
 	projectFullName: string, // Actually a project-path-like string `Project A / Project B`
 	assignedBy: User,
+	defaultBranch: boolean,
 	target: {
 		type: InvestigationTargetType,
 		// TODO: maybe needs clarification
@@ -192,11 +194,17 @@ export const selectFilteredInvestigations: (WidgetId) => (RootState) => Investig
 	createSelector(
 		selectAllInvestigations,
 		(state) => selectWidgetShowFixedOption(state, widgetId),
-		(investigations: Investigation[], showFixed: boolean) =>
+		(state) => selectWidgetShowOnlyDefaultBranchOption(state, widgetId),
+		(
+			investigations: Investigation[],
+			showFixed: boolean,
+			showOnlyDefaultBranch: boolean
+		) =>
 			investigations.filter(
 				(investigation: Investigation) =>
 					investigation.state !== 'GIVEN_UP' &&
-					(investigation.state !== 'FIXED' || showFixed)
+					(investigation.state !== 'FIXED' || showFixed) &&
+					(investigation.defaultBranch || !showOnlyDefaultBranch)
 			)
 	)
 

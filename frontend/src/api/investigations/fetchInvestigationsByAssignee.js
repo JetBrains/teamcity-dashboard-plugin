@@ -41,8 +41,8 @@ const parseInvestigationCommonFields = (
 	date: string,
 	assignedBy: {
 		id: UserId,
-		displayName: string,
 		username: string,
+		name?: string,
 		...
 	},
 	...
@@ -65,8 +65,10 @@ const parseFetchedBuildTypeInvestigation = (
 	return {
 		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.buildTypes.buildType[0].projectId,
+		// TODO: fix this, add another type definition
 		projectFullName:
 			investigation.scope.buildTypes.buildType[0].projectName,
+		defaultBranch: true,
 		target: {
 			type: 'buildType',
 			id: investigation.scope.buildTypes.buildType[0].id,
@@ -84,6 +86,7 @@ const parseFetchedTestInvestigation = (
 		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.project.id,
 		projectFullName: `${investigation.scope.project.parentProjectName} / ${investigation.scope.project.name}`,
+		defaultBranch: false,
 		target: {
 			type: 'test',
 			id: investigation.target.tests.test[0].id,
@@ -102,6 +105,7 @@ const parseFetchedProblemInvestigation = (
 		...parseInvestigationCommonFields(investigation),
 		projectId: investigation.scope.project.id,
 		projectFullName: `${investigation.scope.project.parentProjectName} / ${investigation.scope.project.name}`,
+		defaultBranch: false,
 		target: {
 			type: 'problem',
 			id: investigation.target.problems.problem[0].id,
@@ -120,6 +124,7 @@ const addProblemOccurrenceFieldsToProblemInvestigation = async (
 	investigation.target.name = problemOccurrence.details
 	investigation.target.buildIds = [problemOccurrence.build.id]
 	investigation.target.webUrl = problemOccurrence.build.webUrl
+	investigation.defaultBranch = problemOccurrence.build.defaultBranch ?? true
 }
 
 const addTestOccurrencesFieldsToTestInvestigation = async (
@@ -134,6 +139,7 @@ const addTestOccurrencesFieldsToTestInvestigation = async (
 	investigation.target.webUrl = maxBy(testBuilds, (build) =>
 		parseTimestamp(build.finishDate).getTime()
 	).webUrl
+	investigation.defaultBranch = testBuilds.some(build => (build.defaultBranch ?? true) === true )
 }
 
 // TODO: many things are marked with $FlowFixMe because i'm unsure how the received data looks
