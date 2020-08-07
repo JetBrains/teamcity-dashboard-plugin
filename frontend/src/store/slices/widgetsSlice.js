@@ -65,6 +65,9 @@ const widgetsSlice = createSlice<WidgetsState>({
 		) => {
 			state.widgetWithOpenedSettings = action.payload.id
 		},
+		closeWidgetSettings: (state: WidgetsState) => {
+			state.widgetWithOpenedSettings = undefined
+		}
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
