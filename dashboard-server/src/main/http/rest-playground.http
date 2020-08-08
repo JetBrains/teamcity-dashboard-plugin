@@ -89,3 +89,24 @@ GET {{host}}/app/rest/problems/13?fields=problemOccurrences(*)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
+
+###
+# GET BUILDS of build configuration
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/builds/?locator=buildType:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches),branch:(name:refs/heads/second-branch)&fields=build(changes(count))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/changes?locator=build:(id:209)&fields=change(*)
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}

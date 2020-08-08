@@ -2,11 +2,13 @@
 import React, { useMemo } from 'react'
 import type { WidgetId } from '../../store/slices/widgetsSlice'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
-import { MoreOptionsIcon } from '@jetbrains/ring-ui/components/icon'
+import { MarkerIcon, MoreOptionsIcon, TrashIcon } from '@jetbrains/ring-ui/components/icon'
 import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
-import RemoveWidgetButton from '../RemoveWidgetButton/RemoveWidgetButton'
 import List from '@jetbrains/ring-ui/components/list/list'
+import useOpenWidgetSettings from '../../hooks/widgets/useOpenWidgetSettings'
+import useRemoveWidget from '../../hooks/widgets/useRemoveWidget'
+import styles from './WidgetEllipsisOptions.css'
 
 const { IconButton } = TC.Components
 
@@ -22,15 +24,32 @@ interface Properties {
 }
 
 const WidgetEllipsisOptions = ({ widgetId }: Properties) => {
+	const openWidgetSettings = useOpenWidgetSettings(widgetId)
+	const removeWidget = useRemoveWidget(widgetId)
+
 	const data = useMemo(
 		() => [
 			{
-				label: <RemoveWidgetButton widgetId={widgetId} />,
+				label: 'Edit...',
+				action: 'openSettings',
 				key: '0',
 				rgItemType: List.ListProps.Type.ITEM,
+				glyph: MarkerIcon,
+				onClick: openWidgetSettings,
+			},
+			{ key: '1', rgItemType: List.ListProps.Type.SEPARATOR, action: '' },
+			{
+				label: 'Remove',
+				action: 'removeWidget',
+				key: '1',
+				rgItemType: List.ListProps.Type.ITEM,
+				glyph: TrashIcon,
+				color: 'red',
+				onClick: removeWidget,
+				className: styles.danger
 			},
 		],
-		[widgetId]
+		[openWidgetSettings, removeWidget]
 	)
 
 	return (
@@ -40,7 +59,12 @@ const WidgetEllipsisOptions = ({ widgetId }: Properties) => {
 				<IconButton title="Widget Options" icon={MoreOptionsIcon} />
 			}
 		>
-			<PopupMenu closeOnSelect data={data} directions={directions} />
+			<PopupMenu
+				closeOnSelect
+				data={data}
+				directions={directions}
+				// onSelect={onSelect}
+			/>
 		</Dropdown>
 	)
 }

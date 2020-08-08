@@ -1,0 +1,7 @@
+.danger {
+	color: #db5860;
+}
+
+.danger * {
+	color: #db5860;
+}

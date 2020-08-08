@@ -61,13 +61,13 @@ const widgetsSlice = createSlice<WidgetsState>({
 		},
 		openWidgetSettings: (
 			state: WidgetsState,
-			action: PayloadAction<WidgetData>
+			action: PayloadAction<WidgetId>
 		) => {
-			state.widgetWithOpenedSettings = action.payload.id
+			state.widgetWithOpenedSettings = action.payload
 		},
 		closeWidgetSettings: (state: WidgetsState) => {
 			state.widgetWithOpenedSettings = undefined
-		}
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
@@ -94,8 +94,10 @@ export const addWidgetWithId: (WidgetData) => void =
 	widgetsSlice.actions.addWidgetWithId
 export const removeWidget: (WidgetId) => void =
 	widgetsSlice.actions.removeWidget
-export const openWidgetSettings: (WidgetData) => void =
+export const openWidgetSettings: (WidgetId) => void =
 	widgetsSlice.actions.openWidgetSettings
+export const closeWidgetSettings: () => mixed =
+	widgetsSlice.actions.closeWidgetSettings
 
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)

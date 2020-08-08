@@ -21,15 +21,6 @@ const WidgetIsland = ({
 				<div className={styles.headerOptions}>{headerOptions}</div>
 			</div>
 			<div className={styles.body}>
-				{/*<div className={styles.bodyOptions}>*/}
-				{/*	<div className={styles.bodyWidgetSpecificOptions}>*/}
-				{/*		{inBodyOptions}*/}
-				{/*	</div>*/}
-				{/*	/!*<div className={styles.bodyScrollToTopOption}>*!/*/}
-				{/*	/!*	<button>^</button>*!/*/}
-				{/*	/!*</div>*!/*/}
-				{/*</div>*/}
-				{/*<div className={styles.content}>{children}</div>*/}
 				{children}
 			</div>
 		</div>

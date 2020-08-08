@@ -1,0 +1,33 @@
+.WidgetSettings {
+	box-sizing: border-box;
+
+	padding: 20px;
+}
+
+.widgetSettingsHeader {
+	margin-bottom: 20px;
+}
+
+.widgetSettingsDescription {
+	margin-left: 10px;
+}
+
+.widgetSettingsContent {
+
+}
+
+.Section {
+	margin: 15px 0;
+}
+
+.sectionHeader {
+	margin-bottom: 10px;
+}
+
+.sectionDescription {
+	margin-left: 10px;
+}
+
+.sectionContent {
+
+}

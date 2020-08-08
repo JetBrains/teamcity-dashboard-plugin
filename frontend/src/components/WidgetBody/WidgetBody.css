@@ -19,6 +19,10 @@
 	flex-wrap: nowrap;
 }
 
+.WidgetBody .options > * {
+	margin-right: 5px;
+}
+
 .WidgetBody .content {
 	width: 100%;
 
