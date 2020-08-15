@@ -3,8 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchDashboardData } from './fetchingDashboardData'
 import { type DashboardData } from '../../commontypes'
 import { type RootState } from '..'
-import { addWidgetWithId, removeWidget, type WidgetData } from './widgetsSlice'
-import type { WidgetId } from './widgetsSlice'
+import {
+	addWidgetWithId,
+	removeWidget,
+} from '../../features/widgets/widgets.slice'
+import type { WidgetData, WidgetId } from '../../features/widgets/widgets.types'
 
 export interface GridElementData {
 	i: string;

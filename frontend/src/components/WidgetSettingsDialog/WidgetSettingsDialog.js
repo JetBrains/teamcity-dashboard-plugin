@@ -1,8 +1,8 @@
 // @flow strict
 import React from 'react'
 import Dialog from '@jetbrains/ring-ui/components/dialog/dialog'
-import useWidgetIdWithOpenedSettings from '../../hooks/widgets/useWidgetIdWithOpenedSettings'
 import WidgetSettingsWrapper from '../WidgetSettingsWrapper/WidgetSettingsWrapper'
+import {useWidgetIdWithOpenedSettings} from '../../features/widgets/widgets.hooks'
 
 const WidgetSettingsDialog = () => {
 	const [widgetId, closeSettings] = useWidgetIdWithOpenedSettings()

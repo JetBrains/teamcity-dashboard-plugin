@@ -18,20 +18,7 @@ import requestTestOccurrences from '../testOccurrences/requestTestOccurrences'
 import maxBy from '../../utils/maxBy'
 import type { Build } from '../build/schemata'
 import { userFields } from '../user/schemata'
-
-const parseTimestamp = (timestamp: string): Date => {
-	const beatifulTimestamp = `${timestamp.slice(0, 4)}-${timestamp.slice(
-		4,
-		6
-	)}-${timestamp.slice(6, 8)}T${timestamp.slice(9, 11)}:${timestamp.slice(
-		11,
-		13
-	)}:${timestamp.slice(13, 15)}+${timestamp.slice(16, 18)}:${timestamp.slice(
-		18,
-		20
-	)}`
-	return new Date(beatifulTimestamp)
-}
+import { parseTimestamp } from '../../utils/parseTimestamp'
 
 const parseInvestigationCommonFields = (
 	investigation: FetchedInvestigation
@@ -139,7 +126,9 @@ const addTestOccurrencesFieldsToTestInvestigation = async (
 	investigation.target.webUrl = maxBy(testBuilds, (build) =>
 		parseTimestamp(build.finishDate).getTime()
 	).webUrl
-	investigation.defaultBranch = testBuilds.some(build => (build.defaultBranch ?? true) === true )
+	investigation.defaultBranch = testBuilds.some(
+		(build) => (build.defaultBranch ?? true) === true
+	)
 }
 
 // TODO: many things are marked with $FlowFixMe because i'm unsure how the received data looks

@@ -1,0 +1,7 @@
+.ChangesList {
+
+}
+
+.ChangesList > * {
+	margin-top: 10px;
+}

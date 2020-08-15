@@ -1,28 +1,15 @@
 // @flow strict
 import React, { useMemo } from 'react'
-import WidgetIsland from '../../components/WidgetIsland/WidgetIsland'
 import InvestigationsSortingOptionSelector from './options/InvestigationsSortingOptionSelector'
-import type { WidgetComponent } from '../widgets'
 import InvestigationsShowFixedOptionsSelector from './options/InvestigationsShowFixedOptionSelector'
 import InvestigationsWidgetContent from './content/InvestigationsWidgetContent'
-import InvestigationsWidgetHeader from './header/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
-import WidgetEllipsisOptions from '../../components/WidgetEllipsisOptions/WidgetEllipsisOptions'
 import WidgetBody from '../../components/WidgetBody/WidgetBody'
+import { useThisWidgetId } from '../../features/widgets/widgets.hooks'
 
-interface Properties {
-	widgetId: string;
-}
 
-const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
-	const title = useMemo(
-		() => <InvestigationsWidgetHeader widgetId={widgetId} />,
-		[widgetId]
-	)
+const InvestigationsWidget = () => {
 
-	const headerOptions = useMemo(
-		() => [<WidgetEllipsisOptions key={0} widgetId={widgetId} />],
-		[widgetId]
-	)
+	const widgetId = useThisWidgetId()
 
 	const inBodyOptions: Array<React$Node> = useMemo(
 		(): Array<React$Node> => [
@@ -41,9 +28,7 @@ const InvestigationsWidget: WidgetComponent = ({ widgetId }: Properties) => {
 	)
 
 	return (
-		<WidgetIsland title={title} headerOptions={headerOptions}>
-			<WidgetBody options={inBodyOptions}>{content}</WidgetBody>
-		</WidgetIsland>
+		<WidgetBody options={inBodyOptions}>{content}</WidgetBody>
 	)
 }
 

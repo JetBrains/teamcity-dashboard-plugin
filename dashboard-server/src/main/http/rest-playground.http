@@ -19,14 +19,14 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches?fields=id,internalId,project(id,internalId)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/projects?fields=project(id,parentProjectId,name,description,href,webUrl)
+GET {{host}}/app/rest/projects?fields=project(id,internalId,parentProjectId,name,description,href,webUrl)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
@@ -92,21 +92,43 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 # GET BUILDS of build configuration
-GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches/builds?locator=count=1
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/builds/?locator=buildType:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches),branch:(name:refs/heads/second-branch)&fields=build(changes(count))
+GET {{host}}/app/rest/builds/?locator=buildType:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/changes?locator=build:(id:209)&fields=change(*)
+GET {{host}}/app/rest/changes?locator=id:2&fields=change(*)
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/builds/?fields=build(id,user(id))
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/changes?locator=buildType:(id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches),branch:(group:(myBranchesProvider-myBranches))&fields=change(comment,*)
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+
+# GET branches of build configuration
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches/branches?locator=includeGroups:true&fields=branch(*)
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}

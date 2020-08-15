@@ -5,6 +5,7 @@
 
 [libs]
 ./node_modules/@teamcity/react-api
+./node_modules/@reduxjs/toolkit/dist/export.flow.js
 
 [options]
 esproposal.optional_chaining=enable

@@ -9,14 +9,14 @@ import {
 import fetchInvestigationsByAssignee from '../../api/investigations/fetchInvestigationsByAssignee'
 import type { RootState } from '..'
 import type { UserId } from '../../commontypes'
-import type { InvestigationsWidgetSortByOption, WidgetId } from './widgetsSlice'
-import {
-	selectWidgetShowFixedOption,
-	selectWidgetShowOnlyDefaultBranchOption,
-	selectWidgetSortByOption,
-} from './widgetsSlice'
+import { selectWidgetOption } from '../../features/widgets/widgets.slice'
 import type { User } from '../../api/user/schemata'
 import type { BuildTypeId, ProjectId } from '../../hooks/TC/schemata'
+import type {
+	InvestigationsWidgetSortByOption,
+	WidgetId,
+	WidgetOptions,
+} from '../../features/widgets/widgets.types'
 
 export type InvestigationId = string
 
@@ -186,6 +186,24 @@ export const selectInvestigationsWithVisibilityFilter: (
 				investigation.target.type === 'buildType'
 		)
 	}
+)
+
+export const selectWidgetSortByOption: (
+	RootState,
+	widgetId: string
+) => $PropertyType<WidgetOptions, 'sortBy'> = selectWidgetOption(
+	'sortBy',
+	'time'
+)
+
+export const selectWidgetShowFixedOption: (
+	RootState,
+	widgetId: string
+) => ?boolean = selectWidgetOption<boolean>('showFixed', false)
+
+export const selectWidgetShowOnlyDefaultBranchOption = selectWidgetOption<boolean>(
+	'showOnlyDefaultBranch',
+	true
 )
 
 export const selectFilteredInvestigations: (WidgetId) => (RootState) => Investigation[] = (

@@ -2,7 +2,12 @@
 import TC from '@teamcity/react-api'
 import type { BuildTypeId, ProjectId } from './schemata'
 
-export type FullPath = mixed
+export type ProjectOrBuildTypeNode = {
+	name?: string,
+	...
+}
+
+export type FullPath = Array<ProjectOrBuildTypeNode>
 
 const usePathToProjectOrBuildType: (
 	type: 'project' | 'buildType',

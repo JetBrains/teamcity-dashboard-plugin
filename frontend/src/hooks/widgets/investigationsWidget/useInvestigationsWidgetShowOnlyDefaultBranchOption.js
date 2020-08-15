@@ -1,11 +1,11 @@
 // @flow strict
 
-import useBooleanWidgetOption from '../useBooleanWidgetOption'
+import { useWidgetOption } from '../../../features/widgets/widgets.hooks'
 
 const useInvestigationsWidgetShowOnlyDefaultBranchOption = (
 	widgetId: string
 ): [boolean, (boolean) => void] => {
-	return useBooleanWidgetOption(widgetId, 'showOnlyDefaultBranch', true)
+	return useWidgetOption(widgetId, 'showOnlyDefaultBranch', true)
 }
 
 export default useInvestigationsWidgetShowOnlyDefaultBranchOption

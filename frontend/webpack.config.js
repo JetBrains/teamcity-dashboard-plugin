@@ -1,35 +1,40 @@
-const path = require('path');
-const ringUiConfig = require('@jetbrains/ring-ui/webpack.config');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const path = require('path')
+const ringUiConfig = require('@jetbrains/ring-ui/webpack.config')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 const bundlePath = path.resolve(
 	__dirname,
 	'../dashboard-server/src/main/resources/buildServerResources'
-);
-const srcPath = path.join(__dirname, 'src');
+)
+const srcPath = path.join(__dirname, 'src')
 
 ringUiConfig.loaders.cssLoader.include = [
 	...ringUiConfig.loaders.cssLoader.include,
+	srcPath,
+]
+ringUiConfig.loaders.svgInlineLoader.include.push(
+	require('@jetbrains/icons'),
+	require('@jetbrains/logos'),
 	srcPath
-];
+)
 
 const babelLoader = {
 	loader: 'babel-loader',
 	options: {
 		cacheDirectory: true,
 		babelrc: false,
-		extends: './babel.config.js'
-	}
-};
+		extends: './babel.config.js',
+	},
+}
 
-Object.assign(ringUiConfig.loaders.babelLoader, babelLoader);
+Object.assign(ringUiConfig.loaders.babelLoader, babelLoader)
 
 module.exports = (env = {}, argv = {}) => ({
 	mode: env.production ? 'production' : 'development',
 	entry: './src/index.js',
 	output: {
 		path: bundlePath,
-		filename: 'bundle.js'
+		filename: 'bundle.js',
 	},
 	module: {
 		rules: [
@@ -38,9 +43,9 @@ module.exports = (env = {}, argv = {}) => ({
 				test: /\.js$/,
 				include: [srcPath],
 				exclude: [/node_modules/],
-				use: [babelLoader]
-			}
-		]
+				use: [babelLoader],
+			},
+		],
 	},
 	devServer: {
 		hot: true,
@@ -50,20 +55,20 @@ module.exports = (env = {}, argv = {}) => ({
 		host: argv.host,
 		allowedHosts: ['localhost'],
 		headers: {
-			'Access-Control-Allow-Origin': '*'
-		}
+			'Access-Control-Allow-Origin': '*',
+		},
 	},
 	externals: {
-		'react': 'TeamcityReactAPI.React',
+		react: 'TeamcityReactAPI.React',
 		'@teamcity/react-api': 'TeamcityReactAPI',
-		'react-dom': 'TeamcityReactAPI.ReactDOM'
+		'react-dom': 'TeamcityReactAPI.ReactDOM',
 	},
 	plugins: [
 		env.analyze &&
 			new BundleAnalyzerPlugin({
 				analyzerMode: 'static',
 				reportFilename: 'bundle-report.html',
-				openAnalyzer: false
-			})
-	].filter(Boolean)
-});
+				openAnalyzer: false,
+			}),
+	].filter(Boolean),
+})

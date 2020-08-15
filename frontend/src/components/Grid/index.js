@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react'
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout'
 import { useSelector } from 'react-redux'
-import { selectAllWidgetIds } from '../../store/slices/widgetsSlice'
+import { selectAllWidgetIds } from '../../features/widgets/widgets.slice'
 import './style.css'
 import WidgetWrapper from '../WidgetWrapper/WidgetWrapper'
 import useLayoutData from '../../hooks/layout/useLayoutData'

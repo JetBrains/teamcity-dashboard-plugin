@@ -1,9 +1,9 @@
 // @flow strict
 import React, { useCallback } from 'react'
-import type { WidgetId } from '../../store/slices/widgetsSlice'
 import { useDispatch } from 'react-redux'
-import { removeWidget } from '../../store/slices/widgetsSlice'
+import { removeWidget } from '../../features/widgets/widgets.slice'
 import Button from '@jetbrains/ring-ui/components/button/button'
+import type { WidgetId } from '../../features/widgets/widgets.types'
 
 interface Properties {
 	widgetId: WidgetId;

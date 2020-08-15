@@ -1,14 +1,12 @@
 // @flow strict
 import React from 'react'
 import useFilteredInvestigationsCount from '../../../../hooks/investigations/useFilteredInvestigationsCount'
-import type { WidgetId } from '../../../../store/slices/widgetsSlice'
 import styles from './styles.css'
+import type { WidgetId } from '../../../../features/widgets/widgets.types'
+import { useThisWidgetId } from '../../../../features/widgets/widgets.hooks'
 
-interface Properties {
-	widgetId: WidgetId;
-}
-
-const InvestigationsWidgetHeader = ({ widgetId }: Properties) => {
+const InvestigationsWidgetHeader = () => {
+	const widgetId = useThisWidgetId()
 	const investigationsCount = useFilteredInvestigationsCount(widgetId)
 	return (
 		<div className={styles.InvestigationsWidgetHeaderContainer}>

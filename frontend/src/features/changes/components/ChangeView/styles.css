@@ -1,0 +1,42 @@
+.ChangeView {
+	width: 100%;
+
+	display: grid;
+
+	grid-template:
+			"comment comment comment" max-content
+			"changesPreviewIcon username date" max-content
+			/ 16px auto auto;
+
+	gap: 6px;
+}
+
+.comment {
+	/*width: 100%;*/
+	grid-area: comment;
+}
+
+.bottomBar {
+	width: 100%;
+
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+
+	margin-top: 10px;
+}
+
+.username {
+	grid-area: username;
+	color: darkgrey;
+}
+
+.date {
+	grid-area: date;
+	justify-self: end;
+	color: darkgrey;
+}
+
+.changesPreviewIcon {
+	grid-area: changesPreviewIcon;
+}

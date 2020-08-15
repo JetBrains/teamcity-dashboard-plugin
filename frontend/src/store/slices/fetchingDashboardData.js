@@ -4,7 +4,7 @@ import { getDashboardDataFromServer } from '../../api'
 import { type AsyncState } from '../../commontypes'
 import { type RootState } from '..'
 
-export const fetchDashboardData = createAsyncThunk(
+export const fetchDashboardData = createAsyncThunk<void>(
 	'fetchingDashboardData',
 	getDashboardDataFromServer
 )

@@ -1,14 +1,20 @@
 // @flow strict
 import React, { useMemo } from 'react'
-import type { WidgetId } from '../../store/slices/widgetsSlice'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
-import { MarkerIcon, MoreOptionsIcon, TrashIcon } from '@jetbrains/ring-ui/components/icon'
+import {
+	MarkerIcon,
+	MoreOptionsIcon,
+	TrashIcon,
+} from '@jetbrains/ring-ui/components/icon'
 import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import List from '@jetbrains/ring-ui/components/list/list'
-import useOpenWidgetSettings from '../../hooks/widgets/useOpenWidgetSettings'
-import useRemoveWidget from '../../hooks/widgets/useRemoveWidget'
 import styles from './WidgetEllipsisOptions.css'
+import type { WidgetId } from '../../features/widgets/widgets.types'
+import {
+	useRemoveWidget,
+	useOpenWidgetSettings,
+} from '../../features/widgets/widgets.hooks'
 
 const { IconButton } = TC.Components
 
@@ -41,12 +47,12 @@ const WidgetEllipsisOptions = ({ widgetId }: Properties) => {
 			{
 				label: 'Remove',
 				action: 'removeWidget',
-				key: '1',
+				key: '2',
 				rgItemType: List.ListProps.Type.ITEM,
 				glyph: TrashIcon,
 				color: 'red',
 				onClick: removeWidget,
-				className: styles.danger
+				className: styles.danger,
 			},
 		],
 		[openWidgetSettings, removeWidget]

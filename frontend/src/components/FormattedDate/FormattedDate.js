@@ -1,8 +1,8 @@
 // @flow strict
-import React from 'react'
+import React, { useMemo } from 'react'
 
 interface Properties {
-	date: Date;
+	date: Date | string;
 }
 
 const monthNames = [
@@ -28,10 +28,16 @@ const formatMinutes = (minutes: number): string => {
 }
 
 const FormattedDate = ({ date }: Properties) => {
+	const actualDate = useMemo(
+		() => (date instanceof Date ? date : new Date(date)),
+		[date]
+	)
+
 	return (
 		<span>
-			{date.getDate()} {monthNames[date.getMonth()]} {date.getFullYear()}{' '}
-			{date.getHours()}:{formatMinutes(date.getMinutes())}
+			{actualDate.getDate()} {monthNames[actualDate.getMonth()]}{' '}
+			{actualDate.getFullYear()} {actualDate.getHours()}:
+			{formatMinutes(actualDate.getMinutes())}
 		</span>
 	)
 }

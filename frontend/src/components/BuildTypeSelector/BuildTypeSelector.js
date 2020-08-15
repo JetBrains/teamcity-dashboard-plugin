@@ -1,0 +1,75 @@
+// @flow strict
+import React, { useCallback, useMemo } from 'react'
+import type { BuildTypeId } from '../../features/buildTypes/buildTypesConstants.types'
+import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
+import TC from '@teamcity/react-api'
+
+const { ProjectBuildtypeDropdown } = TC.Components
+const baseUri = TC.base_uri
+
+interface Properties {
+	selectedBuildTypeId: ?BuildTypeId;
+	onSelect: (BuildTypeId) => void;
+}
+
+const init = (el) => {
+	if (typeof el.loadData === 'function') {
+		el.loadData()
+	}
+}
+
+const BuildTypeSelector = ({ selectedBuildTypeId, onSelect }: Properties) => {
+	const fullPath = usePathToProjectOrBuildType(
+		'buildType',
+		selectedBuildTypeId ?? ''
+	)
+
+	const selected = useMemo(
+		() =>
+			selectedBuildTypeId !== null && selectedBuildTypeId !== undefined
+				? {
+						id: selectedBuildTypeId,
+						nodeType: 'bt',
+						fullPath:
+							fullPath.length !== 0
+								? fullPath.map((item) => item.name).join(' :: ')
+								: 'Loading...',
+				  }
+				: undefined,
+		[selectedBuildTypeId, fullPath]
+	)
+
+	const onNewBuildTypeSelected = useCallback(
+		({ detail }) => {
+			onSelect(detail.id)
+		},
+		[onSelect]
+	)
+
+	return (
+		<ProjectBuildtypeDropdown
+			props={{
+				selectableNodeTypes: ['bt'],
+				server: baseUri,
+				settings: {
+					quickNavigation: false,
+					editMode: false,
+					source: 'global',
+					baseUri: baseUri,
+					currentServer: baseUri,
+					hideFirstServerHeader: true,
+				},
+				expandAll: true,
+				removeEmptyProjects: true,
+				alwaysForceUpdate: true,
+				selected: selected,
+			}}
+			handlers={{
+				'buildtype-changed': onNewBuildTypeSelected,
+			}}
+			init={init}
+		/>
+	)
+}
+
+export default BuildTypeSelector

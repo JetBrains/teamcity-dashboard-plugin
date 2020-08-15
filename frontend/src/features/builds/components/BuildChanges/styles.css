@@ -1,0 +1,43 @@
+.BuildChanges {
+
+}
+
+.header {
+	display: grid;
+	grid-template-rows: max-content max-content;
+	grid-auto-columns:  16px max-content auto max-content;
+	grid-template-areas:
+			"chevron buildName . changesCount"
+			"status status status status";
+}
+
+.headerTopLine {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+
+.headerBottomLine {
+	margin-bottom: 10px;
+}
+
+.chevronIcon {
+	grid-area: chevron;
+}
+
+.buildName {
+	grid-area: buildName;
+	font-weight: bold;
+}
+
+.changesCount {
+	grid-area: changesCount
+}
+
+.statusText {
+	grid-area: status;
+}
+
+.changes {
+
+}
