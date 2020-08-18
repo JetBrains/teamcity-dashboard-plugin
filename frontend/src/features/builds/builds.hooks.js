@@ -85,9 +85,7 @@ export const useBuildTypeBuildsIdsWithSubscription = (
 	return useBuildTypeBuildsIds(buildTypeId, branch)
 }
 
-export const useBuild = (buildId: BuildId): ?Build => {
-	return useSelector((state) => selectBuildById(state, buildId))
-}
+export const useBuild: (buildId: BuildId) => ?Build = TC.hooks.useBuild
 
 export const useBuildIcon = (build: ?Build): string => {
 	const currentUserId = useCurrentUserId()

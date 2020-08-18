@@ -2,6 +2,7 @@
 import React from 'react'
 import InvestigationsListItem from './InvestigationsListItem/InvestigationsListItem'
 import type { Investigation } from '../../../store/slices/investigationsSlice'
+import styles from './InvestigationsList.css'
 
 interface Properties {
 	investigations: Investigation[];
@@ -13,18 +14,17 @@ const InvestigationsList = ({ investigations, loading }: Properties) => {
 		return <span>Loading</span>
 	}
 	return (
-		<div>
+		<div className={styles.InvestigationsList}>
 			{investigations.map((investigation, index) => (
-				<div key={investigation.id}>
-					<InvestigationsListItem
-						investigation={investigation}
-						withPath={
-							index === 0 ||
-							investigation.projectId !==
-								investigations[index - 1].projectId
-						}
-					/>
-				</div>
+				<InvestigationsListItem
+					key={investigation.id}
+					investigation={investigation}
+					withPath={
+						index === 0 ||
+						investigation.projectId !==
+						investigations[index - 1].projectId
+					}
+				/>
 			))}
 		</div>
 	)

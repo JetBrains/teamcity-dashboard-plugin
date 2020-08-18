@@ -2,6 +2,10 @@
 
 }
 
-.ChangesList > * {
-	margin-top: 10px;
+.change {
+	margin-bottom: 16px;
+}
+
+.change:last-of-type {
+	margin-bottom: 4px;
 }

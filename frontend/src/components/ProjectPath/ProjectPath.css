@@ -1,0 +1,7 @@
+.ProjectPath svg {
+	display: none;
+}
+
+.ProjectPath svg:last-of-type {
+	display: inline-block;
+}

@@ -3,6 +3,7 @@ import React from 'react'
 import TC from '@teamcity/react-api'
 import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
 import type { ProjectId } from '../../hooks/TC/schemata'
+import styles from './ProjectPath.css'
 
 const { BuildPath } = TC.Components
 
@@ -12,7 +13,7 @@ interface Properties {
 
 const ProjectPath = React.memo<Properties>(({ projectId }: Properties) => {
 	const fullPath = usePathToProjectOrBuildType('project', projectId)
-	return <BuildPath path={fullPath} withIcons/>
+	return <BuildPath path={fullPath} className={styles.ProjectPath} withIcons />
 })
 
 ProjectPath.displayName = 'ProjectPath'

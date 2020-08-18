@@ -34,7 +34,7 @@ const ReassignInvestigationButton = ({ investigationId, fix, ...restProperties }
 			onClick={reassignInvestigation}
 			{...restProperties}
 		>
-			{fix ? 'Fix' : 'Reassign investigation'}
+			{fix ? 'Fix' : 'Re-assign'}
 		</Button>
 	)
 }

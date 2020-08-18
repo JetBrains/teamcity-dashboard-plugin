@@ -21,6 +21,7 @@ import CollapseProvider from '../../components/CollapseProvider/CollapseProvider
 import useToggleState from '../../hooks/basic/useToggleState'
 import type { WidgetId } from '../../features/widgets/widgets.types'
 import { useThisWidgetId } from '../../features/widgets/widgets.hooks'
+import styles from './BuildTypeChangesWidget.css'
 
 
 const BuildTypeChangesWidget = () => {
@@ -45,7 +46,7 @@ const BuildTypeChangesWidget = () => {
 	)
 
 	return (
-		<WidgetBody options={inBodyOptions}>
+		<WidgetBody options={inBodyOptions} className={styles.widgetBody}>
 			{buildTypeId !== null && buildTypeId !== undefined ? (
 				<BuildTypeChanges buildTypeId={buildTypeId} branch={branch} />
 			) : (

@@ -36,12 +36,12 @@ export type Build = {
 	state: BuildState,
 	branchName: string,
 	changesCount: number,
-	personal: boolean,
+	// personal: boolean,
 	number: string,
-	failedToStart?: boolean,
-	wasCanceled: boolean,
+	// failedToStart?: boolean,
+	// wasCanceled: boolean,
 	userId?: UserId,
-	changeIds: ChangeId[],
+	// changeIds: ChangeId[],
 	...
 }
 

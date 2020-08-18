@@ -8,6 +8,7 @@ import InvestigationAdditionalInfo from '../InvestigationAdditionalInfo/Investig
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import { useSelector } from 'react-redux'
 import { selectInvestigationState } from '../../../../store/slices/investigationsSlice'
+import styles from './styles.css'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -33,7 +34,7 @@ const InvestigationAdditionalInfoDropdown = ({
 				state === 'FIXED' ? (
 					<OkIcon color="green" />
 				) : (
-					<InfoIcon color="gray" />
+					<InfoIcon className={styles.greyIcon} />
 				)
 			}
 		>

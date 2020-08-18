@@ -12,7 +12,7 @@ const ProblemInvestigationPanel = ({ name, webUrl }: Properties) => {
 	return (
 		<div>
 			<span className={styles.TestRedText}>Problem:</span>
-			<a className={styles.TestName} href={webUrl}>
+			<a className={styles.problemAndTestInvestigationLink} href={webUrl}>
 				{name}
 			</a>
 		</div>

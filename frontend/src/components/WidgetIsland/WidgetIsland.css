@@ -15,13 +15,13 @@
 	box-sizing: border-box;
 
 	width: 100%;
-	min-height: 30px;
+	min-height: 35px;
 
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 
-	padding: 0 5px;
+	padding: 0 12px;
 
 	border-bottom: 1px solid var(--border-color);
 	background-color: var(--header-bg-color);
@@ -33,6 +33,8 @@
 }
 
 .headerOptions {
+	display: grid;
+	place-items: center;
 }
 
 .body {

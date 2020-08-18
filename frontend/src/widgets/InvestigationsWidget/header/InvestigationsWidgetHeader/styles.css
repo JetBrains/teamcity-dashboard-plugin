@@ -6,6 +6,8 @@
 }
 
 .InvestigationsWidgetHeaderContainer .InvestigationsWidgetText {
-	font-size: .9rem;
+	font-style: normal;
 	font-weight: bold;
+	font-size: 13px;
+	line-height: 20px;
 }

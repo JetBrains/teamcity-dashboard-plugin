@@ -1,33 +1,48 @@
 // @flow strict
-import React from 'react'
+import React, { useCallback } from 'react'
+import classNames from 'classnames'
 import type { ChangeId } from '../../changes.slice'
 import { useChange } from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import styles from './styles.css'
 import { useOpenThisWidgetChangeDetailsPopup } from '../../../../widgets/BuildTypeChangesWidget/TopLevelChangeDetailsPopup/TopLevelChangeDetailsPopup.hooks'
 import OpenChangeDetailsPopupButton from '../../../../widgets/BuildTypeChangesWidget/OpenChangeDetailsPopupButton'
+import FilesIcon from '../../../../resources/svg/files.svg'
+import Button from '@jetbrains/ring-ui/components/button/button'
 
 interface Properties {
 	changeId: ChangeId;
+	showChangeDetailsPopup: (?ChangeId) => mixed;
+	className?: string,
 }
 
-const ChangeView = ({ changeId }: Properties) => {
+const ChangeView = ({ changeId, showChangeDetailsPopup, className }: Properties) => {
 	const change = useChange(changeId)
 
+	const showPopup = useCallback(() => showChangeDetailsPopup(changeId), [
+		changeId,
+		showChangeDetailsPopup,
+	])
+
 	return (
-		<div className={styles.ChangeView}>
+		<div className={classNames(styles.ChangeView, className ?? '')}>
 			<span className={styles.comment}>
 				{change ? change.comment : 'Loading...'}
 			</span>
-			<span className={styles.username}>
-				{change ? change.username : 'Loading...'}
-			</span>
-			<span className={styles.date}>
-				{change ? <FormattedDate date={change.date} /> : 'Loading...'}
-			</span>
 			<span className={styles.changesPreviewIcon}>
-				<OpenChangeDetailsPopupButton targetChangeId={changeId} />
+				<Button
+					icon={FilesIcon}
+					onClick={showPopup}
+					className={styles.changesPreviewInnerButton}
+				/>
 			</span>
+			{change ? (
+				<span className={styles.metadata}>
+					{change.username}, <FormattedDate date={change.date} />
+				</span>
+			) : (
+				<span>Loading..</span>
+			)}
 		</div>
 	)
 }

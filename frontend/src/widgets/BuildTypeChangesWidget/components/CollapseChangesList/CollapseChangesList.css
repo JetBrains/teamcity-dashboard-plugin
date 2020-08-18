@@ -1,0 +1,54 @@
+.CollapseChangesList {
+	border-bottom: 1px solid var(--border-color);
+	padding: 12px;
+	padding-top: 8px;
+}
+
+.header {
+	display: grid;
+	grid-template: "chevron title changesCount" auto
+					"extra extra extra" auto
+					/ auto 1fr auto;
+	column-gap: 4px;
+	row-gap: 4px;
+	place-items: start;
+}
+
+.chevron {
+	grid-area: chevron;
+}
+
+.chevronButton {
+	padding: 0;
+}
+
+
+.chevronButtonIcon {
+	color: #1F2326 !important;
+}
+
+.title {
+	grid-area: title;
+	line-height: 20px;
+	font-weight: bold;
+}
+
+.changesCount {
+	grid-area: changesCount;
+}
+
+.extra {
+	grid-area: extra;
+}
+
+.content {
+	margin-top: 8px;
+}
+
+.shown {
+	display: block;
+}
+
+.hidden {
+	display: none;
+}

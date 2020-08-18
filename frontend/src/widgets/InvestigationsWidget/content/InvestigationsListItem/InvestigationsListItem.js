@@ -30,7 +30,9 @@ const InvestigationsListItem = memo<Properties>(
 		return (
 			<div>
 				{withPath && (
-					<ProjectPath projectId={investigation.projectId} />
+					<div className={styles.projectPathContainer}>
+						<ProjectPath projectId={investigation.projectId} />
+					</div>
 				)}
 				{Panel ? (
 					<div className={styles.listItem}>

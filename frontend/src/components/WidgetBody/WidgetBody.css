@@ -8,7 +8,7 @@
 	flex-flow: column nowrap;
 
 	box-sizing: border-box;
-	padding: 5px;
+	padding: 8px 12px;
 }
 
 .WidgetBody .options {
@@ -17,6 +17,8 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+
+	margin-bottom: 8px;
 }
 
 .WidgetBody .options > * {
