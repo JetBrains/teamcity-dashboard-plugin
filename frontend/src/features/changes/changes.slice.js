@@ -1,23 +1,24 @@
 // @flow strict
 import {
-	createAsyncThunk,
 	createEntityAdapter,
 	createSelector,
 	createSlice,
-	PayloadAction,
 	ThunkAction,
 } from '@reduxjs/toolkit'
-import { requestBuildChanges } from './changes.rest'
 import type { RootState } from '../../store'
-import type { BuildId } from '../builds/builds.slice'
 import type { ChangesLocator } from './changes.locator'
 import type { AsyncState, FulfilledAction } from '../../commontypes'
 import {
 	fetchChangesByLocator,
 	selectChangesIdsByLocator,
 } from './changesIdsByLocator.slice'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
-import type { ChangesIdsByLocator } from './changesIdsByLocator.types'
+import type {
+	ChangesIdsByLocatorEntity,
+	FetchChangesByLocatorArgument,
+	FetchChangesByLocatorResult,
+} from './changesIdsByLocator.types'
+import type { BuildId } from '../builds/builds.types'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export type ChangeId = number
 export type Change = {
@@ -82,11 +83,11 @@ const changesSlice = createSlice<ChangesState>({
 			(
 				state: ChangesState,
 				action: FulfilledAction<
-					{ locator: ChangesLocator, ... },
-					Change[]
+					FetchChangesByLocatorArgument,
+					FetchChangesByLocatorResult
 				>
 			) => {
-				changesAdapter.upsertMany(state, action.payload)
+				changesAdapter.upsertMany(state, action.payload.changes)
 			}
 		)
 	},
@@ -110,7 +111,7 @@ export const selectChangesByLocator: (
 ) => ChangesByLocator = createSelector(
 	selectChangesIdsByLocator,
 	selectChangesHash,
-	(changesIdsByLocator: ChangesIdsByLocator, hash: ChangesHash) => ({
+	(changesIdsByLocator: ChangesIdsByLocatorEntity, hash: ChangesHash) => ({
 		status: changesIdsByLocator.status,
 		error: changesIdsByLocator.error,
 		changesIds: changesIdsByLocator.changesIds,

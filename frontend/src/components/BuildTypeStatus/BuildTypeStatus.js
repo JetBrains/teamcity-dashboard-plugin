@@ -1,8 +1,8 @@
 // @flow strict
 import React from 'react'
 import TC from '@teamcity/react-api'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
-import useSubscribeOnBuildTypeStatus from '../../hooks/TC/useSubscribeOnBuildTypeStatus'
+import {useSubscribeOnBuildTypeStatus} from '../../features/buildTypes/buildTypes.hooks'
+import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
 
 const { OverviewStatusIcon } = TC.Components
 

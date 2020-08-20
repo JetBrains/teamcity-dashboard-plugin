@@ -2,8 +2,8 @@
 import React from 'react'
 import TC from '@teamcity/react-api'
 import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
-import type { ProjectId } from '../../hooks/TC/schemata'
 import styles from './ProjectPath.css'
+import type { ProjectId } from '../../features/projects/projects.types'
 
 const { BuildPath } = TC.Components
 

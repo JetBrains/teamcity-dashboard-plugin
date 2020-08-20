@@ -1,7 +1,7 @@
 // @flow strict
-import type { BuildId } from '../builds/builds.slice'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
 import TC from '@teamcity/react-api'
+import type { BuildId } from '../builds/builds.types'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 type FetchedBuildTypeBuilds = {
 	build: { id: BuildId, ... }[],

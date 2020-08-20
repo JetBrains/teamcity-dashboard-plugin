@@ -4,7 +4,7 @@ import ReactGridLayout, { WidthProvider } from 'react-grid-layout'
 import { useSelector } from 'react-redux'
 import { selectAllWidgetIds } from '../../features/widgets/widgets.slice'
 import './style.css'
-import WidgetWrapper from '../WidgetWrapper/WidgetWrapper'
+import WidgetWrapper from '../../features/widgets/components/WidgetWrapper/WidgetWrapper'
 import useLayoutData from '../../hooks/layout/useLayoutData'
 
 const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
@@ -27,6 +27,9 @@ const Grid = () => {
 			layout={layout}
 			draggableHandle=".draggable-handle"
 			onLayoutChange={setLayout}
+			cols={10}
+			rowHeight={150}
+			preventCollision
 		>
 			{children}
 		</ResponsiveGridLayout>

@@ -1,20 +1,20 @@
 // @flow strict
 import React from 'react'
-import { useChangesIdsByLocator } from '../../changes.hooks'
+import { useChangesActualCountByLocator } from '../../changes.hooks'
 import type { ChangesLocator } from '../../changes.locator'
+import LongTextShortText from '../../../../components/LongTextShortText/LongTextShortText'
+
+import styles from './ChangesCounter.css'
 
 interface Properties {
 	locator: ChangesLocator;
 }
 
 const ChangesCounter = ({ locator }: Properties) => {
-	const [changesIds, status] = useChangesIdsByLocator(locator)
-	const count = changesIds.length
-	return status === 'loading' && changesIds.length === 0 ? (
-		<span>Loading...</span>
-	) : (
-		<span>Changes({count > 100 ? '100+' : count})</span>
-	)
+	const count = useChangesActualCountByLocator(locator)
+	const readableCount = count > 100 ? '100+' : count.toString()
+	// return <span>Changes: {count > 100 ? '100+' : count}</span>
+	return <LongTextShortText className={styles.text} shortText={readableCount} longText={`Changes: ${readableCount}`} />
 }
 
 export default ChangesCounter

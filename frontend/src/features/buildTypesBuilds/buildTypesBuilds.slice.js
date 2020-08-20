@@ -1,7 +1,6 @@
 // @flow strict
-import type { BuildTypeId } from '../../hooks/TC/schemata'
-import type { BuildId } from '../builds/builds.slice'
-import { createAsyncThunk } from '@reduxjs/toolkit'
+import type { BuildId } from '../builds/builds.types'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export type BuildTypeBuilds = {|
 	id: BuildTypeId,
@@ -14,8 +13,5 @@ export type BuildTypeBuildsHash = {|
 
 export type BuildTypeBuildsState = {|
 	ids: BuildTypeId[],
-	entities: BuildTypeBuildsHash
+	entities: BuildTypeBuildsHash,
 |}
-
-const fetchBuildTypeBuilds = createAsyncThunk('buildTypeBuilds/fetch')
-

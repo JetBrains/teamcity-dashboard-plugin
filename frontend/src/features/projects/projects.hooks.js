@@ -1,7 +1,7 @@
 // @flow strict
 import TC from '@teamcity/react-api'
-import type { ProjectId } from '../../hooks/TC/schemata'
+import type { Project, ProjectId } from './projects.types'
 
 export const useProject: (
 	projectId: ProjectId
-) => ?{ id: ProjectId, internalId: string, ... } = TC.hooks.useProject
+) => ?Project = TC.hooks.useProject

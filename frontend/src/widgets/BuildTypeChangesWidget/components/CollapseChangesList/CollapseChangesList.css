@@ -1,17 +1,17 @@
 .CollapseChangesList {
 	border-bottom: 1px solid var(--border-color);
-	padding: 12px;
-	padding-top: 8px;
+	padding: 8px 12px 0 12px;
 }
 
 .header {
 	display: grid;
-	grid-template: "chevron title changesCount" auto
-					"extra extra extra" auto
-					/ auto 1fr auto;
+	grid-template: "chevron panel" 20px
+					"extra extra" auto
+					/ 18px minmax(0, auto);
 	column-gap: 4px;
-	row-gap: 4px;
 	place-items: start;
+
+	padding-bottom: 8px;
 }
 
 .chevron {
@@ -27,22 +27,63 @@
 	color: #1F2326 !important;
 }
 
+.headerPanel {
+	grid-area: panel;
+
+	display: inline-flex;
+	width: 100%;
+}
+
 .title {
-	grid-area: title;
+	flex-grow: 0;
+	flex-shrink: 1;
+
 	line-height: 20px;
 	font-weight: bold;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .changesCount {
-	grid-area: changesCount;
+	flex-grow: 1;
+	flex-shrink: 9999999;
+
+	margin-left: 1ch;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
+
+/*.title {*/
+/*	grid-area: title;*/
+/*	line-height: 20px;*/
+/*	font-weight: bold;*/
+
+/*	white-space: nowrap;*/
+/*}*/
+
+/*.changesCount {*/
+/*	grid-area: changesCount;*/
+/*	place-self: start end;*/
+
+/*	white-space: nowrap;*/
+/*	overflow: hidden;*/
+/*	text-overflow: ellipsis;*/
+/*	max-width: 100%;*/
+/*}*/
 
 .extra {
 	grid-area: extra;
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .content {
-	margin-top: 8px;
+	padding-bottom: 16px;
 }
 
 .shown {

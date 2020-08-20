@@ -1,6 +1,6 @@
 // @flow strict
 import React, { useState, useCallback } from 'react'
-import type { Change, ChangeId } from '../../changes.slice'
+import type { ChangeId } from '../../changes.slice'
 import ChangeView from '../ChangeView/ChangeView'
 import styles from './styles.css'
 import { useBuildTypeIdOption } from '../../../../widgets/BuildTypeChangesWidget/options/hooks'
@@ -26,7 +26,7 @@ const ChangesList = ({ changesIds }: Properties) => {
 	])
 
 	return (
-		<div className={styles.ChangesList}>
+		<>
 			<ChangeDetailsPopup
 				buildTypeId={buildTypeId}
 				targetChangeId={expandedChangeId}
@@ -36,15 +36,17 @@ const ChangesList = ({ changesIds }: Properties) => {
 				}
 				cancelDialog={cancelDialog}
 			/>
-			{changesIds.map((id) => (
-				<ChangeView
-					key={id}
-					changeId={id}
-					className={styles.change}
-					showChangeDetailsPopup={showPopup}
-				/>
-			))}
-		</div>
+			<div className={styles.ChangesList}>
+				{changesIds.map((id) => (
+					<ChangeView
+						key={id}
+						changeId={id}
+						className={styles.change}
+						showChangeDetailsPopup={showPopup}
+					/>
+				))}
+			</div>
+		</>
 	)
 }
 

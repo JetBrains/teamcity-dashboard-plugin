@@ -1,0 +1,12 @@
+.CollapseAllExpandAllButton {
+	height: 20px;
+}
+
+.rotated {
+	transform: rotate(180deg);
+}
+
+.icon * {
+	stroke: currentColor;
+}
+

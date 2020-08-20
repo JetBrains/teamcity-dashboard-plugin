@@ -1,13 +1,15 @@
 // @flow strict
-import React from 'react'
 import InvestigationsWidget from './InvestigationsWidget/InvestigationsWidget'
-import InvestigationsWidgetSettings from './InvestigationsWidget/settings/InvestigationsWidgetSettings/InvestigationsWidgetSettings'
+import InvestigationsWidgetSettings from './InvestigationsWidget/components/InvestigationsWidgetSettings/InvestigationsWidgetSettings'
 import BuildTypeChangesWidget from './BuildTypeChangesWidget/BuildTypeChangesWidget'
 import BuildTypeChangesWidgetSettings from './BuildTypeChangesWidget/BuildTypeChangesWidgetSettings'
 import type { WidgetType } from '../features/widgets/widgets.types'
 import InvestigationsWidgetHeader
-	from './InvestigationsWidget/header/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
-import TopLevelChangeDetailsPopup from './BuildTypeChangesWidget/TopLevelChangeDetailsPopup/TopLevelChangeDetailsPopup'
+	from './InvestigationsWidget/components/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
+import BuildTypeChangesWidgetHeader
+	from './BuildTypeChangesWidget/components/BuildTypeChangesWidgetHeader/BuildTypeChangesWidgetHeader'
+import CollapseAllExpandAllButton
+	from './BuildTypeChangesWidget/components/CollapseAllExpandAllButton/CollapseAllExpandAllButton'
 
 type WidgetProperties = {|
 	widgetId: string,
@@ -22,7 +24,7 @@ export type Widget = {
 	Header: Component,
 	settings: WidgetComponent,
 	Body: Component,
-	TopLevelComponent?: Component,
+	headerOptions?: Component[],
 	...
 }
 
@@ -36,10 +38,11 @@ const widgets: {| [widgetType: WidgetType]: Widget |} = {
 	buildTypeChangesWidget: {
 		name: 'BuildType Changes Widget',
 		// eslint-disable-next-line react/display-name
-		Header: () => <span>No header</span>,
+		Header: BuildTypeChangesWidgetHeader,
 		Body: BuildTypeChangesWidget,
-		TopLevelComponent: TopLevelChangeDetailsPopup,
 		settings: BuildTypeChangesWidgetSettings,
+		// $FlowFixMe
+		headerOptions: [CollapseAllExpandAllButton]
 	},
 }
 

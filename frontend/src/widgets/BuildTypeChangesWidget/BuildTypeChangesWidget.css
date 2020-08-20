@@ -1,4 +1,10 @@
-.widgetBody {
+.buildTypeChangesWidgetBody {
 	padding-left: 0;
 	padding-right: 0;
+}
+
+.buildTypeChangesOptions {
+	box-sizing: border-box;
+	padding-left: 10px;
+	padding-right: 10px;
 }

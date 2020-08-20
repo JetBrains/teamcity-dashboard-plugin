@@ -1,11 +1,8 @@
 // @flow strict
 
 import type { ProjectId, ProjectInternalId } from '../projects/projects.types'
-import type { AsyncState, AsyncStatus } from '../../commontypes'
-
-export type BuildTypeId = string
-
-export type BuildTypeInternalId = string
+import type { AsyncState } from '../../commontypes'
+import type { BuildTypeId, BuildTypeInternalId } from './buildTypes.types'
 
 export type BuildTypeConstants = {|
 	id: BuildTypeId,
@@ -21,7 +18,7 @@ export type BuildTypeConstantsEntity = {|
 |}
 
 export type BuildTypeConstantsHash = {|
-	[id: BuildTypeId]: BuildTypeConstantsEntity
+	[id: BuildTypeId]: BuildTypeConstantsEntity,
 |}
 
 export type BuildTypeConstantsState = {|

@@ -18,13 +18,10 @@ const parseDashboardData = ({
 	widgets: widgets.map((widget) => parseWidget(widget)),
 })
 
-// TODO: should fetch data from server
 export async function getDashboardDataFromServer(): Promise<DashboardData> {
-	console.log('Trying to fetch from server')
 	return parseDashboardData(await TC.requestJSON('/dashboardData.html'))
 }
 
-// TODO: should post data to server
 export async function postDashboardDataToServer(
 	data: DashboardData
 ): Promise<void> {

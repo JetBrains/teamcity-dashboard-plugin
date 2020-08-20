@@ -1,0 +1,23 @@
+.ProjectLink {
+	color: var(--ring-secondary-color);
+
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.slash {
+	margin-right: 4px;
+}
+
+.icon {
+
+}
+
+.projectName {
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}

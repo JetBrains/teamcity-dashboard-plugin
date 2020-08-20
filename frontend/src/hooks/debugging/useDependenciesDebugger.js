@@ -18,16 +18,17 @@ const compareInputs = (inputKeys, oldInputs, newInputs) => {
 		}
 	})
 }
-const useDependenciesDebugger = (inputs) => {
-	const oldInputsRef = useRef(inputs)
+// $FlowFixMe
+const useDependenciesDebugger = (inputs: { [key: string]: any, ... }) => {
+	const oldInputsReference = useRef(inputs)
 	const inputValuesArray = Object.values(inputs)
 	const inputKeysArray = Object.keys(inputs)
 	useMemo(() => {
-		const oldInputs = oldInputsRef.current
+		const oldInputs = oldInputsReference.current
 
 		compareInputs(inputKeysArray, oldInputs, inputs)
 
-		oldInputsRef.current = inputs
+		oldInputsReference.current = inputs
 	}, inputValuesArray) // eslint-disable-line react-hooks/exhaustive-deps
 }
 

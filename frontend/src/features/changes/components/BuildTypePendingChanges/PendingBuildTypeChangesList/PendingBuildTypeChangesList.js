@@ -1,13 +1,11 @@
 // @flow strict
 import React from 'react'
-import type { BuildTypeId } from '../../../../../hooks/TC/schemata'
 import {
-	usePendingBuildTypeChanges,
-	usePendingBuildTypeChangesIds,
 	usePendingBuildTypeChangesIdsWithSubscription,
 } from '../../../changes.hooks'
 import ChangesList from '../../ChangesList/ChangesList'
 import type { BranchesLocator } from '../../../../branches/branches.locator'
+import type { BuildTypeId } from '../../../../buildTypes/buildTypes.types'
 
 interface Properties {
 	buildTypeId: BuildTypeId;

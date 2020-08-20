@@ -1,8 +1,8 @@
 // @flow strict
 import React from 'react'
-import useFilteredSortedInvestigations from '../../../hooks/investigations/useFilteredSortedInvestigations'
-import InvestigationsList from './InvestigationsList'
+import InvestigationsList from '../../../features/investigations/components/InvestigationsList/InvestigationsList'
 import CenteredMessage from '../../../components/CenteredMessage/CenteredMessage'
+import { useFilteredSortedInvestigations } from '../../../features/investigations/investigations.hooks'
 
 interface Properties {
 	widgetId: string;

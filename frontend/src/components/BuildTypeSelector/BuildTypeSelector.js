@@ -1,8 +1,8 @@
 // @flow strict
 import React, { useCallback, useMemo } from 'react'
-import type { BuildTypeId } from '../../features/buildTypes/buildTypesConstants.types'
 import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
 import TC from '@teamcity/react-api'
+import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
 
 const { ProjectBuildtypeDropdown } = TC.Components
 const baseUri = TC.base_uri
@@ -12,9 +12,9 @@ interface Properties {
 	onSelect: (BuildTypeId) => void;
 }
 
-const init = (el) => {
-	if (typeof el.loadData === 'function') {
-		el.loadData()
+const init = (element) => {
+	if (typeof element.loadData === 'function') {
+		element.loadData()
 	}
 }
 

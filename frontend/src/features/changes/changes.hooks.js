@@ -1,33 +1,30 @@
 // @flow strict
 import { useEffect, useMemo } from 'react'
-import type { BuildId } from '../builds/builds.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectChangeById, selectChangesByLocator } from './changes.slice'
 import type { Change, ChangeId } from './changes.slice'
 import type { AsyncStatus } from '../../commontypes'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
 import type { ChangesLocator } from './changes.locator'
 import {
 	fetchChangesByLocator,
+	selectChangesActualCountByLocator,
 	selectChangesIdsByLocator,
 } from './changesIdsByLocator.slice'
 import type { BranchesLocator } from '../branches/branches.locator'
-import useBuildType from '../../hooks/TC/useBuildType'
-import { useProject } from '../projects/projects.hooks'
 
-import TC from '@teamcity/react-api'
 import { subscribeOnAllProjectEvents } from '../projects/projects.subscribers'
 import { useBuild } from '../builds/builds.hooks'
 import { subscribeOnAllBuildTypeEvents } from '../buildTypes/buildTypes.subscribers'
 import { useBuildTypeConstants } from '../buildTypes/buildTypesConstants.hooks'
 import noop from '../../utils/noop'
 import useDependenciesDebugger from '../../hooks/debugging/useDependenciesDebugger'
+import type { BuildId } from '../builds/builds.types'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export const useChangesIdsByLocator = (
 	locator: ChangesLocator,
 	fetch?: boolean = true
 ): [ChangeId[], AsyncStatus, ?string] => {
-	console.log('useChangesIdsByLocator', locator)
 	const changesIdsByLocator = useSelector((state) =>
 		selectChangesIdsByLocator(state, locator)
 	)
@@ -44,6 +41,19 @@ export const useChangesIdsByLocator = (
 		changesIdsByLocator.status,
 		changesIdsByLocator.error,
 	]
+}
+
+export const useChangesActualCountByLocator = (
+	locator: ChangesLocator
+): number => {
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(fetchChangesByLocator({ locator }))
+	}, [dispatch, locator])
+	return useSelector((state) =>
+		selectChangesActualCountByLocator(state, locator)
+	)
 }
 
 export const useBuildChangesIds = (

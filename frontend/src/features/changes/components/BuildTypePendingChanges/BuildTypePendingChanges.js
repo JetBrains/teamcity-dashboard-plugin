@@ -1,9 +1,9 @@
 // @flow strict
 import React, { useMemo } from 'react'
-import type { BuildTypeId } from '../../../buildTypes/buildTypesConstants.types'
 import type { BranchesLocator } from '../../../branches/branches.locator'
 import CollapseChangesList from '../../../../widgets/BuildTypeChangesWidget/components/CollapseChangesList/CollapseChangesList'
 import PendingBuildTypeChangesList from './PendingBuildTypeChangesList/PendingBuildTypeChangesList'
+import type { BuildTypeId } from '../../../buildTypes/buildTypes.types'
 
 interface Properties {
 	buildTypeId: BuildTypeId;
@@ -21,9 +21,8 @@ const BuildTypePendingChanges = ({ buildTypeId, branch }: Properties) => {
 
 	return (
 		<CollapseChangesList
-			title={'Pending Changes'}
+			title={('Pending': React$Node)}
 			locator={locator}
-			showChangesCount={false}
 		>
 			<PendingBuildTypeChangesList
 				buildTypeId={buildTypeId}

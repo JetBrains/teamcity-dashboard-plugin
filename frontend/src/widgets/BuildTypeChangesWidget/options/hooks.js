@@ -5,13 +5,15 @@ import {
 	useThisWidgetState,
 } from '../../../features/widgets/widgets.hooks'
 import type { BranchesLocator } from '../../../features/branches/branches.locator'
-import type { BuildTypeId } from '../../../features/buildTypes/buildTypesConstants.types'
+import type { BuildTypeId } from '../../../features/buildTypes/buildTypes.types'
 
 export const useBranchLocatorOption = (): [
 	BranchesLocator,
 	(BranchesLocator) => void
 ] => {
-	return useThisWidgetOption('branchLocator', { default: true })
+	return useThisWidgetOption<BranchesLocator>('branchLocator', {
+		default: true,
+	})
 }
 
 // FIXME: without it IDE cannot parse the code for some reason

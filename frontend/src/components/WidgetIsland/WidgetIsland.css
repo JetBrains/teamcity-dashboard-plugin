@@ -8,17 +8,19 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 5px;
-	border: 1px solid var(--border-color)
+	border: 1px solid var(--border-color);
+
+	background: white;
 }
 
 .header {
 	box-sizing: border-box;
 
 	width: 100%;
-	min-height: 35px;
+	height: 35px;
 
-	display: flex;
-	flex-direction: row;
+	display: grid;
+	grid-template: 35px / auto max-content;
 	justify-content: space-between;
 
 	padding: 0 12px;
@@ -28,13 +30,19 @@
 }
 
 .headerTitle {
-	width: 70%;
+	/*width: 70%;*/
+	/*flex-grow: 1;*/
 	/*height: 100%;*/
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .headerOptions {
-	display: grid;
+	display: flex;
 	place-items: center;
+	flex-flow: row nowrap;
+
+	margin-left: 8px;
 }
 
 .body {
@@ -46,6 +54,8 @@
 	overflow: hidden auto;
 
 	box-sizing: border-box;
+
+	background: white;
 }
 
 .bodyOptions {

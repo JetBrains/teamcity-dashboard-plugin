@@ -1,21 +1,13 @@
 // @flow strict
-import React, { useCallback, useState } from 'react'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
-import {
-	useBuildTypeBuildsIds,
-	useBuildTypeBuildsIdsWithSubscription,
-} from '../../features/builds/builds.hooks'
-import { usePendingBuildTypeChanges } from '../../features/changes/changes.hooks'
-import ChangeView from '../../features/changes/components/ChangeView/ChangeView'
+import React from 'react'
 import BuildChanges from '../../features/builds/components/BuildChanges/BuildChanges'
 import type { BranchesLocator } from '../../features/branches/branches.locator'
-import PendingBuildTypeChangesList from '../../features/changes/components/BuildTypePendingChanges/PendingBuildTypeChangesList/PendingBuildTypeChangesList'
 import TC from '@teamcity/react-api'
 import type { BuildsLocator } from '../../features/builds/builds.locator'
 import { stringifyBuildsLocator } from '../../features/builds/builds.locator'
 import { useBuildTypeConstants } from '../../features/buildTypes/buildTypesConstants.hooks'
-import CollapseChangesList from '../../widgets/BuildTypeChangesWidget/components/CollapseChangesList/CollapseChangesList'
 import BuildTypePendingChanges from '../../features/changes/components/BuildTypePendingChanges/BuildTypePendingChanges'
+import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
 
 const { BuildsList } = TC.Components
 

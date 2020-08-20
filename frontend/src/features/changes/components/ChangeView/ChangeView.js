@@ -5,8 +5,6 @@ import type { ChangeId } from '../../changes.slice'
 import { useChange } from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import styles from './styles.css'
-import { useOpenThisWidgetChangeDetailsPopup } from '../../../../widgets/BuildTypeChangesWidget/TopLevelChangeDetailsPopup/TopLevelChangeDetailsPopup.hooks'
-import OpenChangeDetailsPopupButton from '../../../../widgets/BuildTypeChangesWidget/OpenChangeDetailsPopupButton'
 import FilesIcon from '../../../../resources/svg/files.svg'
 import Button from '@jetbrains/ring-ui/components/button/button'
 

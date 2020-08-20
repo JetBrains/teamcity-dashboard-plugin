@@ -1,7 +1,7 @@
 // @flow strict
 import React, { useState, useEffect } from 'react'
 import type { ChangesLocator } from '../../../../features/changes/changes.locator'
-import Icon, {
+import {
 	ChevronDownIcon,
 	ChevronRightIcon,
 } from '@jetbrains/ring-ui/components/icon'
@@ -13,7 +13,7 @@ import useToggle from '../../../../hooks/basic/useToggle'
 import Button from '@jetbrains/ring-ui/components/button/button'
 
 interface Properties {
-	title: string;
+	title?: React$Node;
 	locator: ChangesLocator;
 	extraNode?: React$Node;
 	children: React$Node;
@@ -57,13 +57,17 @@ const CollapseChangesList = ({
 						onClick={toggleExpanded}
 					/>
 				</span>
-				<span className={styles.title}>{title}</span>
-				{showChangesCount && (
-					<span className={styles.changesCount}>
-						<ChangesCounter locator={locator} />
-					</span>
+				<span className={styles.headerPanel}>
+					<span className={styles.title}>{title}</span>
+					{showChangesCount && (
+						<span className={styles.changesCount}>
+							<ChangesCounter locator={locator} />
+						</span>
+					)}
+				</span>
+				{extraNode !== undefined && extraNode !== null && (
+					<span className={styles.extra}>{extraNode}</span>
 				)}
-				<span className={styles.extra}>{extraNode}</span>
 			</div>
 			<div className={contentClassNames}>{children}</div>
 		</div>

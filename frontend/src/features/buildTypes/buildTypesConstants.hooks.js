@@ -1,14 +1,12 @@
 // @flow strict
 import { useEffect } from 'react'
-import type {
-	BuildTypeConstants,
-	BuildTypeId,
-} from './buildTypesConstants.types'
+import type { BuildTypeConstants } from './buildTypesConstants.types'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	fetchConstantsForSingleBuildType,
 	selectBuildTypeConstantsById,
 } from './buildTypesConstants.slice'
+import type { BuildTypeId } from './buildTypes.types'
 
 export const useBuildTypeConstants = (
 	buildTypeId: ?BuildTypeId

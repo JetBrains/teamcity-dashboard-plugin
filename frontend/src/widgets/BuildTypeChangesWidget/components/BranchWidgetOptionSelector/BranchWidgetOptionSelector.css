@@ -1,0 +1,14 @@
+/*.BranchWidgetOptionSelector {*/
+/*	overflow: hidden;*/
+/*	max-width: 100%;*/
+/*}*/
+
+/*.BranchWidgetOptionSelector > button {*/
+/*	width: 100%;*/
+/*	overflow: hidden;*/
+/*	text-overflow: ellipsis;*/
+/*}*/
+
+/*.BranchWidgetOptionSelector > button span {*/
+/*	white-space: nowrap;*/
+/*}*/

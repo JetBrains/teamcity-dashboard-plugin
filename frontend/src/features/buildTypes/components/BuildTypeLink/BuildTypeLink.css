@@ -1,0 +1,23 @@
+.BuildTypeLink {
+	display: grid;
+	grid-template: auto / max-content auto;
+	place-items: center start;
+}
+
+.buildTypeName {
+	color: #1F2326;
+	font-weight: bold;
+	line-height: 20px;
+	font-size: 13px;
+
+	width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.buildTypeName:hover {
+	color: #1F2326;
+	font-weight: bold;
+	font-size: 13px;
+}

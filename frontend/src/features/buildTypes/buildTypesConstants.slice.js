@@ -5,17 +5,20 @@ import {
 	createEntityAdapter,
 	createSelector,
 	createSlice,
-	PayloadAction,
 } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
 import type {
 	BuildTypeConstants,
 	BuildTypeConstantsEntity,
 	BuildTypeConstantsState,
-	BuildTypeId,
 } from './buildTypesConstants.types'
 import { requestConstantsForSingleBuildType } from './buildTypesConstants.rest'
-import type { FulfilledAction, PendingAction, RejectedAction } from '../../commontypes'
+import type {
+	FulfilledAction,
+	PendingAction,
+	RejectedAction,
+} from '../../commontypes'
+import type { BuildTypeId } from './buildTypes.types'
 
 const adapter = createEntityAdapter()
 

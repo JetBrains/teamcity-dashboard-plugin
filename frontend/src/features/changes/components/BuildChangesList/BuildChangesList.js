@@ -1,12 +1,8 @@
 // @flow strict
 import React from 'react'
-import type { BuildId } from '../../../builds/builds.slice'
-import {
-	useBuildChangesIds,
-	useBuildChangesIdsWithSubscription,
-} from '../../changes.hooks'
-import ChangeView from '../ChangeView/ChangeView'
+import { useBuildChangesIdsWithSubscription } from '../../changes.hooks'
 import ChangesList from '../ChangesList/ChangesList'
+import type { BuildId } from '../../../builds/builds.types'
 
 interface Properties {
 	buildId: BuildId;

@@ -1,11 +1,12 @@
 .ChangesList {
-
+	display: grid;
+	row-gap: 16px;
 }
 
-.change {
-	margin-bottom: 16px;
-}
+/*.change {*/
+/*	margin-bottom: 16px;*/
+/*}*/
 
-.change:last-of-type {
-	margin-bottom: 4px;
-}
+/*.change:last-of-type {*/
+/*	margin-bottom: 4px;*/
+/*}*/

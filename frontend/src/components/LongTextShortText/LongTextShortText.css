@@ -1,0 +1,27 @@
+.LongTextShortText {
+	height: 20px;
+	width: 100%;
+
+	display: inline-flex;
+	flex-wrap: wrap;
+
+	overflow: hidden;
+
+}
+
+.short {
+	flex-grow: 1;
+	width: 0;
+
+	display: inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	line-height: 20px;
+}
+
+.long {
+	flex-basis: 100%;
+
+	line-height: 20px;
+}

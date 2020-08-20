@@ -1,6 +1,7 @@
 // @flow strict
 import TC from '@teamcity/react-api'
-import type { BuildTypeId, ProjectId } from './schemata'
+import type { ProjectId } from '../../features/projects/projects.types'
+import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
 
 export type ProjectOrBuildTypeNode = {
 	name?: string,

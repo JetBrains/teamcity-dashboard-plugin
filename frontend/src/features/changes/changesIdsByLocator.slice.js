@@ -2,32 +2,34 @@
 import {
 	createAsyncThunk,
 	createEntityAdapter,
+	createSelector,
 	createSlice,
 } from '@reduxjs/toolkit'
-import type { FulfilledAction, PendingAction } from '../../commontypes'
-import type { Change } from './changes.slice'
-import { requestChanges } from './changes.rest'
+import type { FulfilledAction, PendingAction, RejectedAction } from '../../commontypes'
+import { requestChanges, requestChangesCount } from './changes.rest'
 import type { ChangesLocator } from './changes.locator'
 import { stringifyChangesLocator } from './changes.locator'
 import type { RootState } from '../../store'
-import type { BuildId } from '../builds/builds.slice'
-import type { BuildTypeId } from '../../hooks/TC/schemata'
 import type {
-	ChangesIdsByLocator,
+	ChangesIdsByLocatorEntity,
 	ChangesIdsByLocatorState,
-	FetchChangesByLocatorArg,
+	FetchChangesByLocatorArgument,
+	FetchChangesByLocatorResult,
 } from './changesIdsByLocator.types'
-import type { RejectedAction } from '../../../flow-typed/npm/@reduxjs/toolkit_vx.x.x'
+import type { BuildId } from '../builds/builds.types'
 
-const getEmptyChangesIdsByLocator = (locator: ChangesLocator) => ({
+const getEmptyChangesIdsByLocator = (
+	locator: ChangesLocator
+): ChangesIdsByLocatorEntity => ({
 	id: stringifyChangesLocator(locator),
 	locator,
+	actualCount: 0,
 	changesIds: [],
 	status: 'idle',
 	error: undefined,
 })
 
-const changesIdsByLocatorAdapter = createEntityAdapter<ChangesIdsByLocator>()
+const changesIdsByLocatorAdapter = createEntityAdapter<ChangesIdsByLocatorEntity>()
 
 // Selectors
 
@@ -38,17 +40,25 @@ const selectors = changesIdsByLocatorAdapter.getSelectors(selectSlice)
 export const selectChangesIdsByLocator: (
 	RootState,
 	locator: ChangesLocator
-) => ChangesIdsByLocator = (state, locator) => {
+) => ChangesIdsByLocatorEntity = (state, locator) => {
 	return (
 		selectors.selectById(state, stringifyChangesLocator(locator)) ??
 		getEmptyChangesIdsByLocator(locator)
 	)
 }
 
+export const selectChangesActualCountByLocator: (
+	RootState,
+	locator: ChangesLocator
+) => number = createSelector(
+	selectChangesIdsByLocator,
+	(entity: ChangesIdsByLocatorEntity) => entity.actualCount
+)
+
 export const selectBuildChangesIds: (
 	RootState,
 	BuildId
-) => ChangesIdsByLocator = (state, buildId) =>
+) => ChangesIdsByLocatorEntity = (state, buildId) =>
 	selectChangesIdsByLocator(state, {
 		buildId,
 		pending: false,
@@ -60,16 +70,17 @@ export const selectBuildChangesIds: (
  * @param {ChangesLocator} locator
  * @param {boolean} force
  */
-export const fetchChangesByLocator = createAsyncThunk<FetchChangesByLocatorArg>(
+export const fetchChangesByLocator = createAsyncThunk<FetchChangesByLocatorArgument>(
 	'fetchChangesByLocator',
-	({ locator }: { locator: ChangesLocator, force?: boolean, ... }) =>
-		requestChanges(locator),
+	async ({
+		locator,
+	}: FetchChangesByLocatorArgument): Promise<FetchChangesByLocatorResult> => ({
+		changes: await requestChanges(locator),
+		actualCount: await requestChangesCount(locator),
+	}),
 	{
 		condition: (
-			{
-				locator,
-				force = false,
-			}: { locator: ChangesLocator, force?: boolean, ... },
+			{ locator, force = false }: FetchChangesByLocatorArgument,
 			{ getState }
 		) => {
 			if (force) {
@@ -98,12 +109,16 @@ const changesIdsByLocatorSlice = createSlice<ChangesIdsByLocatorState>({
 			fetchChangesByLocator.pending,
 			(
 				state: ChangesIdsByLocatorState,
-				action: PendingAction<FetchChangesByLocatorArg>
+				action: PendingAction<FetchChangesByLocatorArgument>
 			) => {
 				const locator = action.meta.arg.locator
 				const id = stringifyChangesLocator(locator)
-				const entity =
-					state.entities[id] ?? getEmptyChangesIdsByLocator(locator)
+				if (!state.entities[id]) {
+					changesIdsByLocatorAdapter.upsertOne(
+						getEmptyChangesIdsByLocator(locator)
+					)
+				}
+				const entity: ChangesIdsByLocatorEntity = state.entities[id]
 				entity.status = 'loading'
 				state.entities[id] = entity
 			}
@@ -112,31 +127,31 @@ const changesIdsByLocatorSlice = createSlice<ChangesIdsByLocatorState>({
 			fetchChangesByLocator.rejected,
 			(
 				state: ChangesIdsByLocatorState,
-				action: RejectedAction<FetchChangesByLocatorArg>
+				action: RejectedAction<FetchChangesByLocatorArgument>
 			) => {
 				const locator = action.meta.arg.locator
 				const id = stringifyChangesLocator(locator)
-				const entity =
-					state.entities[id] ?? getEmptyChangesIdsByLocator(locator)
-				entity.status = 'failed'
-				entity.error = action.error.message
-				state.entities[id] = entity
+				state.entities[id].status = 'failed'
+				state.entities[id].error = action.error.message
 			}
 		)
 		builder.addCase(
 			fetchChangesByLocator.fulfilled,
 			(
 				state: ChangesIdsByLocatorState,
-				action: FulfilledAction<FetchChangesByLocatorArg, Change[]>
+				action: FulfilledAction<
+					FetchChangesByLocatorArgument,
+					FetchChangesByLocatorResult
+				>
 			) => {
 				const locator = action.meta.arg.locator
 				const id = stringifyChangesLocator(locator)
-				const entity =
-					state.entities[id] ?? getEmptyChangesIdsByLocator(locator)
-				entity.status = 'succeeded'
-				entity.error = undefined
-				entity.changesIds = action.payload.map(change => change.id)
-				state.entities[id] = entity
+				state.entities[id].status = 'succeeded'
+				state.entities[id].error = undefined
+				state.entities[id].actualCount = action.payload.actualCount
+				state.entities[id].changesIds = action.payload.changes.map(
+					(change) => change.id
+				)
 			}
 		)
 	},

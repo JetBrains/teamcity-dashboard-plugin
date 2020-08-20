@@ -1,8 +1,7 @@
 // @flow strict
-import type { BuildTypeId } from '../../hooks/TC/schemata'
 import type { BranchesLocator } from '../branches/branches.locator'
 import { stringifyBranchesLocator } from '../branches/branches.locator'
-import type { BuildState } from './builds.slice'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export type BuildsLocator = {|
 	buildTypeId: BuildTypeId,

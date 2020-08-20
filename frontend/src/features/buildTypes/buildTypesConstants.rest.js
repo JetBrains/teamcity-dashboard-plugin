@@ -1,12 +1,9 @@
 // @flow strict
 
-import type {
-	BuildTypeId,
-	BuildTypeInternalId,
-	BuildTypeConstants,
-} from './buildTypesConstants.types'
+import type { BuildTypeConstants } from './buildTypesConstants.types'
 import type { ProjectId, ProjectInternalId } from '../projects/projects.types'
 import TC from '@teamcity/react-api'
+import type { BuildTypeId, BuildTypeInternalId } from './buildTypes.types'
 
 type FetchedBuildTypeConstants = {
 	id: BuildTypeId,
