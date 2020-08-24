@@ -1,10 +1,14 @@
-.buildTypeChangesWidgetBody {
+.body {
 	padding-left: 0;
 	padding-right: 0;
 }
 
-.buildTypeChangesOptions {
+.options {
 	box-sizing: border-box;
 	padding-left: 10px;
 	padding-right: 10px;
+}
+
+.branchSelect {
+	max-width: 100%;
 }

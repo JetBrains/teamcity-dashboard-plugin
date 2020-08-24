@@ -4,7 +4,6 @@ import {
 	createSelector,
 	createSlice,
 	nanoid,
-	PayloadAction,
 } from '@reduxjs/toolkit'
 import { fetchDashboardData } from '../../store/slices/fetchingDashboardData'
 import type { RootState } from '../../store'
@@ -13,10 +12,20 @@ import type {
 	WidgetData,
 	WidgetDataWithoutId,
 	WidgetId,
-	WidgetOptions,
 	WidgetsState,
 	WidgetType,
 } from './widgets.types'
+import {
+	cancelWidgetSettings,
+	HIDDEN_SETTINGS_WIDGET_ID,
+	openWidgetSettings,
+	saveWidgetSettings,
+	startAddingNewWidget,
+} from './widgetSettings.slice'
+import { copyWidget, makeHiddenSettingsWidget } from './widgetSettings.utils'
+import { filterVisibleWidgetIds } from './widgets.utils'
+import type { SaveWidgetSettingsActionPayload } from './widgetSettings.types'
+import type { PayloadAction } from '../../commontypes'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
@@ -50,29 +59,54 @@ const widgetsSlice = createSlice<WidgetsState>({
 				state.entities[id].data[propertyName] = propertyValue
 			}
 		},
-		setWidgetStateProperty: <T>(
-			state: WidgetsState,
-			action: PayloadAction<SetWidgetPropertyActionPayload<T>>
-		) => {
-			const { id, propertyName, propertyValue } = action.payload
-			if (state.entities[id] !== undefined) {
-				state.entities[id].state[propertyName] = propertyValue
-			}
-		},
-		openWidgetSettings: (
-			state: WidgetsState,
-			action: PayloadAction<WidgetId>
-		) => {
-			state.widgetWithOpenedSettings = action.payload
-		},
-		closeWidgetSettings: (state: WidgetsState) => {
-			state.widgetWithOpenedSettings = undefined
-		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
 			widgetsAdapter.upsertMany(state, action.payload.widgets)
 		})
+		builder.addCase(
+			openWidgetSettings,
+			(state: WidgetsState, action: PayloadAction<WidgetId>) => {
+				const id = action.payload
+				const widget = state.entities[id]
+				widgetsAdapter.upsertOne(
+					state,
+					makeHiddenSettingsWidget(widget)
+				)
+			}
+		)
+		builder.addCase(
+			startAddingNewWidget,
+			(state: WidgetsState, action: PayloadAction<WidgetType>) => {
+				const type: WidgetType = action.payload
+				const emptyWidget: WidgetData = {
+					id: HIDDEN_SETTINGS_WIDGET_ID,
+					type,
+					data: {},
+				}
+				widgetsAdapter.upsertOne(state, emptyWidget)
+			}
+		)
+		builder.addCase(cancelWidgetSettings, (state: WidgetsState) => {
+			widgetsAdapter.removeOne(state, HIDDEN_SETTINGS_WIDGET_ID)
+		})
+		builder.addCase(
+			saveWidgetSettings,
+			(
+				state: WidgetsState,
+				action: PayloadAction<SaveWidgetSettingsActionPayload>
+			) => {
+				const { id, isNew } = action.payload
+				const actualId = isNew ? nanoid() : id ?? nanoid()
+				const hiddenSettingsWidget =
+					state.entities[HIDDEN_SETTINGS_WIDGET_ID]
+				widgetsAdapter.upsertOne(
+					state,
+					copyWidget(hiddenSettingsWidget, actualId)
+				)
+				widgetsAdapter.removeOne(state, HIDDEN_SETTINGS_WIDGET_ID)
+			}
+		)
 	},
 })
 
@@ -101,21 +135,20 @@ export const setWidgetOption = <T>(
 	propertyValue: T
 ) => widgetsSlice.actions.setWidgetOption({ id, propertyName, propertyValue })
 
-export const openWidgetSettings: (WidgetId) => void =
-	widgetsSlice.actions.openWidgetSettings
-
-export const closeWidgetSettings: () => mixed =
-	widgetsSlice.actions.closeWidgetSettings
-
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
 export const selectAllWidgets: (RootState) => WidgetData[] = selectors.selectAll
-export const selectAllWidgetIds: (RootState) => WidgetId[] = selectors.selectIds
+const selectAllWidgetIds: (RootState) => WidgetId[] = selectors.selectIds
 export const selectWidgetById: (RootState, WidgetId) => WidgetData =
 	selectors.selectById
 
-export const selectWidgetWithOpenedSettings = (state: RootState) =>
-	state.widgets.widgetWithOpenedSettings
+export const selectAllVisibleWidgetIds: (RootState) => WidgetId[] = createSelector(
+	selectAllWidgetIds,
+	filterVisibleWidgetIds
+)
+
+export const selectHiddenSettingsWidget = (state: RootState): ?WidgetData =>
+	selectWidgetById(state, HIDDEN_SETTINGS_WIDGET_ID)
 
 export const selectWidgetDataType: (
 	RootState,
@@ -143,9 +176,6 @@ export const selectWidgetOption: <T>(
 		widget?.data ? widget.data[optionName] ?? defaultValue : defaultValue
 	)
 
-
 // Investigations Widget
-
-
 
 export default widgetsSlice.reducer

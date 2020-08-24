@@ -10,7 +10,8 @@ import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import List from '@jetbrains/ring-ui/components/list/list'
 import styles from './WidgetEllipsisOptions.css'
-import { useRemoveWidget, useOpenWidgetSettings, useThisWidgetId } from '../../../widgets.hooks'
+import { useRemoveThisWidget } from '../../../widgets.hooks'
+import { useOpenThisWidgetSettings } from '../../../widgetSettings.hooks'
 
 const { IconButton } = TC.Components
 
@@ -22,9 +23,8 @@ const directions = [
 ]
 
 const WidgetEllipsisOptions = () => {
-	const widgetId = useThisWidgetId()
-	const openWidgetSettings = useOpenWidgetSettings(widgetId)
-	const removeWidget = useRemoveWidget(widgetId)
+	const openWidgetSettings = useOpenThisWidgetSettings()
+	const removeWidget = useRemoveThisWidget()
 
 	const data = useMemo(
 		() => [

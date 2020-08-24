@@ -1,4 +1,4 @@
-.BuildTypeLink {
+.BuildTypeLink.oneLine {
 	display: grid;
 	grid-template: auto / max-content auto;
 	place-items: center start;
@@ -13,6 +13,9 @@
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.buildTypeName.oneLine {
 	white-space: nowrap;
 }
 

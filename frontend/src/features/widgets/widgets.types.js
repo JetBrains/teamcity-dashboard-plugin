@@ -1,5 +1,5 @@
 // @flow strict
-import type { Record } from '../../commontypes'
+import type { Json, Record } from '../../commontypes'
 
 export type WidgetId = string
 

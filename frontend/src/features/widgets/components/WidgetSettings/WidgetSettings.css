@@ -1,0 +1,15 @@
+.WidgetSettings {
+	box-sizing: border-box;
+}
+
+.widgetSettingsHeader {
+	margin-bottom: 20px;
+}
+
+.widgetSettingsDescription {
+	color: var(--ring-secondary-color)
+}
+
+.widgetSettingsContent {
+
+}

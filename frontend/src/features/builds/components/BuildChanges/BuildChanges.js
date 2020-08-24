@@ -1,5 +1,5 @@
 // @flow strict
-import React, { useMemo } from 'react'
+import React from 'react'
 import BuildChangesList from '../../../changes/components/BuildChangesList/BuildChangesList'
 
 import TC from '@teamcity/react-api'
@@ -7,7 +7,6 @@ import type { ChangesLocator } from '../../../changes/changes.locator'
 import CollapseChangesList from '../../../../widgets/BuildTypeChangesWidget/components/CollapseChangesList/CollapseChangesList'
 import type { BuildId } from '../../builds.types'
 
-import LongTextShortText from '../../../../components/LongTextShortText/LongTextShortText'
 
 const { BuildStatusLink } = TC.Components
 
@@ -20,21 +19,12 @@ const BuildChanges = React.memo<Properties>(({ buildId }: Properties) => {
 		buildId,
 	}
 
-	const title = useMemo(
-		() => (
-			<LongTextShortText
-				shortText={`#${buildId}`}
-				longText={`Build #${buildId}`}
-			/>
-		),
-		[buildId]
-	)
-
 	return (
 		<CollapseChangesList
-			title={title}
+			title={(`#${buildId}`: React$Node)}
 			locator={locator}
 			extraNode={<BuildStatusLink buildId={buildId} />}
+			compactChangesCount
 		>
 			<BuildChangesList buildId={buildId} />
 		</CollapseChangesList>

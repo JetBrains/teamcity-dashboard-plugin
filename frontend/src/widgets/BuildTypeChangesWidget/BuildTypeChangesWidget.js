@@ -3,34 +3,34 @@ import React, { useMemo } from 'react'
 import WidgetBody from '../../components/WidgetBody/WidgetBody'
 import BuildTypeChanges from '../../components/BuildTypeChanges/BuildTypeChanges'
 import BranchWidgetOptionSelector from './components/BranchWidgetOptionSelector/BranchWidgetOptionSelector'
-import {
-	useBranchLocatorOption,
-	useBuildTypeIdOption,
-} from './options/hooks'
+import { useBranchLocatorOption, useBuildTypeIdOption } from './options/hooks'
 import styles from './BuildTypeChangesWidget.css'
+import GoToSettingsMessage from '../../features/widgets/components/GoToSettingsMessage/GoToSettingsMessage'
 
 const BuildTypeChangesWidget = () => {
+	const [buildTypeId] = useBuildTypeIdOption()
 	const [branch] = useBranchLocatorOption()
 
-	const [buildTypeId] = useBuildTypeIdOption()
-
 	const inBodyOptions: Array<React$Node> = useMemo(
-		(): Array<React$Node> => [<BranchWidgetOptionSelector key={0} />],
+		(): Array<React$Node> => [
+			<BranchWidgetOptionSelector
+				key={0}
+				className={styles.branchSelect}
+			/>,
+		],
 		[]
 	)
 
-	return (
+	return buildTypeId !== null && buildTypeId !== undefined ? (
 		<WidgetBody
 			options={inBodyOptions}
-			className={styles.buildTypeChangesWidgetBody}
-			optionsClassName={styles.buildTypeChangesOptions}
+			className={styles.body}
+			optionsClassName={styles.options}
 		>
-			{buildTypeId !== null && buildTypeId !== undefined ? (
-				<BuildTypeChanges buildTypeId={buildTypeId} branch={branch} />
-			) : (
-				<span>No build type selected</span>
-			)}
+			<BuildTypeChanges buildTypeId={buildTypeId} branch={branch} />
 		</WidgetBody>
+	) : (
+		<GoToSettingsMessage message="Please select a build configuration" />
 	)
 }
 

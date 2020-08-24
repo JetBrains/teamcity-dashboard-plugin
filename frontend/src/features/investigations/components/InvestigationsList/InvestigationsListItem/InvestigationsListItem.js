@@ -1,12 +1,11 @@
 // @flow strict
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import styles from './styles.css'
 import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
-import BuildTypeInvestigationPanel from './BuildTypeInvestigationPanel'
-import TestInvestigationPanel from './TestInvestigationPanel'
-import ProblemInvestigationPanel from './ProblemInvestigationPanel'
 import InvestigationAdditionalInfoDropdown from '../../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
 import type { Investigation } from '../../../investigations.types'
+import BuildTypeInvestigationLink from '../BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
+import TestOrProblemInvestigationLink from '../TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
 
 const areInvestigationsEqual = (
 	investigation1: Investigation,
@@ -18,15 +17,48 @@ interface Properties {
 	withPath: boolean;
 }
 
-const panels = {
-	buildType: BuildTypeInvestigationPanel,
-	test: TestInvestigationPanel,
-	problem: ProblemInvestigationPanel,
-}
-
 const InvestigationsListItem = memo<Properties>(
 	({ investigation, withPath }: Properties) => {
-		const Panel = panels[investigation.target.type]
+		const investigationLink = useMemo(() => {
+			switch (investigation.target.type) {
+				case 'buildType':
+					return (
+						<BuildTypeInvestigationLink
+							// $FlowFixMe
+							buildTypeId={investigation.target.id}
+							href={investigation.target.webUrl}
+						/>
+					)
+				case 'test':
+					return (
+						<TestOrProblemInvestigationLink
+							type={'test'}
+							name={investigation.target.name}
+							href={investigation.target.webUrl}
+						/>
+					)
+				case 'problem':
+					return (
+						<TestOrProblemInvestigationLink
+							type={'problem'}
+							name={investigation.target.name}
+							href={investigation.target.webUrl}
+						/>
+					)
+				default:
+					return (
+						<span>
+							This investigation cannot be rendered, this is a bug
+						</span>
+					)
+			}
+		}, [
+			investigation.target.id,
+			investigation.target.name,
+			investigation.target.type,
+			investigation.target.webUrl,
+		])
+
 		return (
 			<div>
 				{withPath && (
@@ -34,28 +66,17 @@ const InvestigationsListItem = memo<Properties>(
 						<ProjectPath projectId={investigation.projectId} />
 					</div>
 				)}
-				{Panel ? (
-					<div className={styles.listItem}>
-						<div className={styles.mainContent}>
-							<Panel
-								// TODO: fix this
-								// $FlowFixMe
-								id={investigation.target.id}
-								name={investigation.target.name}
-								webUrl={investigation.target.webUrl}
-							/>
-						</div>
-						<div className={styles.right}>
-							<InvestigationAdditionalInfoDropdown
-								investigationId={investigation.id}
-							/>
-						</div>
+
+				<div className={styles.listItem}>
+					<div className={styles.mainContent}>
+						{investigationLink}
 					</div>
-				) : (
-					<span>
-						This investigation cannot be rendered, this is a bug
-					</span>
-				)}
+					<div className={styles.right}>
+						<InvestigationAdditionalInfoDropdown
+							investigationId={investigation.id}
+						/>
+					</div>
+				</div>
 			</div>
 		)
 	},

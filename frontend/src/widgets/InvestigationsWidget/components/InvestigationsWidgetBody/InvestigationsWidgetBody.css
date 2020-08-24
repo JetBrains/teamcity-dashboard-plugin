@@ -1,0 +1,16 @@
+.options {
+
+}
+
+.sortBy {
+	margin-bottom: 8px;
+	width: 93px;
+}
+
+.sortBy > button {
+	width: 100%;
+}
+
+.showFixed {
+}
+

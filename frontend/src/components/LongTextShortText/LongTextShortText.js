@@ -5,8 +5,8 @@ import classNames from 'classnames'
 import styles from './LongTextShortText.css'
 
 interface Properties {
-	shortText: string;
-	longText: string;
+	shortText: React$Node;
+	longText: React$Node;
 	className?: ?string;
 	shortTextClassName?: ?string;
 	longTextClassName?: ?string;

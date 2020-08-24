@@ -5,7 +5,11 @@ import {
 	createSelector,
 	createSlice,
 } from '@reduxjs/toolkit'
-import type { FulfilledAction, PendingAction, RejectedAction } from '../../commontypes'
+import type {
+	FulfilledAction,
+	PendingAction,
+	RejectedAction,
+} from '../../commontypes'
 import { requestChanges, requestChangesCount } from './changes.rest'
 import type { ChangesLocator } from './changes.locator'
 import { stringifyChangesLocator } from './changes.locator'
@@ -115,12 +119,11 @@ const changesIdsByLocatorSlice = createSlice<ChangesIdsByLocatorState>({
 				const id = stringifyChangesLocator(locator)
 				if (!state.entities[id]) {
 					changesIdsByLocatorAdapter.upsertOne(
+						state,
 						getEmptyChangesIdsByLocator(locator)
 					)
 				}
-				const entity: ChangesIdsByLocatorEntity = state.entities[id]
-				entity.status = 'loading'
-				state.entities[id] = entity
+				state.entities[id].status = 'loading'
 			}
 		)
 		builder.addCase(

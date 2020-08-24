@@ -8,13 +8,28 @@ import styles from './ChangesCounter.css'
 
 interface Properties {
 	locator: ChangesLocator;
+	compact?: ?boolean;
 }
 
-const ChangesCounter = ({ locator }: Properties) => {
+const ChangesCounter = ({ locator, compact }: Properties) => {
 	const count = useChangesActualCountByLocator(locator)
 	const readableCount = count > 100 ? '100+' : count.toString()
-	// return <span>Changes: {count > 100 ? '100+' : count}</span>
-	return <LongTextShortText className={styles.text} shortText={readableCount} longText={`Changes: ${readableCount}`} />
+	// return (
+	// 	<LongTextShortText
+	// 		className={styles.text}
+	// 		shortText={readableCount}
+	// 		longText={`Changes: ${readableCount}`}
+	// 	/>
+	// )
+	return compact === true ? (
+		readableCount
+	) : (
+		<LongTextShortText
+			className={styles.text}
+			shortText={readableCount}
+			longText={(`Changes: ${readableCount}`: React$Node)}
+		/>
+	)
 }
 
 export default ChangesCounter

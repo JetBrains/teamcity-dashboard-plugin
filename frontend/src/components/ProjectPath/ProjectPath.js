@@ -13,7 +13,7 @@ interface Properties {
 
 const ProjectPath = React.memo<Properties>(({ projectId }: Properties) => {
 	const fullPath = usePathToProjectOrBuildType('project', projectId)
-	return <BuildPath path={fullPath} className={styles.ProjectPath} withIcons />
+	return <BuildPath path={fullPath} className={styles.ProjectPath} />
 })
 
 ProjectPath.displayName = 'ProjectPath'

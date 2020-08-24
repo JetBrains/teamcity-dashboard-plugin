@@ -1,7 +1,4 @@
-.ProjectPath svg {
-	display: none;
+.ProjectPath {
+	color: var(--ring-secondary-color)
 }
 
-.ProjectPath svg:last-of-type {
-	display: inline-block;
-}

@@ -17,7 +17,7 @@ interface Properties {
 	locator: ChangesLocator;
 	extraNode?: React$Node;
 	children: React$Node;
-	showChangesCount?: boolean;
+	compactChangesCount?: boolean;
 }
 
 const CollapseChangesList = ({
@@ -25,7 +25,7 @@ const CollapseChangesList = ({
 	locator,
 	extraNode,
 	children,
-	showChangesCount = true,
+	compactChangesCount = false,
 }: Properties) => {
 	const [areAllExpanded] = useAreAllExpanded()
 
@@ -59,11 +59,12 @@ const CollapseChangesList = ({
 				</span>
 				<span className={styles.headerPanel}>
 					<span className={styles.title}>{title}</span>
-					{showChangesCount && (
-						<span className={styles.changesCount}>
-							<ChangesCounter locator={locator} />
-						</span>
-					)}
+					<span className={styles.changesCount}>
+						<ChangesCounter
+							locator={locator}
+							compact={compactChangesCount}
+						/>
+					</span>
 				</span>
 				{extraNode !== undefined && extraNode !== null && (
 					<span className={styles.extra}>{extraNode}</span>

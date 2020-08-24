@@ -1,0 +1,9 @@
+.ChangesList {
+	display: grid;
+	row-gap: 12px;
+}
+
+.paddings {
+	padding-top: 4px;
+	padding-bottom: 12px;
+}

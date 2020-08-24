@@ -27,5 +27,5 @@ export const useBuildTypeIdOption = (): [
 }
 
 export const useAreAllExpanded = (): [boolean, (boolean) => void] => {
-	return useThisWidgetState<boolean>('areAllExpanded', false)
+	return useThisWidgetState<boolean>('areAllExpanded', true)
 }

@@ -26,6 +26,7 @@ export type Change = {
 	username: string,
 	comment: string,
 	date: string,
+	webUrl?: ?string,
 	...
 }
 

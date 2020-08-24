@@ -6,22 +6,37 @@ import BuildTypeStatusIcon from './BuildTypeStatusIcon/BuildTypeStatusIcon'
 import BuildTypeName from './BuildTypeName/BuildTypeName'
 
 import styles from './BuildTypeLink.css'
+import ClampedText from '../../../../components/ClampedText/ClampedText'
+import { getBuildTypeLinkHref } from '../../buildTypes.utils'
 
 interface Properties {
 	buildTypeId: BuildTypeId;
+	href?: ?string;
 	className?: ?string;
+	multiline?: ?boolean;
 }
 
 const BuildTypeLink = React.memo<Properties>(
-	({ buildTypeId, className }: Properties) => {
+	({ buildTypeId, className, multiline, href }: Properties) => {
 		return (
-			<span className={classNames(styles.BuildTypeLink, className)}>
-				<BuildTypeStatusIcon buildTypeId={buildTypeId} />
-				<BuildTypeName
-					buildTypeId={buildTypeId}
-					className={styles.buildTypeName}
-				/>
-			</span>
+			<ClampedText maxLines={5}>
+				<span
+					className={classNames(
+						styles.BuildTypeLink,
+						{ [styles.oneLine]: !multiline },
+						className
+					)}
+				>
+					<BuildTypeStatusIcon buildTypeId={buildTypeId} />
+					<BuildTypeName
+						buildTypeId={buildTypeId}
+						className={classNames(styles.buildTypeName, {
+							[styles.oneLine]: !multiline,
+						})}
+						href={href ?? getBuildTypeLinkHref(buildTypeId)}
+					/>
+				</span>
+			</ClampedText>
 		)
 	}
 )

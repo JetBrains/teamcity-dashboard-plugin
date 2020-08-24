@@ -3,6 +3,7 @@ import type { BranchesLocator } from '../branches/branches.locator'
 import { stringifyBranchesLocator } from '../branches/branches.locator'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
+import addLocatorCount from '../../utils/addLocatorCount'
 
 export type ChangesLocator = {|
 	buildTypeId?: BuildTypeId,
@@ -11,7 +12,10 @@ export type ChangesLocator = {|
 	pending?: boolean,
 |}
 
-export const stringifyChangesLocator = (locator: ChangesLocator) => {
+export const stringifyChangesLocator = (
+	locator: ChangesLocator,
+	withCount?: boolean = true
+) => {
 	const { buildTypeId, buildId, branch, pending } = locator
 	const buildTypeLocator =
 		buildTypeId !== undefined && buildTypeId !== null
@@ -27,7 +31,26 @@ export const stringifyChangesLocator = (locator: ChangesLocator) => {
 		pending !== undefined && pending !== null
 			? `pending:${String(pending)}`
 			: ''
-	return [buildTypeLocator, buildLocator, branchLocator, pendingLocator]
+	const stringLocator = [
+		buildTypeLocator,
+		buildLocator,
+		branchLocator,
+		pendingLocator,
+	]
 		.filter((string) => string !== '')
 		.join(',')
+	return withCount ? addLocatorCount(stringLocator, 50) : stringLocator
 }
+
+export const getPendingBuildTypeChangesLocator = (
+	buildTypeId: BuildTypeId,
+	branch: BranchesLocator
+): ChangesLocator => ({
+	buildTypeId,
+	branch,
+	pending: true,
+})
+
+export const getBuildChangesLocator = (buildId: BuildId): ChangesLocator => ({
+	buildId,
+})

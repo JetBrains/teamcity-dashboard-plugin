@@ -2,9 +2,9 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import Grid from '../../../../components/Grid'
-import AddWidget from '../../../../components/AddWidget/AddWidget'
+import AddWidget from '../AddWidget/AddWidget'
 import { fetchDashboardData } from '../../../../store/slices/fetchingDashboardData'
-import WidgetSettingsDialog from '../../../../components/WidgetSettingsDialog/WidgetSettingsDialog'
+import WidgetSettingsDialog from '../../../widgets/components/WidgetSettingsDialog/WidgetSettingsDialog'
 import WidgetTopLevelComponents from '../WidgetTopLevelComponents/WidgetTopLevelComponents'
 
 const Dashboard = () => {

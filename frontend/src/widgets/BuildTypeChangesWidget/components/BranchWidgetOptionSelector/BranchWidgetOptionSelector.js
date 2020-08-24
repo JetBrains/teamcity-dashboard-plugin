@@ -5,12 +5,15 @@ import {
 	useBuildTypeIdOption,
 } from '../../options/hooks'
 import TC from '@teamcity/react-api'
-
-import styles from './BranchWidgetOptionSelector.css'
+import Button from '@jetbrains/ring-ui/components/button/button'
 
 const { BranchSelect } = TC.Components
 
-const BranchWidgetOptionSelector = () => {
+interface Properties {
+	className?: ?string;
+}
+
+const BranchWidgetOptionSelector = ({ className }: Properties) => {
 	const [branchSelector, setBranchSelector] = useBranchLocatorOption()
 	const [buildTypeId] = useBuildTypeIdOption()
 
@@ -55,12 +58,12 @@ const BranchWidgetOptionSelector = () => {
 		<BranchSelect
 			projectOrBuildTypeNode={{ nodeType: 'bt', id: buildTypeId }}
 			selected={selected}
-			className={styles.BranchWidgetOptionSelector}
+			className={className}
 			minimalistic
 			onSelect={onSelect}
 		/>
 	) : (
-		<span>Branch selector requires selected buildType</span>
+		<Button disabled />
 	)
 }
 

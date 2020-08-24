@@ -50,11 +50,15 @@
 	flex-grow: 1;
 	flex-shrink: 9999999;
 
+	font-weight: bold;
+
 	margin-left: 1ch;
 
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+
+	text-align: end;
 }
 
 /*.title {*/
@@ -83,7 +87,6 @@
 }
 
 .content {
-	padding-bottom: 16px;
 }
 
 .shown {

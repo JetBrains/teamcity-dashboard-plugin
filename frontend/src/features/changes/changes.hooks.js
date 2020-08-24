@@ -20,10 +20,25 @@ import noop from '../../utils/noop'
 import useDependenciesDebugger from '../../hooks/debugging/useDependenciesDebugger'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
+import {
+	getBuildChangesLocator,
+	getPendingBuildTypeChangesLocator,
+} from './changes.locator'
+
+export const usePendingBuildTypeChangesLocator = (
+	buildTypeId: BuildTypeId,
+	branch: BranchesLocator
+) =>
+	useMemo(() => getPendingBuildTypeChangesLocator(buildTypeId, branch), [
+		branch,
+		buildTypeId,
+	])
+
+export const useBuildChangesLocator = (buildId: BuildId) =>
+	useMemo(() => getBuildChangesLocator(buildId), [buildId])
 
 export const useChangesIdsByLocator = (
 	locator: ChangesLocator,
-	fetch?: boolean = true
 ): [ChangeId[], AsyncStatus, ?string] => {
 	const changesIdsByLocator = useSelector((state) =>
 		selectChangesIdsByLocator(state, locator)
@@ -31,10 +46,8 @@ export const useChangesIdsByLocator = (
 	const dispatch = useDispatch()
 
 	useEffect(() => {
-		if (fetch) {
-			dispatch(fetchChangesByLocator({ locator }))
-		}
-	}, [dispatch, fetch, locator])
+		dispatch(fetchChangesByLocator({ locator }))
+	}, [dispatch, locator])
 
 	return [
 		changesIdsByLocator.changesIds,
@@ -58,15 +71,9 @@ export const useChangesActualCountByLocator = (
 
 export const useBuildChangesIds = (
 	buildId: BuildId,
-	fetch?: boolean
 ): [ChangeId[], AsyncStatus, ?string] => {
-	const locator = useMemo(
-		() => ({
-			buildId,
-		}),
-		[buildId]
-	)
-	return useChangesIdsByLocator(locator, fetch)
+	const locator = useBuildChangesLocator(buildId)
+	return useChangesIdsByLocator(locator)
 }
 
 export const useBuildChangesIdsWithSubscription = (
@@ -80,19 +87,10 @@ export const useBuildChangesIdsWithSubscription = (
 			buildTypeConstants
 				? subscribeOnAllBuildTypeEvents(
 						buildTypeConstants.internalId,
-						(data, topic) => {
-							console.log(
-								'handler fired for',
-								buildId,
-								'with',
-								data,
-								topic
-							)
+						() => {
 							dispatch(
 								fetchChangesByLocator({
-									locator: {
-										buildId,
-									},
+									locator: getBuildChangesLocator(buildId),
 									force: true,
 								})
 							)
@@ -111,14 +109,7 @@ export const usePendingBuildTypeChangesIds = (
 	buildTypeId: BuildTypeId,
 	branch: BranchesLocator
 ): [ChangeId[], AsyncStatus, ?string] => {
-	const locator = useMemo(
-		() => ({
-			buildTypeId,
-			branch,
-			pending: true,
-		}),
-		[branch, buildTypeId]
-	)
+	const locator = usePendingBuildTypeChangesLocator(buildTypeId, branch)
 	return useChangesIdsByLocator(locator)
 }
 
@@ -137,11 +128,10 @@ export const usePendingBuildTypeChangesIdsWithSubscription = (
 						() => {
 							dispatch(
 								fetchChangesByLocator({
-									locator: {
+									locator: getPendingBuildTypeChangesLocator(
 										buildTypeId,
-										branch,
-										pending: true,
-									},
+										branch
+									),
 									force: true,
 								})
 							)
@@ -171,34 +161,6 @@ export const useChangesByLocator = (
 		changesByLocator.status,
 		changesByLocator.error,
 	]
-}
-
-export const useBuildChanges = (
-	buildId: BuildId
-): [Change[], AsyncStatus, ?string] => {
-	const locator = useMemo(
-		() => ({
-			buildId,
-		}),
-		[buildId]
-	)
-
-	return useChangesByLocator(locator)
-}
-
-export const usePendingBuildTypeChanges = (
-	buildTypeId: BuildTypeId,
-	branch: BranchesLocator
-): [Change[], AsyncStatus, ?string] => {
-	const locator = useMemo(
-		() => ({
-			buildTypeId,
-			branch,
-			pending: true,
-		}),
-		[branch, buildTypeId]
-	)
-	return useChangesByLocator(locator)
 }
 
 export const useChange = (changeId: ChangeId): ?Change => {

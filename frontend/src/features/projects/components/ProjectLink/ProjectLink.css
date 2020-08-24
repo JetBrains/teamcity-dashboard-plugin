@@ -11,8 +11,8 @@
 	margin-right: 4px;
 }
 
-.icon {
-
+.link {
+	color: var(--ring-secondary-color);
 }
 
 .projectName {

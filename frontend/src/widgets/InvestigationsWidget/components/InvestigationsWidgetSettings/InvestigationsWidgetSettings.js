@@ -1,38 +1,27 @@
 // @flow strict
 import React from 'react'
-import InvestigationsSortingOptionSelector from '../../options/InvestigationsSortingOptionSelector'
+import SortByOptionSelect from '../SortByOptionSelect/SortByOptionSelect'
 import InvestigationsShowFixedOptionsSelector from '../ShowFixedOptionButton/ShowFixedOptionButton'
 import InvestigationShowOnlyDefaultBranchButton from '../../options/InvestigationShowOnlyDefaultBranchButton'
 import WidgetSettings, {
 	Section,
-} from '../../../../components/WidgetSettings/WidgetSettings'
+} from '../../../../features/widgets/components/WidgetSettings/WidgetSettings'
+import { useThisWidgetId } from '../../../../features/widgets/widgets.hooks'
 
-interface Properties {
-	widgetId: string;
-}
-
-const InvestigationsWidgetSettings = ({ widgetId }: Properties) => {
+const InvestigationsWidgetSettings = () => {
+	const widgetId = useThisWidgetId()
 	return (
 		<WidgetSettings
 			title="My Investigations Widget Settings"
-			description="Shows your investigations"
+			description="Widget support: ekaterina.silaeva@jetbrains.com"
 		>
-			<Section
-				title="Sort By"
-				description="Select how your investigations are sorted"
-			>
-				<InvestigationsSortingOptionSelector widgetId={widgetId} />
+			<Section title="Sort By">
+				<SortByOptionSelect widgetId={widgetId} />
 			</Section>
-			<Section
-				title="Show Fixed"
-				description="Decide whether fixed investigations are shown"
-			>
+			<Section title="Show Fixed">
 				<InvestigationsShowFixedOptionsSelector widgetId={widgetId} />
 			</Section>
-			<Section
-				title="Only Default Branch"
-				description="Show only investigations that affect default branch"
-			>
+			<Section title="Only Default Branch">
 				<InvestigationShowOnlyDefaultBranchButton widgetId={widgetId} />
 			</Section>
 		</WidgetSettings>

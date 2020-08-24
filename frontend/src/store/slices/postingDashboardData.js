@@ -4,6 +4,7 @@ import { type AsyncState, type DashboardData } from '../../commontypes'
 import { type GridElementData } from './layoutSlice'
 import { postDashboardDataToServer } from '../../api'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { filterVisibleWidgetIds } from '../../features/widgets/widgets.utils'
 
 function prepareGridElementData(element: GridElementData): GridElementData {
 	const { i, x, y, w, h } = element
@@ -13,7 +14,9 @@ function prepareGridElementData(element: GridElementData): GridElementData {
 function rootStateToDashboardData(state: RootState): DashboardData {
 	return {
 		layout: state.layout.map((element) => prepareGridElementData(element)),
-		widgets: state.widgets.ids.map((id) => state.widgets.entities[id]),
+		widgets: filterVisibleWidgetIds(state.widgets.ids).map(
+			(id) => state.widgets.entities[id]
+		),
 	}
 }
 

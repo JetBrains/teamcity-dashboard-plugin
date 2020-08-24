@@ -4,17 +4,23 @@ import classNames from 'classnames'
 import type { ChangeId } from '../../changes.slice'
 import { useChange } from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
-import styles from './styles.css'
+import styles from './ChangeView.css'
 import FilesIcon from '../../../../resources/svg/files.svg'
 import Button from '@jetbrains/ring-ui/components/button/button'
+import ClampedText from '../../../../components/ClampedText/ClampedText'
+import { Link } from '@jetbrains/ring-ui'
 
 interface Properties {
 	changeId: ChangeId;
 	showChangeDetailsPopup: (?ChangeId) => mixed;
-	className?: string,
+	className?: string;
 }
 
-const ChangeView = ({ changeId, showChangeDetailsPopup, className }: Properties) => {
+const ChangeView = ({
+	changeId,
+	showChangeDetailsPopup,
+	className,
+}: Properties) => {
 	const change = useChange(changeId)
 
 	const showPopup = useCallback(() => showChangeDetailsPopup(changeId), [
@@ -25,19 +31,37 @@ const ChangeView = ({ changeId, showChangeDetailsPopup, className }: Properties)
 	return (
 		<div className={classNames(styles.ChangeView, className ?? '')}>
 			<span className={styles.comment}>
-				{change ? change.comment : 'Loading...'}
+				<ClampedText maxLines={3}>
+					{change ? (
+						change.webUrl !== undefined &&
+						change.webUrl !== null ? (
+							<Link href={change.webUrl} active>
+								{change.comment}
+							</Link>
+						) : (
+							change.comment
+						)
+					) : (
+						'Loading...'
+					)}
+				</ClampedText>
 			</span>
 			<span className={styles.changesPreviewIcon}>
 				<Button
 					icon={FilesIcon}
 					onClick={showPopup}
+					title="Open Change Details"
 					className={styles.changesPreviewInnerButton}
 				/>
 			</span>
 			{change ? (
-				<span className={styles.metadata}>
-					{change.username}, <FormattedDate date={change.date} />
-				</span>
+				<div className={styles.metadata}>
+					<span className={styles.username}>{change.username},</span>
+					<span className={styles.date}>
+						<FormattedDate date={change.date} />
+					</span>
+					{/*{change.username}, <FormattedDate date={change.date} />*/}
+				</div>
 			) : (
 				<span>Loading..</span>
 			)}

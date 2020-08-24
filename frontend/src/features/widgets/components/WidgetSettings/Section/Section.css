@@ -1,0 +1,16 @@
+.Section {
+	margin-bottom: 16px;
+}
+
+
+.heading {
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 16px;
+	color: var(--ring-secondary-color)
+}
+
+
+.content {
+
+}

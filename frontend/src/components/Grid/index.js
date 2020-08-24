@@ -2,7 +2,7 @@
 import React, { useMemo } from 'react'
 import ReactGridLayout, { WidthProvider } from 'react-grid-layout'
 import { useSelector } from 'react-redux'
-import { selectAllWidgetIds } from '../../features/widgets/widgets.slice'
+import { selectAllVisibleWidgetIds } from '../../features/widgets/widgets.slice'
 import './style.css'
 import WidgetWrapper from '../../features/widgets/components/WidgetWrapper/WidgetWrapper'
 import useLayoutData from '../../hooks/layout/useLayoutData'
@@ -12,7 +12,7 @@ const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
 const Grid = () => {
 	const [layout, setLayout] = useLayoutData()
 
-	const widgetIds = useSelector(selectAllWidgetIds)
+	const widgetIds = useSelector(selectAllVisibleWidgetIds)
 
 	const children = useMemo(() => {
 		return widgetIds.map((id: string) => (

@@ -19,6 +19,8 @@ import type { ChangesIdsByLocatorState } from '../features/changes/changesIdsByL
 import type { WidgetStateState } from '../features/widgets/widgetsState.types'
 import widgetsStateSliceReducer from '../features/widgets/widgetsState.slice'
 import type { InvestigationsState } from '../features/investigations/investigations.types'
+import type { WidgetSettingsState } from '../features/widgets/widgetSettings.types'
+import widgetSettingsSliceReducer from '../features/widgets/widgetSettings.slice'
 
 export interface RootState {
 	layout: Layout;
@@ -31,6 +33,7 @@ export interface RootState {
 	changesIdsByLocator: ChangesIdsByLocatorState;
 	buildTypesConstants: BuildTypeConstantsState;
 	widgetsState: WidgetStateState;
+	widgetSettings: WidgetSettingsState;
 }
 
 const store = configureStore<RootState>({
@@ -45,6 +48,7 @@ const store = configureStore<RootState>({
 		buildTypesConstants: buildTypesConstantsSliceReducer,
 		topLevelWidgetsState: topLevelWidgetsStateSliceReducer,
 		widgetsState: widgetsStateSliceReducer,
+		widgetSettings: widgetSettingsSliceReducer,
 	},
 })
 

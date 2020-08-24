@@ -3,6 +3,7 @@ import React, { useMemo } from 'react'
 
 interface Properties {
 	date: Date | string;
+	className?: ?string;
 }
 
 const monthNames = [
@@ -27,19 +28,23 @@ const formatMinutes = (minutes: number): string => {
 	return minutes.toString()
 }
 
-const FormattedDate = ({ date }: Properties) => {
-	const actualDate = useMemo(
-		() => (date instanceof Date ? date : new Date(date)),
-		[date]
-	)
+const FormattedDate = React.memo<Properties>(
+	({ date, className }: Properties) => {
+		const actualDate = useMemo(
+			() => (date instanceof Date ? date : new Date(date)),
+			[date]
+		)
 
-	return (
-		<span>
-			{actualDate.getDate()} {monthNames[actualDate.getMonth()]}{' '}
-			{actualDate.getFullYear()} {actualDate.getHours()}:
-			{formatMinutes(actualDate.getMinutes())}
-		</span>
-	)
-}
+		return (
+			<span className={className}>
+				{actualDate.getDate()} {monthNames[actualDate.getMonth()]}{' '}
+				{actualDate.getFullYear()} {actualDate.getHours()}:
+				{formatMinutes(actualDate.getMinutes())}
+			</span>
+		)
+	}
+)
+
+FormattedDate.displayName = 'FormattedDate'
 
 export default FormattedDate

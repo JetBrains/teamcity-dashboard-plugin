@@ -92,7 +92,7 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 # GET BUILDS of build configuration
-GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches/builds?locator=count=1
+GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1FailingTest_Build1passing1failingWithBranches/builds
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}

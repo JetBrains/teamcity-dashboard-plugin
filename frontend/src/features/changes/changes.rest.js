@@ -10,6 +10,7 @@ type FetchedChange = {
 	username: string,
 	comment: string,
 	date: string,
+	webUrl?: ?string,
 	...
 }
 
@@ -18,17 +19,19 @@ type FetchedChanges = {
 	...
 }
 
-const changeFields = 'id,username,comment,date'
+const changeFields = 'id,username,comment,date,webUrl'
 
 export const parseChange = ({
 	id,
 	username,
 	comment,
 	date,
+	webUrl,
 }: FetchedChange): Change => ({
 	id,
 	username,
 	comment,
+	webUrl,
 	date: parseTimestamp(date).toUTCString(),
 })
 
@@ -50,7 +53,8 @@ export const requestChangesCount = async (
 ): Promise<number> => {
 	const fetchedCountable = await TC.requestJSON(
 		`app/rest/changes?locator=${stringifyChangesLocator(
-			locator
+			locator,
+			false
 		)}&fields=count`
 	)
 	return fetchedCountable.count

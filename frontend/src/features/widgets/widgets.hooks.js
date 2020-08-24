@@ -1,13 +1,10 @@
 // @flow strict
 import { useCallback, useMemo, useContext } from 'react'
 import {
-	closeWidgetSettings,
-	openWidgetSettings,
 	removeWidget,
 	selectWidgetById,
 	selectWidgetDataType,
 	selectWidgetOption,
-	selectWidgetWithOpenedSettings,
 	setWidgetOption,
 	updateWidget,
 } from './widgets.slice'
@@ -22,7 +19,10 @@ import {
 	setTopLevelWidgetState,
 } from './topLevelWidgetsState.slice'
 import thisWidgetTypeContext from './components/ThisWidgetGeneralDataProvider/thisWidgetType.context'
-import { selectWidgetStateProperty, setWidgetStateProperty } from './widgetsState.slice'
+import {
+	selectWidgetStateProperty,
+	setWidgetStateProperty,
+} from './widgetsState.slice'
 
 export const useWidgetData = (
 	id: string
@@ -47,11 +47,17 @@ export const useWidgetData = (
 	}, [dispatch, widgetData])
 	return [widgetData, setWidgetData, deleteWidget]
 }
+
 export const useRemoveWidget = (widgetId: WidgetId): (() => void) => {
 	const dispatch = useDispatch()
 	return useCallback(() => {
 		dispatch(removeWidget(widgetId))
 	}, [dispatch, widgetId])
+}
+
+export const useRemoveThisWidget = (): (() => void) => {
+	const id = useThisWidgetId()
+	return useRemoveWidget(id)
 }
 
 export const useWidgetType = (
@@ -79,7 +85,7 @@ export const useWidgetOption = <T>(
 	return [widgetOptionValue, setWidgetOptionValue]
 }
 
-export const useWidgetState = <T : Json>(
+export const useWidgetState = <T: Json>(
 	widgetId: WidgetId,
 	propertyName: string,
 	initialValue: T
@@ -127,24 +133,6 @@ export const useWidgetGlobalState = <T: Json>(
 	return useWidgetTopLevelState('$global', propertyName, initialValue)
 }
 
-export const useOpenWidgetSettings = (widgetId: WidgetId): (() => void) => {
-	const dispatch = useDispatch()
-	return useCallback(() => {
-		dispatch(openWidgetSettings(widgetId))
-	}, [dispatch, widgetId])
-}
-
-export const useWidgetIdWithOpenedSettings = (): [?string, () => void] => {
-	const dispatch = useDispatch()
-	const widgetId = useSelector(selectWidgetWithOpenedSettings)
-
-	const closeSettings = useCallback(() => {
-		dispatch(closeWidgetSettings())
-	}, [dispatch])
-
-	return [widgetId, closeSettings]
-}
-
 export const useThisWidgetId = (): WidgetId => {
 	const id = useContext(thisWidgetIdContext)
 
@@ -177,7 +165,7 @@ export const useThisWidgetOption = <T>(
 	return useWidgetOption(id, optionName, defaultValue)
 }
 
-export const useThisWidgetState = <T : Json>(
+export const useThisWidgetState = <T: Json>(
 	propertyName: string,
 	initialValue: T
 ): [T, (T) => void] => {

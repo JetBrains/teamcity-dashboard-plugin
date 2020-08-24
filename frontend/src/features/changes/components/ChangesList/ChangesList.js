@@ -1,8 +1,9 @@
 // @flow strict
 import React, { useState, useCallback } from 'react'
+import classNames from 'classnames'
 import type { ChangeId } from '../../changes.slice'
 import ChangeView from '../ChangeView/ChangeView'
-import styles from './styles.css'
+import styles from './ChangesList.css'
 import { useBuildTypeIdOption } from '../../../../widgets/BuildTypeChangesWidget/options/hooks'
 import TC from '@teamcity/react-api'
 
@@ -25,6 +26,10 @@ const ChangesList = ({ changesIds }: Properties) => {
 		setExpandedChangeId,
 	])
 
+	const changesListClasses = classNames(styles.ChangesList, {
+		[styles.paddings]: changesIds.length > 0,
+	})
+
 	return (
 		<>
 			<ChangeDetailsPopup
@@ -36,7 +41,7 @@ const ChangesList = ({ changesIds }: Properties) => {
 				}
 				cancelDialog={cancelDialog}
 			/>
-			<div className={styles.ChangesList}>
+			<div className={changesListClasses}>
 				{changesIds.map((id) => (
 					<ChangeView
 						key={id}

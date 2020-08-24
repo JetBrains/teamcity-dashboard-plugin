@@ -25,7 +25,7 @@ const CollapseAllExpandAllButton = React.memo<Properties>(
 				className={classNames(
 					styles.CollapseAllExpandAllButton,
 					{
-						[styles.rotated]: !areAllExpanded,
+						[styles.rotated]: areAllExpanded,
 					},
 					className
 				)}
