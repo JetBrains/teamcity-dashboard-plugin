@@ -3,23 +3,19 @@ import React, { useMemo, useCallback } from 'react'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
-import widgets from '../../../../widgets/widgets'
-import type { WidgetConfig } from '../../../../widgets/widgets'
 import type { WidgetType } from '../../../widgets/widgets.types'
 import { useStartAddingNewWidget } from '../../../widgets/widgetSettings.hooks'
+import { getWidgetName, supportedWidgetTypes } from '../../../widgets/widgetConfigs.utils'
 
 type Option = {|
 	label: string,
 	type: WidgetType,
 |}
-// TODO: weird because widgets is exact
-// $FlowFixMe
-const data: Option[] = Object.entries(widgets).map(
-	([type, widget]: [string, WidgetConfig]) => ({
-		label: widget.name,
-		type,
-	})
-)
+
+const data: Option[] = supportedWidgetTypes.map(type => ({
+	label: getWidgetName(type),
+	type,
+}))
 
 const AddWidget = () => {
 	const addWidget = useStartAddingNewWidget()

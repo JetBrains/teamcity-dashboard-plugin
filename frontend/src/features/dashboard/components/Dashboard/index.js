@@ -5,7 +5,6 @@ import Grid from '../../../../components/Grid'
 import AddWidget from '../AddWidget/AddWidget'
 import { fetchDashboardData } from '../../../../store/slices/fetchingDashboardData'
 import WidgetSettingsDialog from '../../../widgets/components/WidgetSettingsDialog/WidgetSettingsDialog'
-import WidgetTopLevelComponents from '../WidgetTopLevelComponents/WidgetTopLevelComponents'
 
 const Dashboard = () => {
 	const dispatch = useDispatch()
@@ -15,7 +14,6 @@ const Dashboard = () => {
 		<>
 			<AddWidget />
 			<WidgetSettingsDialog />
-			<WidgetTopLevelComponents />
 			<Grid />
 		</>
 	)

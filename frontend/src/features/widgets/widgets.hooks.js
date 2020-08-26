@@ -23,6 +23,7 @@ import {
 	selectWidgetStateProperty,
 	setWidgetStateProperty,
 } from './widgetsState.slice'
+import { isWidgetTypeSupported } from './widgetConfigs.utils'
 
 export const useWidgetData = (
 	id: string
@@ -62,8 +63,11 @@ export const useRemoveThisWidget = (): (() => void) => {
 
 export const useWidgetType = (
 	widgetId: string
-): $Call<typeof selectWidgetDataType, RootState, string> => {
-	return useSelector((state) => selectWidgetDataType(state, widgetId))
+): ?WidgetType => {
+	const type = useSelector((state) => selectWidgetDataType(state, widgetId))
+	if (isWidgetTypeSupported(type)) {
+		return type
+	}
 }
 export const useWidgetOption = <T>(
 	widgetId: WidgetId,

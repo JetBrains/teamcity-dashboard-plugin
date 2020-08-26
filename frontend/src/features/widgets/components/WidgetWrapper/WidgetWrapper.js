@@ -1,26 +1,22 @@
 // @flow strict
 import React, { useMemo } from 'react'
-import widgets from '../../../../widgets/widgets'
 import { useWidgetType } from '../../widgets.hooks'
 import WidgetEllipsisOptions from '../WidgetHeaderOptions/WidgetEllipsisOptions/WidgetEllipsisOptions'
 import WidgetIsland from '../../../../components/WidgetIsland/WidgetIsland'
 import ThisWidgetGeneralDataProvider from '../ThisWidgetGeneralDataProvider/ThisWidgetGeneralDataProvider'
-import type { WidgetId } from '../../widgets.types'
+import type { WidgetId, WidgetType } from '../../widgets.types'
 import ErrorLoadingWidgetBodyMessage from '../ErrorLoadingWidgetBodyMessage/ErrorLoadingWidgetBodyMessage'
 import SimpleTextWidgetHeader from '../SimpleTextWidgetHeader/SimpleTextWidgetHeader'
+import { getWidgetBodyComponent, getWidgetHeaderComponent, getWidgetHeaderOptions } from '../../widgetConfigs.utils'
 
 interface Properties {
 	widgetId: WidgetId;
 }
 
 const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
-	const type = useWidgetType(widgetId)
+	const type: ?WidgetType = useWidgetType(widgetId)
 
-	const widget = type ? widgets[type] : undefined
-
-	const widgetHeaderOptions = useMemo(() => widget?.headerOptions ?? [], [
-		widget?.headerOptions,
-	])
+	const widgetHeaderOptions = type ? getWidgetHeaderOptions(type) : []
 
 	const headerOptions = useMemo(
 		() =>
@@ -31,6 +27,9 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 		[widgetHeaderOptions]
 	)
 
+	const Header = type ? getWidgetHeaderComponent(type) : undefined
+	const Body = type ? getWidgetBodyComponent(type) : undefined
+
 	return (
 		<ThisWidgetGeneralDataProvider
 			// FIXME: this is a dumb fix. but without it flow for some reason gets angry
@@ -39,16 +38,16 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 		>
 			<WidgetIsland
 				title={
-					widget?.Header ? (
-						<widget.Header />
+					Header ? (
+						<Header />
 					) : (
 						<SimpleTextWidgetHeader>!</SimpleTextWidgetHeader>
 					)
 				}
 				headerOptions={headerOptions}
 			>
-				{widget?.Body ? (
-					<widget.Body />
+				{Body ? (
+					<Body />
 				) : (
 					<ErrorLoadingWidgetBodyMessage />
 				)}
