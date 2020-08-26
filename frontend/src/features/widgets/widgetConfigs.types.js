@@ -10,9 +10,16 @@ export type WidgetConfig = {
 	settings: Component,
 	Body: Component,
 	headerOptions?: Component[],
+	openSettingsFirst?: boolean,
+	...WidgetConfigDimensions,
+	...
+}
+
+export type WidgetConfigDimensions = {
+	defaultWidth?: number,
+	defaultHeight?: number,
 	minWidth?: number,
 	minHeight?: number,
-	openSettingsFirst?: boolean,
 	...
 }
 

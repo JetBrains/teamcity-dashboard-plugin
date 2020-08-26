@@ -10,6 +10,9 @@ const investigationsWidgetConfig: WidgetConfig = {
 	Body: InvestigationsWidgetBody,
 	settings: InvestigationsWidgetSettings,
 	openSettingsFirst: false,
+	defaultWidth: 5,
+	minWidth: 3,
+	minHeight: 5,
 }
 
 export default investigationsWidgetConfig

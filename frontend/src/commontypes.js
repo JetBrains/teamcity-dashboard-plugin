@@ -1,13 +1,13 @@
 // @flow strict
-import { type Layout } from './store/slices/layoutSlice'
 import type { WidgetData } from './features/widgets/widgets.types'
+import type { LayoutState } from './features/dashboard/layout.types'
 
 export interface Record<K, V> {
 	[key: K]: V;
 }
 
 export interface DashboardData {
-	layout: Layout;
+	layout: LayoutState;
 	widgets: WidgetData[];
 }
 
@@ -23,10 +23,10 @@ export type UserId = number
 export type SetNewDataFunction<T> = (newData: T) => void
 
 export interface SerializedError {
-	name?: string,
-	message?: string,
-	code?: string,
-	stack?: string,
+	name?: string;
+	message?: string;
+	code?: string;
+	stack?: string;
 }
 
 export interface FulfilledAction<ThunkArgument, PromiseResult> {

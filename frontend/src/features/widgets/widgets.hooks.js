@@ -2,16 +2,12 @@
 import { useCallback, useMemo, useContext } from 'react'
 import {
 	removeWidget,
-	selectWidgetById,
 	selectWidgetDataType,
 	selectWidgetOption,
 	setWidgetOption,
-	updateWidget,
 } from './widgets.slice'
 import { useDispatch, useSelector } from 'react-redux'
-import type { WidgetData, WidgetId, WidgetType } from './widgets.types'
-import type { RootState } from '../../store'
-import usePostDashboardData from '../../hooks/usePostDashboardData'
+import type { WidgetId, WidgetType } from './widgets.types'
 import thisWidgetIdContext from './components/ThisWidgetGeneralDataProvider/thisWidgetId.context'
 import type { Json } from '../../commontypes'
 import {
@@ -23,30 +19,6 @@ import {
 	selectWidgetStateProperty,
 	setWidgetStateProperty,
 } from './widgetsState.slice'
-
-export const useWidgetData = (
-	id: string
-): [WidgetData, (newWidgetData: WidgetData) => void, () => void] => {
-	const widgetData: ?WidgetData = useSelector((state: RootState) =>
-		selectWidgetById(state, id)
-	)
-	const postDashboardData = usePostDashboardData()
-	const dispatch = useDispatch()
-	if (widgetData === undefined || widgetData === null) {
-		throw new Error(`WidgetData with id=${id} does not exist`)
-	}
-	const setWidgetData = useCallback(
-		(newWidgetData: WidgetData) => {
-			dispatch(updateWidget(newWidgetData))
-			postDashboardData()
-		},
-		[dispatch, postDashboardData]
-	)
-	const deleteWidget = useCallback(() => {
-		dispatch(removeWidget(widgetData.id))
-	}, [dispatch, widgetData])
-	return [widgetData, setWidgetData, deleteWidget]
-}
 
 export const useRemoveWidget = (widgetId: WidgetId): (() => void) => {
 	const dispatch = useDispatch()
@@ -152,6 +124,7 @@ export const useThisWidgetType = (): WidgetType => {
 				'This hook uses "thisWidgetTypeContext" context which is provided by ThisWidgetGeneralDataProviderComponent react component'
 		)
 	}
+	// $FlowFixMe
 	return type ?? 'errorType'
 }
 

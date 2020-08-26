@@ -1,6 +1,6 @@
 // @flow strict
-import layoutSliceReducer, { type Layout } from './slices/layoutSlice'
 import { configureStore } from '@reduxjs/toolkit'
+import layoutSliceReducer from '../features/dashboard/layout.slice'
 import widgetsSliceReducer from '../features/widgets/widgets.slice'
 import fetchingDashboardDataSliceReducer from './slices/fetchingDashboardData'
 import postingDashboardDataSliceReducer from './slices/postingDashboardData'
@@ -21,9 +21,10 @@ import widgetsStateSliceReducer from '../features/widgets/widgetsState.slice'
 import type { InvestigationsState } from '../features/investigations/investigations.types'
 import type { WidgetSettingsState } from '../features/widgets/widgetSettings.types'
 import widgetSettingsSliceReducer from '../features/widgets/widgetSettings.slice'
+import type { LayoutState } from '../features/dashboard/layout.types'
 
 export interface RootState {
-	layout: Layout;
+	layout: LayoutState;
 	widgets: WidgetsState;
 	topLevelWidgetsState: TopLevelWidgetsStateState;
 	fetchingDashboardData: AsyncState;

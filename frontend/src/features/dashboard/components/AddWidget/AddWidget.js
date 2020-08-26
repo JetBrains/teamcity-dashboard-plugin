@@ -4,12 +4,30 @@ import Button from '@jetbrains/ring-ui/components/button/button'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import type { WidgetType } from '../../../widgets/widgets.types'
-import { useStartAddingNewWidget } from '../../../widgets/widgetSettings.hooks'
 import {
 	getWidgetName,
 	shouldWidgetOpenSettingsFirst,
 	supportedWidgetTypes,
 } from '../../../widgets/widgetConfigs.utils'
+import { useDispatch } from 'react-redux'
+import { openWidgetSettings } from '../../../widgets/widgetSettings.slice'
+import { addWidget } from '../../../widgets/widgets.slice'
+
+const useOnSelect = (): ((Option) => void) => {
+	const dispatch = useDispatch()
+
+	return useCallback(({type}: Option) => {
+		if (shouldWidgetOpenSettingsFirst(type)) {
+			dispatch(openWidgetSettings({
+				type,
+				isNew: true,
+			}))
+		} else {
+			dispatch(addWidget(type))
+		}
+
+	}, [dispatch])
+}
 
 type Option = {|
 	label: string,
@@ -22,14 +40,8 @@ const data: Option[] = supportedWidgetTypes.map((type) => ({
 }))
 
 const AddWidget = () => {
-	const addWidget = useStartAddingNewWidget()
+	const onSelect = useOnSelect()
 	const anchor = useMemo(() => <Button delayed>Add a widget</Button>, [])
-
-	const onSelect = useCallback(
-		({ type }: Option) =>
-			addWidget(type, shouldWidgetOpenSettingsFirst(type)),
-		[addWidget]
-	)
 
 	return (
 		<Dropdown anchor={anchor}>

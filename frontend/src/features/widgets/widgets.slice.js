@@ -10,22 +10,22 @@ import type { RootState } from '../../store'
 import type {
 	SetWidgetPropertyActionPayload,
 	WidgetData,
-	WidgetDataWithoutId,
 	WidgetId,
 	WidgetsState,
 	WidgetType,
 } from './widgets.types'
 import {
-	cancelWidgetSettings,
+	closeWidgetSettings,
 	HIDDEN_SETTINGS_WIDGET_ID,
 	openWidgetSettings,
-	saveWidgetSettings,
-	startAddingNewWidget,
 } from './widgetSettings.slice'
 import { copyWidget, makeHiddenSettingsWidget } from './widgetSettings.utils'
 import { createEmptyWidgetData, filterVisibleWidgetIds } from './widgets.utils'
-import type { SaveWidgetSettingsActionPayload, StartAddingNewWidgetPayload } from './widgetSettings.types'
-import type { PayloadAction } from '../../commontypes'
+import type {
+	OpenWidgetSettingsPayload,
+} from './widgetSettings.types'
+import type { Json, PayloadAction } from '../../commontypes'
+import { type Dispatch } from 'redux'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
@@ -47,7 +47,7 @@ const widgetsSlice = createSlice<WidgetsState>({
 				state.widgetWithOpenedSettings = undefined
 			}
 		},
-		setWidgetOption: <T>(
+		setWidgetOption: <T: Json>(
 			state: WidgetsState,
 			action: PayloadAction<SetWidgetPropertyActionPayload<T>>
 		) => {
@@ -59,6 +59,38 @@ const widgetsSlice = createSlice<WidgetsState>({
 				state.entities[id].data[propertyName] = propertyValue
 			}
 		},
+		addWidget: {
+			reducer: (
+				state: WidgetsState,
+				action: PayloadAction<WidgetData>
+			) => {
+				widgetsAdapter.upsertOne(state, action.payload)
+			},
+			prepare: (
+				type: WidgetType,
+				// $FlowFixMe
+				data?: $PropertyType<WidgetData, 'data'> = {}
+			): {| payload: WidgetData |} => ({
+				// $FlowFixMe
+				payload: ({
+					id: nanoid(),
+					type: (type: WidgetType),
+					data,
+				}: WidgetData),
+			}),
+		},
+		saveWidgetSettings: (
+			state: WidgetsState,
+			action: PayloadAction<WidgetId>
+		) => {
+			const id = action.payload
+			const hiddenSettingsWidget =
+				state.entities[HIDDEN_SETTINGS_WIDGET_ID]
+			widgetsAdapter.upsertOne(
+				state,
+				copyWidget(hiddenSettingsWidget, id)
+			)
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchDashboardData.fulfilled, (state, action) => {
@@ -66,63 +98,49 @@ const widgetsSlice = createSlice<WidgetsState>({
 		})
 		builder.addCase(
 			openWidgetSettings,
-			(state: WidgetsState, action: PayloadAction<WidgetId>) => {
-				const id = action.payload
-				const widget = state.entities[id]
+			(
+				state: WidgetsState,
+				action: PayloadAction<OpenWidgetSettingsPayload>
+			) => {
+				const { isNew, type } = action.payload
+				const widget =
+					isNew ||
+					action.payload.id === null ||
+					action.payload.id === undefined
+						? createEmptyWidgetData('anyId', type)
+						: state.entities[action.payload.id]
 				widgetsAdapter.upsertOne(
 					state,
 					makeHiddenSettingsWidget(widget)
 				)
 			}
 		)
-		builder.addCase(
-			startAddingNewWidget,
-			(state: WidgetsState, action: PayloadAction<StartAddingNewWidgetPayload>) => {
-				const { openSettings } = action.payload
-				const type: WidgetType = action.payload.type
-				const id = openSettings ? HIDDEN_SETTINGS_WIDGET_ID : nanoid()
-				const emptyWidget = createEmptyWidgetData(id, type)
-				widgetsAdapter.upsertOne(state, emptyWidget)
-			}
-		)
-		builder.addCase(cancelWidgetSettings, (state: WidgetsState) => {
+		builder.addCase(closeWidgetSettings, (state: WidgetsState) => {
 			widgetsAdapter.removeOne(state, HIDDEN_SETTINGS_WIDGET_ID)
 		})
-		builder.addCase(
-			saveWidgetSettings,
-			(
-				state: WidgetsState,
-				action: PayloadAction<SaveWidgetSettingsActionPayload>
-			) => {
-				const { id, isNew } = action.payload
-				const actualId = isNew ? nanoid() : id ?? nanoid()
-				const hiddenSettingsWidget =
-					state.entities[HIDDEN_SETTINGS_WIDGET_ID]
-				widgetsAdapter.upsertOne(
-					state,
-					copyWidget(hiddenSettingsWidget, actualId)
-				)
-				widgetsAdapter.removeOne(state, HIDDEN_SETTINGS_WIDGET_ID)
-			}
-		)
 	},
 })
 
 // Actions
-export const addWidget = (data: WidgetDataWithoutId) => {
-	const id = nanoid()
-	const widgetData: WidgetData = {
-		...data,
-		id,
+export const addWidget: (
+	type: WidgetType,
+	data?: $PropertyType<WidgetData, 'data'>
+) => PayloadAction<WidgetData> = widgetsSlice.actions.addWidget
+
+export const addWidgetFromSettings = () => (
+	dispatch: Dispatch<*>,
+	getState: () => RootState
+) => {
+	const state: RootState = getState()
+	const widget = selectHiddenSettingsWidget(state)
+	if (widget) {
+		const { type, data } = widget
+		dispatch(addWidget(type, data))
 	}
-	return widgetsSlice.actions.addWidgetWithId(widgetData)
 }
 
-export const updateWidget: (WidgetData) => void =
-	widgetsSlice.actions.updateWidget
-
-export const addWidgetWithId: (WidgetData) => void =
-	widgetsSlice.actions.addWidgetWithId
+export const saveWidgetSettings: (WidgetId) => PayloadAction<WidgetId> =
+	widgetsSlice.actions.saveWidgetSettings
 
 export const removeWidget: (WidgetId) => void =
 	widgetsSlice.actions.removeWidget
@@ -154,14 +172,6 @@ export const selectWidgetDataType: (
 ) => ?$PropertyType<WidgetData, 'type'> = createSelector(
 	selectWidgetById,
 	(widget: WidgetData) => (widget ? widget.type : undefined)
-)
-
-export const selectAllDistinctWidgetTypes: (RootState) => WidgetType[] = createSelector(
-	selectAllWidgets,
-	(widgets: WidgetData[]) => {
-		const types = widgets.map((widget) => widget.type)
-		return [...new Set(types)]
-	}
 )
 
 // Widget Options

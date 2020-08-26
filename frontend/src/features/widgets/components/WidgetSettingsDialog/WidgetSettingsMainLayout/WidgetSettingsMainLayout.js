@@ -5,7 +5,7 @@ import styles from './WidgetSettingsMainLayout.css'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import {
 	useCancelWidgetSettings,
-	useSaveWidgetSettings,
+	useSaveThisWidgetSettings,
 } from '../../../widgetSettings.hooks'
 
 interface Properties {
@@ -13,7 +13,7 @@ interface Properties {
 }
 
 const WidgetSettingsMainLayout = ({ children }: Properties) => {
-	const saveSettings = useSaveWidgetSettings()
+	const saveSettings = useSaveThisWidgetSettings()
 	const cancelSettings = useCancelWidgetSettings()
 
 	return (

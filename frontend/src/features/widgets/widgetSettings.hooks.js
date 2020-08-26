@@ -2,74 +2,59 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-	cancelWidgetSettings,
+	closeWidgetSettings,
 	openWidgetSettings,
-	saveWidgetSettings,
 	selectAreWidgetSettingsOpened,
 	selectWidgetSettingsIsWidgetNew,
 	selectWidgetSettingsWidgetId,
-	startAddingNewWidget,
+	selectWidgetSettingsWidgetType,
 } from './widgetSettings.slice'
-import type { WidgetId, WidgetType } from './widgets.types'
-import { useThisWidgetId } from './widgets.hooks'
+import { useThisWidgetId, useThisWidgetType } from './widgets.hooks'
+import { addWidgetFromSettings, saveWidgetSettings } from './widgets.slice'
 
 export const useAreWidgetSettingsOpened = (): boolean =>
 	useSelector(selectAreWidgetSettingsOpened)
 
-export const useWidgetSettingsWidgetId = (): ?WidgetId =>
-	useSelector(selectWidgetSettingsWidgetId)
-
-export const useWidgetSettingsIsWidgetNew = (): boolean =>
-	useSelector(selectWidgetSettingsIsWidgetNew)
-
-export const useOpenWidgetSettings = (widgetId: WidgetId): (() => void) => {
-	const dispatch = useDispatch()
-
-	return useCallback(() => dispatch(openWidgetSettings(widgetId)), [
-		dispatch,
-		widgetId,
-	])
-}
-
 export const useOpenThisWidgetSettings = (): (() => void) => {
+	const dispatch = useDispatch()
 	const id = useThisWidgetId()
-	return useOpenWidgetSettings(id)
+	const type = useThisWidgetType()
+
+	return useCallback(
+		() =>
+			dispatch(
+				openWidgetSettings({
+					id,
+					type,
+					isNew: false,
+				})
+			),
+		[dispatch, id, type]
+	)
 }
 
 export const useCancelWidgetSettings = (): (() => void) => {
 	const dispatch = useDispatch()
-	return useCallback(() => dispatch(cancelWidgetSettings()), [dispatch])
+	return useCallback(() => dispatch(closeWidgetSettings()), [dispatch])
 }
 
-export const useSaveWidgetSettings = (): (() => void) => {
+export const useSaveThisWidgetSettings = (): (() => void) => {
 	const dispatch = useDispatch()
 	const areSettingsOpened = useAreWidgetSettingsOpened()
-	const id = useWidgetSettingsWidgetId()
-	const isNew = useWidgetSettingsIsWidgetNew()
+	const id = useSelector(selectWidgetSettingsWidgetId)
+	const type = useSelector(selectWidgetSettingsWidgetType)
+	const isNew = useSelector(selectWidgetSettingsIsWidgetNew)
 
-	return useCallback(
-		() =>
-			areSettingsOpened
-				? dispatch(
-						saveWidgetSettings({
-							id,
-							isNew,
-						})
-				  )
-				: undefined,
-		[areSettingsOpened, dispatch, id, isNew]
-	)
-}
-
-export const useStartAddingNewWidget = (): ((
-	WidgetType,
-	openSettings?: boolean
-) => void) => {
-	const dispatch = useDispatch()
-
-	return useCallback(
-		(type: WidgetType, openSettings?: boolean) =>
-			dispatch(startAddingNewWidget(type, openSettings)),
-		[dispatch]
-	)
+	return useCallback(() => {
+		if (!areSettingsOpened || type === null || type === undefined) {
+			return
+		}
+		if (isNew || id === null || id === undefined) {
+			dispatch(addWidgetFromSettings())
+			dispatch(closeWidgetSettings())
+		} else {
+			dispatch(saveWidgetSettings(id))
+			dispatch(closeWidgetSettings())
+		}
+	}, [areSettingsOpened, dispatch, id, isNew, type])
 }

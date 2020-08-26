@@ -1,12 +1,12 @@
 // @flow strict
 import { type RootState } from '..'
 import { type AsyncState, type DashboardData } from '../../commontypes'
-import { type GridElementData } from './layoutSlice'
 import { postDashboardDataToServer } from '../../api'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { filterVisibleWidgetIds } from '../../features/widgets/widgets.utils'
+import type { LayoutElementData } from '../../features/dashboard/layout.types'
 
-function prepareGridElementData(element: GridElementData): GridElementData {
+function prepareGridElementData(element: LayoutElementData): LayoutElementData {
 	const { i, x, y, w, h } = element
 	return { i, x, y, w, h }
 }

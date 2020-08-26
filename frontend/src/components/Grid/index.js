@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { selectAllVisibleWidgetIds } from '../../features/widgets/widgets.slice'
 import './style.css'
 import WidgetWrapper from '../../features/widgets/components/WidgetWrapper/WidgetWrapper'
-import useLayoutData from '../../hooks/layout/useLayoutData'
+import { useLayoutData } from '../../features/dashboard/layout.hooks'
 
 const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
 

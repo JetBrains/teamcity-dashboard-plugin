@@ -1,7 +1,9 @@
 // @flow strict
 
-import { createSelector, createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit'
 import type {
+	OpenWidgetSettingsPayload,
+	SaveWidgetSettingsActionCreatorArgument,
 	SaveWidgetSettingsActionPayload,
 	StartAddingNewWidgetPayload,
 	WidgetSettingsState,
@@ -27,6 +29,11 @@ export const selectWidgetSettingsWidgetId: (RootState) => ?WidgetId = createSele
 	(state: WidgetSettingsState) => state.widgetId
 )
 
+export const selectWidgetSettingsWidgetType: (RootState) => ?WidgetType = createSelector(
+	selectWidgetSettingsSlice,
+	(state: WidgetSettingsState) => state.widgetType
+)
+
 export const selectWidgetSettingsIsWidgetNew: (RootState) => boolean = createSelector(
 	selectWidgetSettingsSlice,
 	(state: WidgetSettingsState) => state.isWidgetNew
@@ -39,16 +46,34 @@ const widgetSettingsSlice = createSlice<WidgetSettingsState>({
 	initialState: {
 		areSettingsOpened: false,
 		widgetId: undefined,
+		widgetType: undefined,
 		isWidgetNew: false,
 	},
 	reducers: {
 		openWidgetSettings: (
 			state: WidgetSettingsState,
-			action: PayloadAction<WidgetId>
+			action: PayloadAction<OpenWidgetSettingsPayload>
 		) => {
-			const id = action.payload
+			const { isNew, type } = action.payload
 			state.areSettingsOpened = true
-			state.widgetId = id
+			state.widgetType = type
+			state.isWidgetNew = isNew
+			if (
+				isNew ||
+				action.payload.id === null ||
+				action.payload.id === undefined
+			) {
+				state.isWidgetNew = true
+				state.widgetId = undefined
+			} else {
+				state.isWidgetNew = false
+				state.widgetId = action.payload.id
+			}
+		},
+		closeWidgetSettings: (state: WidgetSettingsState) => {
+			state.areSettingsOpened = false
+			state.widgetId = undefined
+			state.widgetType = undefined
 			state.isWidgetNew = false
 		},
 		startAddingNewWidget: {
@@ -80,30 +105,44 @@ const widgetSettingsSlice = createSlice<WidgetSettingsState>({
 			state.widgetId = undefined
 			state.isWidgetNew = false
 		},
-		saveWidgetSettings: (state: WidgetSettingsState) => {
-			state.areSettingsOpened = false
-			state.widgetId = undefined
-			state.isWidgetNew = false
+		// saveWidgetSettings: (state: WidgetSettingsState) => {
+		// 	state.areSettingsOpened = false
+		// 	state.widgetId = undefined
+		// 	state.isWidgetNew = false
+		// },
+		saveWidgetSettings: {
+			reducer: (state: WidgetSettingsState) => {
+				state.areSettingsOpened = false
+				state.widgetId = undefined
+				state.isWidgetNew = false
+			},
+			prepare: ({
+				isNew,
+				id,
+				type,
+			}: SaveWidgetSettingsActionCreatorArgument): {|
+				payload: SaveWidgetSettingsActionPayload,
+			|} => ({
+				payload: {
+					isNew,
+					id:
+						isNew || id === null || id === undefined
+							? nanoid()
+							: id,
+					type,
+				},
+			}),
 		},
 	},
 })
 
 // Actions
 
-export const openWidgetSettings: (WidgetId) => PayloadAction<WidgetId> =
+export const openWidgetSettings: (OpenWidgetSettingsPayload) => PayloadAction<WidgetId> =
 	widgetSettingsSlice.actions.openWidgetSettings
 
-export const startAddingNewWidget: (
-	WidgetType,
-	?boolean
-) => PayloadAction<WidgetType> =
-	widgetSettingsSlice.actions.startAddingNewWidget
-
-export const cancelWidgetSettings: () => PayloadAction<void> =
-	widgetSettingsSlice.actions.cancelWidgetSettings
-
-export const saveWidgetSettings: (SaveWidgetSettingsActionPayload) => PayloadAction<SaveWidgetSettingsActionPayload> =
-	widgetSettingsSlice.actions.saveWidgetSettings
+export const closeWidgetSettings: () => PayloadAction<void> =
+	widgetSettingsSlice.actions.closeWidgetSettings
 
 // Reducers
 

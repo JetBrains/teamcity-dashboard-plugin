@@ -1,21 +1,17 @@
 // @flow strict
-import { useCallback } from 'react'
+import type { LayoutState } from './layout.types'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-	selectLayout,
-	setLayout,
-	type Layout,
-} from '../../store/slices/layoutSlice'
-import { type SetNewDataFunction } from '../../commontypes'
-import usePostDashboardData from '../usePostDashboardData'
+import { selectLayout, setLayout } from './layout.slice'
+import usePostDashboardData from '../../hooks/usePostDashboardData'
+import { useCallback } from 'react'
 
-export default function useLayoutData(): [Layout, SetNewDataFunction<Layout>] {
+export const useLayoutData = (): [LayoutState, (LayoutState) => void] => {
 	const layout = useSelector(selectLayout)
 	const dispatch = useDispatch()
 	const postDashboardData = usePostDashboardData()
 
 	const setNewLayout = useCallback(
-		(newLayout: Layout) => {
+		(newLayout: LayoutState) => {
 			dispatch(setLayout(newLayout))
 			postDashboardData()
 		},

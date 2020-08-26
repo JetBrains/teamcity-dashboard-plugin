@@ -2,7 +2,11 @@
 
 import type { WidgetType } from './widgets.types'
 import widgetConfigs from './widgetConfigs'
-import type { Component, WidgetConfig } from './widgetConfigs.types'
+import type {
+	Component,
+	WidgetConfig,
+	WidgetConfigDimensions,
+} from './widgetConfigs.types'
 
 const emptyArray = []
 
@@ -40,3 +44,15 @@ export const getWidgetSettingsComponent: ComponentSelector = (type) =>
 
 export const shouldWidgetOpenSettingsFirst = (type: WidgetType): boolean =>
 	getWidgetConfig(type).openSettingsFirst ?? true
+
+export const getWidgetConfigDimensions: WidgetConfigsUtilsSelector<WidgetConfigDimensions> = (
+	type
+) => {
+	const {
+		defaultWidth,
+		defaultHeight,
+		minWidth,
+		minHeight,
+	} = getWidgetConfig(type)
+	return { defaultWidth, defaultHeight, minWidth, minHeight }
+}

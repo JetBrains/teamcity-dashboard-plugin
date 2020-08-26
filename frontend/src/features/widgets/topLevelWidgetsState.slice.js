@@ -29,7 +29,7 @@ const selectTopLevelWidgetStateByType: (
 export const selectTopLevelWidgetStateProperty: <T: Json>(
 	propertyName: string,
 	initialValue: T
-) => (RootState, WidgetType) => T = (propertyName, initialValue) =>
+) => (RootState, WidgetType | '$global') => T = (propertyName, initialValue) =>
 	createSelector(
 		selectTopLevelWidgetStateByType,
 		(topLevelState: ?TopLevelWidgetState) =>
