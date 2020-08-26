@@ -9,6 +9,7 @@ const investigationsWidgetConfig: WidgetConfig = {
 	Header: InvestigationsWidgetHeader,
 	Body: InvestigationsWidgetBody,
 	settings: InvestigationsWidgetSettings,
+	openSettingsFirst: false,
 }
 
 export default investigationsWidgetConfig

@@ -1,6 +1,6 @@
 // @flow strict
 
-import type { WidgetId } from './widgets.types'
+import type { WidgetId, WidgetType } from './widgets.types'
 
 export type WidgetSettingsState = {|
 	areSettingsOpened: boolean,
@@ -11,4 +11,9 @@ export type WidgetSettingsState = {|
 export type SaveWidgetSettingsActionPayload = {|
 	id: ?WidgetId,
 	isNew: boolean,
+|}
+
+export type StartAddingNewWidgetPayload = {|
+	type: WidgetType,
+	openSettings: boolean,
 |}

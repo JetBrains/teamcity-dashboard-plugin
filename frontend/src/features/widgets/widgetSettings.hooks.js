@@ -61,11 +61,15 @@ export const useSaveWidgetSettings = (): (() => void) => {
 	)
 }
 
-export const useStartAddingNewWidget = (): ((WidgetType) => void) => {
+export const useStartAddingNewWidget = (): ((
+	WidgetType,
+	openSettings?: boolean
+) => void) => {
 	const dispatch = useDispatch()
 
 	return useCallback(
-		(type: WidgetType) => dispatch(startAddingNewWidget(type)),
+		(type: WidgetType, openSettings?: boolean) =>
+			dispatch(startAddingNewWidget(type, openSettings)),
 		[dispatch]
 	)
 }

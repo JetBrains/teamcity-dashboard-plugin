@@ -10,7 +10,6 @@ import type {
 import type {
 	InvestigationsWidgetSortByOption,
 	WidgetId,
-	WidgetOptions,
 } from '../widgets/widgets.types'
 import { selectWidgetOption } from '../widgets/widgets.slice'
 import {
@@ -88,7 +87,7 @@ export const selectInvestigationsSortedByName = (
 export const selectWidgetSortByOption: (
 	RootState,
 	widgetId: string
-) => $PropertyType<WidgetOptions, 'sortBy'> = selectWidgetOption(
+) => string = selectWidgetOption<string>(
 	'sortBy',
 	'time'
 )

@@ -9,9 +9,9 @@ export type InvestigationsWidgetData = {|
 	id: string,
 	type: 'investigationsWidget',
 	data: {|
-		sortBy?: InvestigationsWidgetSortByOption,
-		showFixed?: 'true' | 'false',
-		showOnlyDefaultBranch?: 'true' | 'false',
+		// sortBy?: InvestigationsWidgetSortByOption,
+		// showFixed?: 'true' | 'false',
+		// showOnlyDefaultBranch?: 'true' | 'false',
 	|},
 |}
 
@@ -19,17 +19,18 @@ export type BuildTypeChangesWidgetData = {|
 	id: string,
 	type: 'buildTypeChangesWidget',
 	data: {|
-		branchName?: string,
+		// branchName?: string,
 	|},
 |}
 
-export type WidgetOptions = {|
-	sortBy?: InvestigationsWidgetSortByOption,
-	showFixed?: 'true' | 'false',
-	showOnlyDefaultBranch?: 'true' | 'false',
+export type MyRecentBuildsWidgetData = {|
+	id: string,
+	type: 'myRecentBuildsWidget',
+	data: {| |},
 |}
-export type WidgetData = InvestigationsWidgetData | BuildTypeChangesWidgetData
-export type WidgetType = $PropertyType<WidgetType, 'type'>
+
+export type WidgetData = InvestigationsWidgetData | BuildTypeChangesWidgetData | MyRecentBuildsWidgetData
+export type WidgetType = $PropertyType<WidgetData, 'type'>
 export type WidgetDataWithoutId = $Diff<WidgetData, {| id: string |}>
 
 export interface WidgetsState {

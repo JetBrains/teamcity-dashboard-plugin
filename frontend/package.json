@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --host=localhost --port=9091",
+    "start-n-analyze": "webpack-dev-server --host=localhost --port=9091 --analyze=true",
     "build": "webpack --bail --env.production --env.analyze",
     "flow": "flow"
   },
@@ -29,6 +30,7 @@
     "@babel/preset-react": "^7.10.4",
     "@types/react-grid-layout": "^0.17.2",
     "babel-eslint": "^10.1.0",
+    "circular-dependency-plugin": "^5.2.0",
     "core-js": "^3.6.5",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",

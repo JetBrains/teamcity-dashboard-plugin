@@ -23,8 +23,8 @@ import {
 	startAddingNewWidget,
 } from './widgetSettings.slice'
 import { copyWidget, makeHiddenSettingsWidget } from './widgetSettings.utils'
-import { filterVisibleWidgetIds } from './widgets.utils'
-import type { SaveWidgetSettingsActionPayload } from './widgetSettings.types'
+import { createEmptyWidgetData, filterVisibleWidgetIds } from './widgets.utils'
+import type { SaveWidgetSettingsActionPayload, StartAddingNewWidgetPayload } from './widgetSettings.types'
 import type { PayloadAction } from '../../commontypes'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
@@ -77,13 +77,11 @@ const widgetsSlice = createSlice<WidgetsState>({
 		)
 		builder.addCase(
 			startAddingNewWidget,
-			(state: WidgetsState, action: PayloadAction<WidgetType>) => {
-				const type: WidgetType = action.payload
-				const emptyWidget: WidgetData = {
-					id: HIDDEN_SETTINGS_WIDGET_ID,
-					type,
-					data: {},
-				}
+			(state: WidgetsState, action: PayloadAction<StartAddingNewWidgetPayload>) => {
+				const { openSettings } = action.payload
+				const type: WidgetType = action.payload.type
+				const id = openSettings ? HIDDEN_SETTINGS_WIDGET_ID : nanoid()
+				const emptyWidget = createEmptyWidgetData(id, type)
 				widgetsAdapter.upsertOne(state, emptyWidget)
 			}
 		)

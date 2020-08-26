@@ -1,6 +1,7 @@
 const path = require('path')
 const ringUiConfig = require('@jetbrains/ring-ui/webpack.config')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 
 const bundlePath = path.resolve(
 	__dirname,
@@ -70,5 +71,18 @@ module.exports = (env = {}, argv = {}) => ({
 				reportFilename: 'bundle-report.html',
 				openAnalyzer: false,
 			}),
+		new CircularDependencyPlugin({
+			// exclude detection of files based on a RegExp
+			exclude: /a\.js|node_modules/,
+			// include specific files based on a RegExp
+			include: /src/,
+			// add errors to webpack instead of warnings
+			failOnError: true,
+			// allow import cycles that include an asyncronous import,
+			// e.g. via import(/* webpackMode: "weak" */ './file.js')
+			allowAsyncCycles: false,
+			// set the current working directory for displaying module paths
+			cwd: process.cwd(),
+		})
 	].filter(Boolean),
 })

@@ -3,6 +3,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type {
 	SaveWidgetSettingsActionPayload,
+	StartAddingNewWidgetPayload,
 	WidgetSettingsState,
 } from './widgetSettings.types'
 import type { WidgetId, WidgetType } from './widgets.types'
@@ -50,11 +51,30 @@ const widgetSettingsSlice = createSlice<WidgetSettingsState>({
 			state.widgetId = id
 			state.isWidgetNew = false
 		},
-		startAddingNewWidget: (state: WidgetSettingsState) => {
-			state.widgetId = undefined
-			state.areSettingsOpened = true
-			state.isWidgetNew = true
+		startAddingNewWidget: {
+			reducer: (
+				state: WidgetSettingsState,
+				action: PayloadAction<StartAddingNewWidgetPayload>
+			) => {
+				const shouldOpenSettings = action.payload.openSettings
+				if (shouldOpenSettings) {
+					state.widgetId = undefined
+					state.areSettingsOpened = true
+					state.isWidgetNew = true
+				}
+			},
+			prepare: (type: WidgetType, openSettings?: boolean = true) => ({
+				payload: {
+					type,
+					openSettings,
+				},
+			}),
 		},
+		// startAddingNewWidget: (state: WidgetSettingsState) => {
+		// 	state.widgetId = undefined
+		// 	state.areSettingsOpened = true
+		// 	state.isWidgetNew = true
+		// },
 		cancelWidgetSettings: (state: WidgetSettingsState) => {
 			state.areSettingsOpened = false
 			state.widgetId = undefined
@@ -73,7 +93,10 @@ const widgetSettingsSlice = createSlice<WidgetSettingsState>({
 export const openWidgetSettings: (WidgetId) => PayloadAction<WidgetId> =
 	widgetSettingsSlice.actions.openWidgetSettings
 
-export const startAddingNewWidget: (WidgetType) => PayloadAction<WidgetType> =
+export const startAddingNewWidget: (
+	WidgetType,
+	?boolean
+) => PayloadAction<WidgetType> =
 	widgetSettingsSlice.actions.startAddingNewWidget
 
 export const cancelWidgetSettings: () => PayloadAction<void> =
