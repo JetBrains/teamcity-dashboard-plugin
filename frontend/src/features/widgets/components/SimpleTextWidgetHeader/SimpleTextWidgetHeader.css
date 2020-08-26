@@ -1,0 +1,17 @@
+.SimpleTextWidgetHeader {
+	height: 100%;
+	display: grid;
+	place-items: center start;
+}
+
+.text {
+	font-style: normal;
+	font-weight: bold;
+	font-size: 13px;
+	line-height: 20px;
+
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

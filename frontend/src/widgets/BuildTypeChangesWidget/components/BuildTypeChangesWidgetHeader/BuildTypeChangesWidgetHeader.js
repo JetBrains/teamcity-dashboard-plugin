@@ -6,12 +6,13 @@ import { useBuildTypeConstants } from '../../../../features/buildTypes/buildType
 import ProjectLink from '../../../../features/projects/components/ProjectLink/ProjectLink'
 
 import styles from './BuildTypeChangesWidgetHeader.css'
+import SimpleTextWidgetHeader from '../../../../features/widgets/components/SimpleTextWidgetHeader/SimpleTextWidgetHeader'
 
 const BuildTypeChangesWidgetHeader = () => {
 	const [buildTypeId] = useBuildTypeIdOption()
 	const buildType = useBuildTypeConstants(buildTypeId)
 
-	return (
+	return buildTypeId !== null && buildTypeId !== undefined ? (
 		<div className={styles.BuildTypeChangesWidgetHeader}>
 			{buildType && (
 				<ProjectLink
@@ -19,13 +20,15 @@ const BuildTypeChangesWidgetHeader = () => {
 					className={styles.projectLink}
 				/>
 			)}
-			{buildTypeId !== null && buildTypeId !== undefined && (
-				<BuildTypeLink
-					buildTypeId={buildTypeId}
-					className={styles.buildTypeLink}
-				/>
-			)}
+			<BuildTypeLink
+				buildTypeId={buildTypeId}
+				className={styles.buildTypeLink}
+			/>
 		</div>
+	) : (
+		<SimpleTextWidgetHeader>
+			Build Configuration Changes
+		</SimpleTextWidgetHeader>
 	)
 }
 

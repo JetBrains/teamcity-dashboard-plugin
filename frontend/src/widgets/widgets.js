@@ -6,8 +6,8 @@ import type { WidgetType } from '../features/widgets/widgets.types'
 import InvestigationsWidgetHeader from './InvestigationsWidget/components/InvestigationsWidgetHeader/InvestigationsWidgetHeader'
 import BuildTypeChangesWidgetHeader from './BuildTypeChangesWidget/components/BuildTypeChangesWidgetHeader/BuildTypeChangesWidgetHeader'
 import CollapseAllExpandAllButton from './BuildTypeChangesWidget/components/CollapseAllExpandAllButton/CollapseAllExpandAllButton'
-import BuildTypeChangesWidgetSettings
-	from './BuildTypeChangesWidget/components/BuildTypeChangesWidgetSettings/BuildTypeChangesWidgetSettings'
+import BuildTypeChangesWidgetSettings from './BuildTypeChangesWidget/components/BuildTypeChangesWidgetSettings/BuildTypeChangesWidgetSettings'
+import myRecentBuildsWidgetConfig from './MyRecentBuildsBuildsWidget'
 
 type WidgetProperties = {|
 	widgetId: string,
@@ -17,16 +17,19 @@ export type WidgetComponent = (props: WidgetProperties) => React$Node
 
 export type Component = () => React$Node
 
-export type Widget = {
+export type WidgetConfig = {
 	name: string,
 	Header: Component,
 	settings: Component,
 	Body: Component,
 	headerOptions?: Component[],
+	minWidth?: number,
+	minHeight?: number,
+	openSettingsFirst?: boolean,
 	...
 }
 
-const widgets: {| [widgetType: WidgetType]: Widget |} = {
+const widgets: {| [widgetType: WidgetType]: WidgetConfig |} = {
 	investigationsWidget: {
 		name: 'My Investigations',
 		Header: InvestigationsWidgetHeader,
@@ -42,10 +45,10 @@ const widgets: {| [widgetType: WidgetType]: Widget |} = {
 		// $FlowFixMe
 		headerOptions: [CollapseAllExpandAllButton],
 	},
+	myRecentBuildsWidget: myRecentBuildsWidgetConfig,
 }
 
-export const getWidgetSettingsComponent = (
-	type: WidgetType
-): ?Component => widgets[type]?.settings
+export const getWidgetSettingsComponent = (type: WidgetType): ?Component =>
+	widgets[type]?.settings
 
 export default widgets

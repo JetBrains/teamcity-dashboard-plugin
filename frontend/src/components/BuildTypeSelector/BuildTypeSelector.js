@@ -1,8 +1,8 @@
 // @flow strict
 import React, { useCallback, useMemo } from 'react'
-import usePathToProjectOrBuildType from '../../hooks/TC/usePathToProjectOrBuildType'
 import TC from '@teamcity/react-api'
 import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
+import { usePathToBuildType } from '../../features/buildTypes/buildTypes.hooks'
 
 const { ProjectBuildtypeDropdown } = TC.Components
 const baseUri = TC.base_uri
@@ -19,10 +19,7 @@ const init = (element) => {
 }
 
 const BuildTypeSelector = ({ selectedBuildTypeId, onSelect }: Properties) => {
-	const fullPath = usePathToProjectOrBuildType(
-		'buildType',
-		selectedBuildTypeId ?? ''
-	)
+	const fullPath = usePathToBuildType(selectedBuildTypeId ?? '')
 
 	const selected = useMemo(
 		() =>

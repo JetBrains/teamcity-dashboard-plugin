@@ -6,6 +6,8 @@ import WidgetEllipsisOptions from '../WidgetHeaderOptions/WidgetEllipsisOptions/
 import WidgetIsland from '../../../../components/WidgetIsland/WidgetIsland'
 import ThisWidgetGeneralDataProvider from '../ThisWidgetGeneralDataProvider/ThisWidgetGeneralDataProvider'
 import type { WidgetId } from '../../widgets.types'
+import ErrorLoadingWidgetBodyMessage from '../ErrorLoadingWidgetBodyMessage/ErrorLoadingWidgetBodyMessage'
+import SimpleTextWidgetHeader from '../SimpleTextWidgetHeader/SimpleTextWidgetHeader'
 
 interface Properties {
 	widgetId: WidgetId;
@@ -37,14 +39,18 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 		>
 			<WidgetIsland
 				title={
-					widget?.Header ? <widget.Header /> : <span>Loading...</span>
+					widget?.Header ? (
+						<widget.Header />
+					) : (
+						<SimpleTextWidgetHeader>!</SimpleTextWidgetHeader>
+					)
 				}
 				headerOptions={headerOptions}
 			>
 				{widget?.Body ? (
 					<widget.Body />
 				) : (
-					<span>Error loading widget body</span>
+					<ErrorLoadingWidgetBodyMessage />
 				)}
 			</WidgetIsland>
 		</ThisWidgetGeneralDataProvider>

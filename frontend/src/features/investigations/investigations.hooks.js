@@ -15,6 +15,9 @@ import type { UserId } from '../../api/user/schemata'
 
 import TC from '@teamcity/react-api'
 import { useCurrentUserId } from '../users/users.hooks'
+import type { ProjectId } from '../projects/projects.types'
+import type { BuildId } from '../builds/builds.types'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export const useFilteredInvestigationsCount = (widgetId: WidgetId): number => {
 	const selector = useMemo(
@@ -62,4 +65,19 @@ export const useFilteredSortedInvestigations = (
 	const investigations = useSelector(selector)
 	return [status, investigations]
 }
-export default useInvestigationsCounterOnUpdate
+
+type UseReassignInvestigationDataType = {| fixMode: boolean |} & (
+	| {
+			type: 'buildType',
+			projectId: ProjectId,
+			testId: number,
+			buildsIds: BuildId[],
+			...
+	  }
+	| { type: 'problem', problemId: number, buildId: BuildId, ... }
+	| { type: 'test', buildTypeId: BuildTypeId, buildTypeName: string, ... }
+)
+
+export const useReassignInvestigation: (
+	data: UseReassignInvestigationDataType
+) => () => void = TC.hooks.useReassignInvestigation

@@ -20,7 +20,7 @@ export type BuildState =
 
 export type Build = {
 	id: BuildId,
-	buildTypeId: BuildTypeId,
+	buildType: BuildTypeId,
 	status: BuildStatus,
 	statusText: string,
 	state: BuildState,
@@ -28,5 +28,12 @@ export type Build = {
 	changesCount: number,
 	number: string,
 	userId?: UserId,
+	+queuedDate?: string,
+	+startDate?: string,
+	+finishDate?: string,
+	+agent?: {
+		id: number,
+		...
+	},
 	...
 }

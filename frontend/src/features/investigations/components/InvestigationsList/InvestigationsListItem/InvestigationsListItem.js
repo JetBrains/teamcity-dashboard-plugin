@@ -1,11 +1,15 @@
 // @flow strict
 import React, { memo, useMemo } from 'react'
 import styles from './styles.css'
-import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
+// import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
 import InvestigationAdditionalInfoDropdown from '../../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
 import type { Investigation } from '../../../investigations.types'
 import BuildTypeInvestigationLink from '../BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
 import TestOrProblemInvestigationLink from '../TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
+
+import TC from '@teamcity/react-api'
+
+const { ProjectPath } = TC.Components
 
 const areInvestigationsEqual = (
 	investigation1: Investigation,
@@ -63,7 +67,10 @@ const InvestigationsListItem = memo<Properties>(
 			<div>
 				{withPath && (
 					<div className={styles.projectPathContainer}>
-						<ProjectPath projectId={investigation.projectId} />
+						<ProjectPath
+							projectId={investigation.projectId}
+							className={styles.projectPath}
+						/>
 					</div>
 				)}
 

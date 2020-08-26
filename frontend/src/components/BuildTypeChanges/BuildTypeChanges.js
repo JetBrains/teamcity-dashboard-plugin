@@ -37,8 +37,8 @@ const BuildTypeChanges = ({ buildTypeId, branch }: Properties) => {
 					buildTypeId={buildTypeId}
 					buildTypeInternalId={buildType.internalId}
 					withRunningAndQueued
-					renderEachBuild={(id) => (
-						<BuildChanges key={id} buildId={id} />
+					renderEachBuild={(build) => (
+						<BuildChanges key={build.id} buildId={build.id} />
 					)}
 				/>
 			)}

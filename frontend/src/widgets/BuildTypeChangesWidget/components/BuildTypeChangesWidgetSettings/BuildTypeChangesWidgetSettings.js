@@ -5,6 +5,7 @@ import WidgetSettings, {
 } from '../../../../features/widgets/components/WidgetSettings/WidgetSettings'
 import BuildTypeChangesWidgetBuildTypeSelector from '../../options/BuildTypeChangesWidgetBuildTypeSelector'
 import BranchWidgetOptionSelector from '../BranchWidgetOptionSelector/BranchWidgetOptionSelector'
+import Field from '../../../../features/widgets/components/WidgetSettings/Field/Field'
 
 const BuildTypeChangesWidgetSettings = () => {
 	return (
@@ -12,11 +13,13 @@ const BuildTypeChangesWidgetSettings = () => {
 			title="Changes Widget Settings"
 			description="Widget support: ekaterina.silaeva@jetbrains.com"
 		>
-			<Section title="Build Configuration">
-				<BuildTypeChangesWidgetBuildTypeSelector />
-			</Section>
-			<Section title="Branch">
-				<BranchWidgetOptionSelector />
+			<Section>
+				<Field>
+					<BuildTypeChangesWidgetBuildTypeSelector />
+				</Field>
+				<Field>
+					<BranchWidgetOptionSelector />
+				</Field>
 			</Section>
 		</WidgetSettings>
 	)

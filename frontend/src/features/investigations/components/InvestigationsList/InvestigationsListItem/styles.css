@@ -11,6 +11,10 @@
 	margin-bottom: 4px;
 }
 
+.projectPath {
+	color: var(--ring-secondary-color);
+}
+
 .listItem .mainContent {
 	width: 80%;
 	/*margin-left: 15px;*/

@@ -11,3 +11,10 @@ export type Project = {
 	webUrl?: string,
 	...
 }
+
+export type ProjectOrBuildTypeNode = {
+	name?: string,
+	...
+}
+
+export type FullPath = Array<ProjectOrBuildTypeNode>

@@ -4,7 +4,7 @@ import Button from '@jetbrains/ring-ui/components/button/button'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import widgets from '../../../../widgets/widgets'
-import type { Widget } from '../../../../widgets/widgets'
+import type { WidgetConfig } from '../../../../widgets/widgets'
 import type { WidgetType } from '../../../widgets/widgets.types'
 import { useStartAddingNewWidget } from '../../../widgets/widgetSettings.hooks'
 
@@ -15,7 +15,7 @@ type Option = {|
 // TODO: weird because widgets is exact
 // $FlowFixMe
 const data: Option[] = Object.entries(widgets).map(
-	([type, widget]: [string, Widget]) => ({
+	([type, widget]: [string, WidgetConfig]) => ({
 		label: widget.name,
 		type,
 	})
