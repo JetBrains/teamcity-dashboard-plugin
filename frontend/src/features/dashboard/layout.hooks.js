@@ -1,9 +1,10 @@
 // @flow strict
 import type { LayoutState } from './layout.types'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectLayout, setLayout } from './layout.slice'
-import usePostDashboardData from '../../hooks/usePostDashboardData'
+import { setLayout } from './layout.slice'
 import { useCallback } from 'react'
+import { usePostDashboardData } from './postingDashboardData.hooks'
+import { selectLayout } from './layout.selectors'
 
 export const useLayoutData = (): [LayoutState, (LayoutState) => void] => {
 	const layout = useSelector(selectLayout)

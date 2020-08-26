@@ -3,10 +3,10 @@
 import type { WidgetType } from './widgets.types'
 import widgetConfigs from './widgetConfigs'
 import type {
-	Component,
 	WidgetConfig,
 	WidgetConfigDimensions,
 } from './widgetConfigs.types'
+import type { Component } from './config/widgetComponents.types'
 
 const emptyArray = []
 

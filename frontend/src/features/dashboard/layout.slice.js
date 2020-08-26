@@ -1,18 +1,18 @@
 // @flow strict
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { LayoutState } from './layout.types'
-import { fetchDashboardData } from '../../store/slices/fetchingDashboardData'
-import type { DashboardData } from '../../commontypes'
 import { addWidget, removeWidget } from '../widgets/widgets.slice'
 import type { WidgetData, WidgetId } from '../widgets/widgets.types'
 import { getWidgetConfigDimensions } from '../widgets/widgetConfigs.utils'
-import type { RootState } from '../../store'
+import type { DashboardData } from './dashboard.types'
+import { fetchDashboardData } from './fetchingDashboardData.slice'
 
 export const layoutSlice = createSlice<LayoutState>({
 	name: 'layout',
 	initialState: [],
 	reducers: {
-		setLayout: (state, action: PayloadAction<LayoutState>) => action.payload,
+		setLayout: (state, action: PayloadAction<LayoutState>) =>
+			action.payload,
 	},
 	extraReducers: (builder) => {
 		builder.addCase(
@@ -53,8 +53,4 @@ export const layoutSlice = createSlice<LayoutState>({
 export const setLayout: (LayoutState) => void = layoutSlice.actions.setLayout
 // export const addLayoutElement = layoutSlice.actions.addLayoutElement
 
-// Selectors
-export const selectLayout = (state: RootState) => state.layout
-
 export default layoutSlice.reducer
-

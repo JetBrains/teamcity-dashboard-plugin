@@ -19,6 +19,7 @@ import {
 	selectWidgetStateProperty,
 	setWidgetStateProperty,
 } from './widgetsState.slice'
+import { usePostDashboardData } from '../dashboard/postingDashboardData.hooks'
 
 export const useRemoveWidget = (widgetId: WidgetId): (() => void) => {
 	const dispatch = useDispatch()
@@ -46,11 +47,14 @@ export const useWidgetOption = <T>(
 	)
 	const dispatch = useDispatch()
 	const widgetOptionValue = useSelector((state) => selector(state, widgetId))
+	const postDashboardData = usePostDashboardData()
 
 	const setWidgetOptionValue = useCallback(
-		(newValue: T) =>
-			dispatch(setWidgetOption(widgetId, optionName, newValue)),
-		[dispatch, optionName, widgetId]
+		(newValue: T) => {
+			dispatch(setWidgetOption(widgetId, optionName, newValue))
+			postDashboardData()
+		},
+		[dispatch, optionName, postDashboardData, widgetId]
 	)
 	return [widgetOptionValue, setWidgetOptionValue]
 }

@@ -2,8 +2,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import layoutSliceReducer from '../features/dashboard/layout.slice'
 import widgetsSliceReducer from '../features/widgets/widgets.slice'
-import fetchingDashboardDataSliceReducer from './slices/fetchingDashboardData'
-import postingDashboardDataSliceReducer from './slices/postingDashboardData'
+import fetchingDashboardDataSliceReducer from '../features/dashboard/fetchingDashboardData.slice'
+import postingDashboardDataSliceReducer from '../features/dashboard/postingDashboardData.slice'
 import investigationsSliceReducer from '../features/investigations/investigations.slice'
 import { type AsyncState } from '../commontypes'
 import changesSliceReducer, {

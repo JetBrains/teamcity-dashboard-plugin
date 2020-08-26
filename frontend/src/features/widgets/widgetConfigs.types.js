@@ -1,8 +1,7 @@
 // @flow strict
 
 import type { WidgetType } from './widgets.types'
-
-export type Component = () => React$Node
+import type { Component } from './config/widgetComponents.types'
 
 export type WidgetConfig = {
 	name: string,
@@ -24,5 +23,5 @@ export type WidgetConfigDimensions = {
 }
 
 export type WidgetConfigs = {|
-	[type: WidgetType]: WidgetConfig
+	[type: WidgetType]: WidgetConfig,
 |}

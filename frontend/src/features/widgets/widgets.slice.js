@@ -5,7 +5,6 @@ import {
 	createSlice,
 	nanoid,
 } from '@reduxjs/toolkit'
-import { fetchDashboardData } from '../../store/slices/fetchingDashboardData'
 import type { RootState } from '../../store'
 import type {
 	SetWidgetPropertyActionPayload,
@@ -21,11 +20,10 @@ import {
 } from './widgetSettings.slice'
 import { copyWidget, makeHiddenSettingsWidget } from './widgetSettings.utils'
 import { createEmptyWidgetData, filterVisibleWidgetIds } from './widgets.utils'
-import type {
-	OpenWidgetSettingsPayload,
-} from './widgetSettings.types'
+import type { OpenWidgetSettingsPayload } from './widgetSettings.types'
 import type { Json, PayloadAction } from '../../commontypes'
 import { type Dispatch } from 'redux'
+import { fetchDashboardData } from '../dashboard/fetchingDashboardData.slice'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
