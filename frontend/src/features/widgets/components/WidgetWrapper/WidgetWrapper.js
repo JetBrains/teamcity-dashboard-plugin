@@ -7,7 +7,11 @@ import ThisWidgetGeneralDataProvider from '../ThisWidgetGeneralDataProvider/This
 import type { WidgetId, WidgetType } from '../../widgets.types'
 import ErrorLoadingWidgetBodyMessage from '../ErrorLoadingWidgetBodyMessage/ErrorLoadingWidgetBodyMessage'
 import SimpleTextWidgetHeader from '../SimpleTextWidgetHeader/SimpleTextWidgetHeader'
-import { getWidgetBodyComponent, getWidgetHeaderComponent, getWidgetHeaderOptions } from '../../widgetConfigs.utils'
+import {
+	getWidgetBodyComponent,
+	getWidgetHeaderComponent,
+	getWidgetHeaderOptions,
+} from '../../config/widgetComponents.helpers'
 
 interface Properties {
 	widgetId: WidgetId;

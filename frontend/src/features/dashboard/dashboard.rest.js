@@ -1,6 +1,6 @@
 // @flow strict
 // $FlowFixMe
-import type { WidgetData, WidgetId, WidgetType } from '../widgets/widgets.types'
+import type { WidgetData, WidgetId } from '../widgets/widgets.types'
 import type { Json } from '../../commontypes'
 import TC from '@teamcity/react-api'
 import type { DashboardData } from './dashboard.types'
@@ -8,9 +8,9 @@ import type { LayoutElementData } from './layout.types'
 
 type FetchedWidgetData = {
 	id: WidgetId,
-	type: WidgetType,
+	type: string,
 	data: {|
-		[key: string]: Json
+		[key: string]: Json,
 	|},
 	...
 }
@@ -32,11 +32,21 @@ type FetchedDashboardData = {
 
 // TODO: fix flow
 // $FlowFixMe
-const parseWidgetData = ({ id, type, data }: FetchedWidgetData): WidgetData => ({id, type, data})
+const parseWidgetData = ({
+	id,
+	type,
+	data,
+}: FetchedWidgetData): WidgetData => ({ id, type, data })
 // $FlowFixMe
 const prepareWidgetData = (widget: WidgetData): FetchedWidgetData => widget
 
-const parseLayoutElementData = ({i, x, y, w, h}: FetchedLayoutElementData): LayoutElementData => ({i, x, y, w, h})
+const parseLayoutElementData = ({
+	i,
+	x,
+	y,
+	w,
+	h,
+}: FetchedLayoutElementData): LayoutElementData => ({ i, x, y, w, h })
 
 const prepareLayoutElementData: (LayoutElementData) => FetchedLayoutElementData = parseLayoutElementData
 
@@ -44,19 +54,21 @@ const parseDashboardData = ({
 	layout,
 	widgets,
 }: FetchedDashboardData): DashboardData => ({
-	layout: layout.map(element => parseLayoutElementData(element)),
+	layout: layout.map((element) => parseLayoutElementData(element)),
 	widgets: widgets.map((widget) => parseWidgetData(widget)),
 })
 
-const prepareDashboardData = ({layout, widgets}: DashboardData): FetchedDashboardData => ({
-	layout: layout.map(element => prepareLayoutElementData(element)),
-	widgets: widgets.map(widget => prepareWidgetData(widget))
+const prepareDashboardData = ({
+	layout,
+	widgets,
+}: DashboardData): FetchedDashboardData => ({
+	layout: layout.map((element) => prepareLayoutElementData(element)),
+	widgets: widgets.map((widget) => prepareWidgetData(widget)),
 })
 
 export const requestDashboardData = async (): Promise<DashboardData> => {
 	return parseDashboardData(await TC.requestJSON('/dashboardData.html'))
 }
-
 
 export async function getDashboardDataFromServer(): Promise<DashboardData> {
 	return parseDashboardData(await TC.requestJSON('/dashboardData.html'))

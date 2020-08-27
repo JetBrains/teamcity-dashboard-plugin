@@ -4,14 +4,15 @@ import Button from '@jetbrains/ring-ui/components/button/button'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import type { WidgetType } from '../../../widgets/widgets.types'
+
+import { useDispatch } from 'react-redux'
+import { openWidgetSettings } from '../../../widgets/widgetSettings.slice'
+import { addWidget } from '../../../widgets/widgets.slice'
 import {
 	getWidgetName,
 	shouldWidgetOpenSettingsFirst,
 	supportedWidgetTypes,
-} from '../../../widgets/widgetConfigs.utils'
-import { useDispatch } from 'react-redux'
-import { openWidgetSettings } from '../../../widgets/widgetSettings.slice'
-import { addWidget } from '../../../widgets/widgets.slice'
+} from '../../../widgets/config/widgetProperties.helpers'
 
 const useOnSelect = (): ((Option) => void) => {
 	const dispatch = useDispatch()

@@ -24,6 +24,7 @@ import type { OpenWidgetSettingsPayload } from './widgetSettings.types'
 import type { Json, PayloadAction } from '../../commontypes'
 import { type Dispatch } from 'redux'
 import { fetchDashboardData } from '../dashboard/fetchingDashboardData.slice'
+import { isWidgetTypeSupported } from './config/widgetProperties.helpers'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
@@ -169,7 +170,12 @@ export const selectWidgetDataType: (
 	widgetId: string
 ) => ?$PropertyType<WidgetData, 'type'> = createSelector(
 	selectWidgetById,
-	(widget: WidgetData) => (widget ? widget.type : undefined)
+	(widget: WidgetData) => {
+		const type = widget?.type
+		if (type !== undefined && type !== null && isWidgetTypeSupported(type)) {
+			return type
+		}
+	}
 )
 
 // Widget Options

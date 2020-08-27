@@ -3,9 +3,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { LayoutState } from './layout.types'
 import { addWidget, removeWidget } from '../widgets/widgets.slice'
 import type { WidgetData, WidgetId } from '../widgets/widgets.types'
-import { getWidgetConfigDimensions } from '../widgets/widgetConfigs.utils'
 import type { DashboardData } from './dashboard.types'
 import { fetchDashboardData } from './fetchingDashboardData.slice'
+import { getWidgetDimensionsProperties } from '../widgets/config/widgetProperties.helpers'
 
 export const layoutSlice = createSlice<LayoutState>({
 	name: 'layout',
@@ -29,7 +29,7 @@ export const layoutSlice = createSlice<LayoutState>({
 					minWidth,
 					defaultHeight,
 					defaultWidth,
-				} = getWidgetConfigDimensions(type)
+				} = getWidgetDimensionsProperties(type)
 				state.push({
 					i: id,
 					x: 5,

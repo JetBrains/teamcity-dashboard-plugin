@@ -5,7 +5,7 @@ import ThisWidgetGeneralDataProvider from '../../ThisWidgetGeneralDataProvider/T
 import WidgetSettingsMainLayout from '../WidgetSettingsMainLayout/WidgetSettingsMainLayout'
 import CenteredMessage from '../../../../../components/CenteredMessage/CenteredMessage'
 import { HIDDEN_SETTINGS_WIDGET_ID } from '../../../widgetSettings.slice'
-import { getWidgetSettingsComponent } from '../../../widgetConfigs.utils'
+import { getWidgetSettingsComponent } from '../../../config/widgetComponents.helpers'
 
 const WidgetSettingsWrapper = () => {
 	const type = useWidgetType(HIDDEN_SETTINGS_WIDGET_ID)
@@ -22,7 +22,7 @@ const WidgetSettingsWrapper = () => {
 				</WidgetSettingsMainLayout>
 			) : (
 				<CenteredMessage
-					textIcon="¯\_(ツ)_/¯"
+					textIcon="๏̯̃๏"
 					text="This widget does not appear to have any settings"
 				/>
 			)}
