@@ -4,9 +4,9 @@ import type { Build } from '../../../../features/builds/builds.types'
 
 import TC from '@teamcity/react-api'
 import MyRecentBuildsListItem from './MyRecentBuildsListItem/MyRecentBuildsListItem'
+import addLocatorCount from '../../../../utils/addLocatorCount'
 
 const { BuildsList } = TC.Components
-
 
 const shouldRenderBuildTypeHeader = (
 	build: Build,
@@ -20,7 +20,7 @@ const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 const MyRecentBuildsList = () => {
 	return (
 		<BuildsList
-			locator="defaultFilter:false,user:current"
+			locator={addLocatorCount('defaultFilter:false,user:current', 50)}
 			renderEachBuild={(build: Build, index: number, builds: Build[]) => (
 				<MyRecentBuildsListItem
 					withBuildTypeHeader={shouldRenderBuildTypeHeader(
