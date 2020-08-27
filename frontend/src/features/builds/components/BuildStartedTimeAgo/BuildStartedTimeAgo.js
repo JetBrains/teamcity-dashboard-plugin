@@ -4,6 +4,7 @@ import type { BuildId } from '../../builds.types'
 import { useBuild } from '../../builds.hooks'
 import TimeAgo from 'react-timeago'
 import { parseTimestamp } from '../../../../utils/parseTimestamp'
+import { useGetCurrentTime } from '../../../currentTime/currentTime.hooks'
 
 interface Properties {
 	buildId: BuildId;
@@ -12,6 +13,8 @@ interface Properties {
 const BuildStartedTimeAgo = ({ buildId }: Properties) => {
 	const build = useBuild(buildId)
 	const timestamp = build?.startDate
+
+	const getTime = useGetCurrentTime()
 
 	const date: ?Date = useMemo(
 		() =>
@@ -22,7 +25,7 @@ const BuildStartedTimeAgo = ({ buildId }: Properties) => {
 	)
 
 	// eslint-disable-next-line unicorn/no-null
-	return date ? <TimeAgo date={date} /> : null
+	return date ? <TimeAgo date={date} live={false} now={getTime} /> : null
 }
 
 export default BuildStartedTimeAgo

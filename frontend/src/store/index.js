@@ -22,6 +22,8 @@ import type { InvestigationsState } from '../features/investigations/investigati
 import type { WidgetSettingsState } from '../features/widgets/widgetSettings.types'
 import widgetSettingsSliceReducer from '../features/widgets/widgetSettings.slice'
 import type { LayoutState } from '../features/dashboard/layout.types'
+import type { CurrentTimeState } from '../features/currentTime/currentTime.types'
+import currentTimeSliceReducer from '../features/currentTime/currentTime.slice'
 
 export interface RootState {
 	layout: LayoutState;
@@ -35,6 +37,7 @@ export interface RootState {
 	buildTypesConstants: BuildTypeConstantsState;
 	widgetsState: WidgetStateState;
 	widgetSettings: WidgetSettingsState;
+	currentTime: CurrentTimeState;
 }
 
 const store = configureStore<RootState>({
@@ -50,6 +53,7 @@ const store = configureStore<RootState>({
 		topLevelWidgetsState: topLevelWidgetsStateSliceReducer,
 		widgetsState: widgetsStateSliceReducer,
 		widgetSettings: widgetSettingsSliceReducer,
+		currentTime: currentTimeSliceReducer,
 	},
 })
 
