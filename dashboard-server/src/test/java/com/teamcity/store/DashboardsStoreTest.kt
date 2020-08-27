@@ -3,6 +3,9 @@ import com.teamcity.store.dashboarddata.GridElementData
 import com.teamcity.store.dashboarddata.WidgetData
 import com.teamcity.store.interfaces.DashboardDataSerializer
 import com.teamcity.store.interfaces.UserPropertyDB
+import kotlinx.serialization.ImplicitReflectionSerializer
+import kotlinx.serialization.UnstableDefault
+import kotlinx.serialization.json.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -14,11 +17,12 @@ internal abstract class DashboardsStoreTest<U> {
     abstract var store: DashboardsStore<U>
 
     private fun generateWidgetData(index: Int): WidgetData {
-        val data = mutableMapOf<String, String>()
+        val data = mutableMapOf<String, JsonElement>()
+
         for (i in 0 until index) {
-            data["$i"] = "$i"
+            data["$i"] = JsonPrimitive("$i")
         }
-        return WidgetData("$index", "widget-$index", data)
+        return WidgetData("$index", "widget-$index", JsonObject(data))
     }
 
     private fun generateGridElementData(index: Int): GridElementData {
