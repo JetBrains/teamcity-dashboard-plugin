@@ -1,7 +1,7 @@
 // @flow strict
 import React, { useCallback } from 'react'
 import classNames from 'classnames'
-import type { ChangeId } from '../../changes.slice'
+import type { Change, ChangeId } from '../../changes.slice'
 import { useChange } from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import styles from './ChangeView.css'
@@ -9,6 +9,17 @@ import FilesIcon from '../../../../resources/svg/files.svg'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import ClampedText from '../../../../components/ClampedText/ClampedText'
 import { Link } from '@jetbrains/ring-ui'
+import getUserDisplayName from '../../../../api/user/getUserDisplayName'
+
+const getChangeUserDisplayName = (change: Change): string => {
+	const {username: vcsUsername, user} = change
+	if (user === undefined || user === null) {
+		return vcsUsername
+	} else {
+		return getUserDisplayName(user)
+	}
+}
+
 
 interface Properties {
 	changeId: ChangeId;
@@ -56,11 +67,10 @@ const ChangeView = ({
 			</span>
 			{change ? (
 				<div className={styles.metadata}>
-					<span className={styles.username}>{change.username},</span>
+					<span className={styles.username}>{getChangeUserDisplayName(change)},</span>
 					<span className={styles.date}>
 						<FormattedDate date={change.date} />
 					</span>
-					{/*{change.username}, <FormattedDate date={change.date} />*/}
 				</div>
 			) : (
 				<span>Loading..</span>

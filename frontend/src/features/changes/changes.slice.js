@@ -19,6 +19,7 @@ import type {
 } from './changesIdsByLocator.types'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
+import type { User } from '../../api/user/schemata'
 
 export type ChangeId = number
 export type Change = {
@@ -27,6 +28,7 @@ export type Change = {
 	comment: string,
 	date: string,
 	webUrl?: ?string,
+	user?: User,
 	...
 }
 
