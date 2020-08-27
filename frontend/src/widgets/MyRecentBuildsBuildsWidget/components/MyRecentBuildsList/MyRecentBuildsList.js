@@ -8,6 +8,8 @@ import addLocatorCount from '../../../../utils/addLocatorCount'
 
 const { BuildsList } = TC.Components
 
+const UPDATE_PERIOD = 30 * 1000
+
 const shouldRenderBuildTypeHeader = (
 	build: Build,
 	index: number,
@@ -21,6 +23,7 @@ const MyRecentBuildsList = () => {
 	return (
 		<BuildsList
 			locator={addLocatorCount('defaultFilter:false,user:current', 50)}
+			updatePeriod={UPDATE_PERIOD}
 			renderEachBuild={(build: Build, index: number, builds: Build[]) => (
 				<MyRecentBuildsListItem
 					withBuildTypeHeader={shouldRenderBuildTypeHeader(
