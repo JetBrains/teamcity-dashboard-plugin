@@ -2,26 +2,43 @@
 import React from 'react'
 import type { BranchesLocator } from '../../../branches/branches.locator'
 import CollapseChangesList from '../../../../widgets/BuildTypeChangesWidget/components/CollapseChangesList/CollapseChangesList'
-import PendingBuildTypeChangesList from './PendingBuildTypeChangesList/PendingBuildTypeChangesList'
 import type { BuildTypeId } from '../../../buildTypes/buildTypes.types'
-import { usePendingBuildTypeChangesLocator } from '../../changes.hooks'
+import {
+	usePendingBuildTypeChangesIdsWithSubscription,
+	usePendingBuildTypeChangesLocator,
+} from '../../changes.hooks'
+import ChangesList from '../ChangesList/ChangesList'
 
 interface Properties {
 	buildTypeId: BuildTypeId;
 	branch: BranchesLocator;
 }
 
-const BuildTypePendingChanges = ({ buildTypeId, branch }: Properties) => {
-	const locator = usePendingBuildTypeChangesLocator(buildTypeId, branch)
+const BuildTypePendingChanges = React.memo<Properties>(
+	({ buildTypeId, branch }: Properties) => {
+		const locator = usePendingBuildTypeChangesLocator(buildTypeId, branch)
 
-	return (
-		<CollapseChangesList title={('Pending': React$Node)} locator={locator}>
-			<PendingBuildTypeChangesList
-				buildTypeId={buildTypeId}
-				branch={branch}
-			/>
-		</CollapseChangesList>
-	)
-}
+		const [changesIds] = usePendingBuildTypeChangesIdsWithSubscription(
+			buildTypeId,
+			branch
+		)
+
+		return changesIds.length !== 0 ? (
+			<CollapseChangesList
+				title={('Pending': React$Node)}
+				locator={locator}
+			>
+				{changesIds ? (
+					<ChangesList changesIds={changesIds} />
+				) : (
+					<span>Loading...</span>
+				)}
+			</CollapseChangesList>
+		) : // eslint-disable-next-line unicorn/no-null
+		null
+	}
+)
+
+BuildTypePendingChanges.displayName = 'BuildTypePendingChanges'
 
 export default BuildTypePendingChanges

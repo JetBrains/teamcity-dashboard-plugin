@@ -8,6 +8,9 @@ import { stringifyBuildsLocator } from '../../features/builds/builds.locator'
 import { useBuildTypeConstants } from '../../features/buildTypes/buildTypesConstants.hooks'
 import BuildTypePendingChanges from '../../features/changes/components/BuildTypePendingChanges/BuildTypePendingChanges'
 import type { BuildTypeId } from '../../features/buildTypes/buildTypes.types'
+import NoBuildsMessage from '../NoBuildsMessage/NoBuildsMessage'
+
+import styles from './BuildTypeChanges.css'
 
 const { BuildsList } = TC.Components
 
@@ -26,7 +29,7 @@ const BuildTypeChanges = ({ buildTypeId, branch }: Properties) => {
 	}
 
 	return (
-		<div>
+		<div className={styles.BuildTypeChanges}>
 			<BuildTypePendingChanges
 				buildTypeId={buildTypeId}
 				branch={branch}
@@ -40,6 +43,7 @@ const BuildTypeChanges = ({ buildTypeId, branch }: Properties) => {
 					renderEachBuild={(build) => (
 						<BuildChanges key={build.id} buildId={build.id} />
 					)}
+					emptyListPlaceholder={<NoBuildsMessage />}
 				/>
 			)}
 		</div>
