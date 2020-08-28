@@ -1,0 +1,65 @@
+.BuildInfo {
+	width: 100%;
+	position: relative;
+
+	box-sizing: border-box;
+	padding: 12px 16px;
+}
+
+.progress {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 50%;
+	background: #d3ffc2;
+}
+
+.buildInfoContainer {
+	position: relative;
+	width: 100%;
+	display: grid;
+	grid-template: "status artifacts" auto
+					"numberAndTime numberAndTime" auto
+					"branch branch" auto
+					"agentAndChanges agentAndChanges" auto
+					/ auto 16px;
+}
+
+.statusContainer {
+	grid-area: status;
+
+	overflow: hidden;
+}
+
+.artifactsContainer {
+	grid-area: artifacts;
+}
+
+.numberAndTimePropertiesContainer {
+	grid-area: numberAndTime;
+
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.branchContainer {
+	grid-area: branch;
+}
+
+.agentAndChangesContainer {
+	grid-area: agentAndChanges;
+
+	display: flex;
+	flex-flow: row nowrap;
+
+	align-items: baseline;
+}
+
+.agent {
+
+}
+
+.changes {
+	margin-left: auto;
+}

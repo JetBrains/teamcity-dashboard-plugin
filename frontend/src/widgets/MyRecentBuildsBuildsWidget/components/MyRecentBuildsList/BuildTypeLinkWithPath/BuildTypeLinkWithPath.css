@@ -1,0 +1,7 @@
+.BuildTypeLinkWithPath {
+	padding: 0 16px;
+}
+
+.projectPath {
+	color: var(--ring-secondary-color)
+}

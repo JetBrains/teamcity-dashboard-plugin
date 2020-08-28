@@ -6,6 +6,7 @@ import TC from '@teamcity/react-api'
 import MyRecentBuildsListItem from './MyRecentBuildsListItem/MyRecentBuildsListItem'
 import addLocatorCount from '../../../../utils/addLocatorCount'
 import { useSubscribeOnBuildsTriggeredByCurrentUser } from '../../../../features/builds/builds.hooks'
+import styles from './MyRecentBuildsList.css'
 
 const { BuildsList } = TC.Components
 
@@ -21,20 +22,22 @@ const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 const MyRecentBuildsList = () => {
 	useSubscribeOnBuildsTriggeredByCurrentUser(50)
 	return (
-		<BuildsList
-			locator={addLocatorCount('defaultFilter:false,user:current', 50)}
-			renderEachBuild={(build: Build, index: number, builds: Build[]) => (
-				<MyRecentBuildsListItem
-					withBuildTypeHeader={shouldRenderBuildTypeHeader(
-						build,
-						index,
-						builds
-					)}
-					withDivider={shouldRenderDivider(build, index, builds)}
-					buildId={build.id}
-				/>
-			)}
-		/>
+		<ul className={styles.MyRecentBuildsList}>
+			<BuildsList
+				locator={addLocatorCount('defaultFilter:false,user:current', 50)}
+				renderEachBuild={(build: Build, index: number, builds: Build[]) => (
+					<MyRecentBuildsListItem
+						withBuildTypeHeader={shouldRenderBuildTypeHeader(
+							build,
+							index,
+							builds
+						)}
+						withDivider={shouldRenderDivider(build, index, builds)}
+						buildId={build.id}
+					/>
+				)}
+			/>
+		</ul>
 	)
 }
 

@@ -5,6 +5,7 @@ import { useBuildTypeConstants } from '../../../../../features/buildTypes/buildT
 
 import TC from '@teamcity/react-api'
 import BuildTypeLink from '../../../../../features/buildTypes/components/BuildTypeLink/BuildTypeLink'
+import styles from './BuildTypeLinkWithPath.css'
 
 const {ProjectPath} = TC.Components
 
@@ -15,8 +16,8 @@ interface Properties {
 const BuildTypeLinkWithPath = ({ buildTypeId }: Properties) => {
 	const buildType = useBuildTypeConstants(buildTypeId)
 	return (
-		<div>
-			{buildType && <ProjectPath projectId={buildType.projectId}/>}
+		<div className={styles.BuildTypeLinkWithPath}>
+			{buildType && <ProjectPath projectId={buildType.projectId} className={styles.projectPath}/>}
 			<BuildTypeLink buildTypeId={buildTypeId} />
 		</div>
 	)

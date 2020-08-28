@@ -23,7 +23,7 @@ const RunningBuild = ({ buildId }: Properties) => {
 
 	return (
 		<>
-			<RunningBuildUpdater />
+			<RunningBuildUpdater buildId={buildId} />
 			<span>Left: {leftSeconds ?? 'null'} </span>
 			<span>Progress: {progress ?? 'null'} </span>
 			<span>Overtime: {overtime ?? 'null'} </span>
