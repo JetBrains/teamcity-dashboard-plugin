@@ -1,0 +1,24 @@
+.icon {
+	margin-right: 4px;
+}
+
+.popup {
+	display: block;
+}
+
+.link {
+	min-width: 0;
+}
+
+
+.success {
+	color: var(--ring-success-color);
+}
+
+.failure {
+	color: var(--ring-error-color);
+}
+
+.canceled {
+	color: var(--ring-secondary-color);
+}

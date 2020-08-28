@@ -5,10 +5,11 @@ import clamp from 'clamp-js'
 
 import styles from './ClampedText.css'
 
-interface Properties {
-	maxLines: number;
-	children: React$Node;
-	className?: ?string;
+type Properties = {
+	maxLines: number,
+	children: React$Node,
+	className?: ?string,
+	...
 }
 
 const ClampedText = ({ maxLines, children, className }: Properties) => {

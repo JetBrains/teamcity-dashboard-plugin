@@ -8,7 +8,7 @@ import styles from './ChangeView.css'
 import FilesIcon from '../../../../resources/svg/files.svg'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import ClampedText from '../../../../components/ClampedText/ClampedText'
-import { Link } from '@jetbrains/ring-ui'
+import Link from '@jetbrains/ring-ui/components/link/link'
 import getUserDisplayName from '../../../../api/user/getUserDisplayName'
 
 const getChangeUserDisplayName = (change: Change): string => {

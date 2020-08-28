@@ -7,14 +7,14 @@ import { useBuild, useRunningBuildProgress } from '../../builds.hooks'
 import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 
 import styles from './BuildInfo.css'
+import MultilineBuildStatusLink from '../MultilineBuildStatusLink/MultilineBuildStatusLink'
 
 const {
 	BuildBranch,
 	BuildArtifacts,
-	BuildStatusLink,
 	ChangesDropdown,
 	RunningBuildUpdater,
-	BuildNumber
+	BuildNumber,
 } = TC.Components
 
 interface Properties {
@@ -39,7 +39,7 @@ const BuildInfo = ({ buildId }: Properties) => {
 			)}
 			<div className={styles.buildInfoContainer}>
 				<div className={styles.statusContainer}>
-					<BuildStatusLink buildId={buildId} />
+					<MultilineBuildStatusLink buildId={buildId} />
 				</div>
 				<div className={styles.artifactsContainer}>
 					<BuildArtifacts buildId={buildId} />

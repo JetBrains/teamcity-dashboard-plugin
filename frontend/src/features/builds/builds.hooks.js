@@ -1,6 +1,6 @@
 // @flow strict
 import TC from '@teamcity/react-api'
-import type { Build, BuildId } from './builds.types'
+import type { Build, BuildId, BuildStatus } from './builds.types'
 
 export const useBuild: (buildId: BuildId) => ?Build = TC.hooks.useBuild
 
@@ -13,3 +13,11 @@ export const useRunningBuildLeftSeconds: (BuildId) => ?number =
 
 export const useRunningBuildProgress: (BuildId) => ?number =
 	TC.hooks.useRunningBuildProgress
+
+export const useBuildStatusLink: (BuildId) => {
+	statusText: string,
+	icon: string,
+	statusType: BuildStatus,
+	href: string,
+	...
+} = TC.hooks.useBuildStatusLink
