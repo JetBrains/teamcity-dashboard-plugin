@@ -22,7 +22,7 @@ const WidgetSettingsWrapper = () => {
 				</WidgetSettingsMainLayout>
 			) : (
 				<CenteredMessage
-					textIcon="๏̯̃๏"
+					textIcon="!"
 					text="This widget does not appear to have any settings"
 				/>
 			)}

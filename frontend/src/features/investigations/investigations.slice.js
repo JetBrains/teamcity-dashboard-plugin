@@ -87,10 +87,7 @@ export const selectInvestigationsSortedByName = (
 export const selectWidgetSortByOption: (
 	RootState,
 	widgetId: string
-) => string = selectWidgetOption<string>(
-	'sortBy',
-	'time'
-)
+) => string = selectWidgetOption<string>('sortBy', 'time')
 
 export const selectWidgetShowFixedOption: (
 	RootState,

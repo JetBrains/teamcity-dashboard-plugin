@@ -5,10 +5,9 @@ import type { Build } from '../../../../features/builds/builds.types'
 import TC from '@teamcity/react-api'
 import MyRecentBuildsListItem from './MyRecentBuildsListItem/MyRecentBuildsListItem'
 import addLocatorCount from '../../../../utils/addLocatorCount'
+import { useSubscribeOnBuildsTriggeredByCurrentUser } from '../../../../features/builds/builds.hooks'
 
 const { BuildsList } = TC.Components
-
-const UPDATE_PERIOD = 30 * 1000
 
 const shouldRenderBuildTypeHeader = (
 	build: Build,
@@ -20,10 +19,10 @@ const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 	shouldRenderBuildTypeHeader(build, index, builds) && index !== 0
 
 const MyRecentBuildsList = () => {
+	useSubscribeOnBuildsTriggeredByCurrentUser(50)
 	return (
 		<BuildsList
 			locator={addLocatorCount('defaultFilter:false,user:current', 50)}
-			updatePeriod={UPDATE_PERIOD}
 			renderEachBuild={(build: Build, index: number, builds: Build[]) => (
 				<MyRecentBuildsListItem
 					withBuildTypeHeader={shouldRenderBuildTypeHeader(

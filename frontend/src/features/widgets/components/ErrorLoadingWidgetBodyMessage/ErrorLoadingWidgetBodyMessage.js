@@ -5,7 +5,7 @@ import CenteredMessage from '../../../../components/CenteredMessage/CenteredMess
 const ErrorLoadingWidgetBodyMessage = () => {
 	return (
 		<CenteredMessage
-			textIcon={'๏̯̃๏'}
+			textIcon={'!'}
 			text={
 				'This widget is not supported. Try updating the page or removing the widget.'
 			}
