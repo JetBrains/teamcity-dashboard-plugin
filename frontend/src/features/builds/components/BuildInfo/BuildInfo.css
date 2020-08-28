@@ -13,6 +13,9 @@
 	left: 0;
 	width: 50%;
 	background: #d3ffc2;
+
+	box-sizing: border-box;
+	border-top: 2px solid mediumseagreen;
 }
 
 .buildInfoContainer {
