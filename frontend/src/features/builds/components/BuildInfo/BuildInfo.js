@@ -14,6 +14,7 @@ const {
 	BuildStatusLink,
 	ChangesDropdown,
 	RunningBuildUpdater,
+	BuildNumber
 } = TC.Components
 
 interface Properties {
@@ -44,7 +45,7 @@ const BuildInfo = ({ buildId }: Properties) => {
 					<BuildArtifacts buildId={buildId} />
 				</div>
 				<div className={styles.numberAndTimePropertiesContainer}>
-					<span>{buildId}</span>
+					<BuildNumber buildId={buildId} hideStar />
 					<BuildTimeProperties buildId={buildId} />
 				</div>
 				<div className={styles.branchContainer}>
