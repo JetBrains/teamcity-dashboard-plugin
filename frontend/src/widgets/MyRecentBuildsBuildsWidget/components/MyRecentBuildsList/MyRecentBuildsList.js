@@ -27,6 +27,7 @@ const MyRecentBuildsList = () => {
 				locator={addLocatorCount('defaultFilter:false,user:current', 50)}
 				renderEachBuild={(build: Build, index: number, builds: Build[]) => (
 					<MyRecentBuildsListItem
+						key={build.id}
 						withBuildTypeHeader={shouldRenderBuildTypeHeader(
 							build,
 							index,

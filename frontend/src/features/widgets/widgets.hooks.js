@@ -1,6 +1,7 @@
 // @flow strict
 import { useCallback, useMemo, useContext } from 'react'
 import {
+	cloneWidget,
 	removeWidget,
 	selectWidgetDataType,
 	selectWidgetOption,
@@ -31,6 +32,13 @@ export const useRemoveWidget = (widgetId: WidgetId): (() => void) => {
 export const useRemoveThisWidget = (): (() => void) => {
 	const id = useThisWidgetId()
 	return useRemoveWidget(id)
+}
+
+export const useCloneThisWidget = (): (() => void) => {
+	const id = useThisWidgetId()
+	const dispatch = useDispatch()
+
+	return useCallback(() => dispatch(cloneWidget(id)), [dispatch, id])
 }
 
 export const useWidgetType = (widgetId: string): ?WidgetType =>

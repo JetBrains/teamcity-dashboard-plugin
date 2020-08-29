@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import {
+	CopyIcon,
 	MarkerIcon,
 	MoreOptionsIcon,
 	TrashIcon,
@@ -10,7 +11,11 @@ import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import List from '@jetbrains/ring-ui/components/list/list'
 import styles from './WidgetEllipsisOptions.css'
-import { useRemoveThisWidget, useThisWidgetType } from '../../../widgets.hooks'
+import {
+	useCloneThisWidget,
+	useRemoveThisWidget,
+	useThisWidgetType,
+} from '../../../widgets.hooks'
 import { useOpenThisWidgetSettings } from '../../../widgetSettings.hooks'
 import { widgetHasSettings } from '../../../config/widgetProperties.helpers'
 
@@ -27,27 +32,36 @@ const WidgetEllipsisOptions = () => {
 	const type = useThisWidgetType()
 	const openWidgetSettings = useOpenThisWidgetSettings()
 	const removeWidget = useRemoveThisWidget()
+	const cloneWidget = useCloneThisWidget()
 
 	const data = useMemo(
 		() =>
 			[
+				{
+					label: 'Clone widget',
+					action: 'cloneWidget',
+					key: 'clone',
+					rgItemType: List.ListProps.Type.ITEM,
+					glyph: CopyIcon,
+					onClick: cloneWidget,
+				},
 				widgetHasSettings(type) && {
 					label: 'Edit...',
 					action: 'openSettings',
-					key: '0',
+					key: 'settings',
 					rgItemType: List.ListProps.Type.ITEM,
 					glyph: MarkerIcon,
 					onClick: openWidgetSettings,
 				},
-				widgetHasSettings(type) && {
-					key: '1',
+				{
+					key: 'separator',
 					rgItemType: List.ListProps.Type.SEPARATOR,
 					action: '',
 				},
 				{
 					label: 'Remove',
 					action: 'removeWidget',
-					key: '2',
+					key: 'remove',
 					rgItemType: List.ListProps.Type.ITEM,
 					glyph: TrashIcon,
 					color: 'red',
@@ -55,7 +69,7 @@ const WidgetEllipsisOptions = () => {
 					className: styles.danger,
 				},
 			].filter(Boolean),
-		[openWidgetSettings, removeWidget, type]
+		[cloneWidget, openWidgetSettings, removeWidget, type]
 	)
 
 	return (

@@ -1,5 +1,8 @@
 // @flow strict
 
+import type { RootState } from './store'
+import { type Dispatch } from 'redux'
+
 export interface Record<K, V> {
 	[key: K]: V;
 }
@@ -58,6 +61,8 @@ export type PayloadAction<Payload> = {
 	payload: Payload,
 	...
 }
+
+export type ThunkAction<Return> = (dispatch: Dispatch<*>, getState: () => RootState) => Return
 
 export type Json = JsonPrimitive | JsonArray | JsonObject
 

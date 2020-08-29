@@ -25,6 +25,8 @@ import type { Json, PayloadAction } from '../../commontypes'
 import { type Dispatch } from 'redux'
 import { fetchDashboardData } from '../dashboard/fetchingDashboardData.slice'
 import { isWidgetTypeSupported } from './config/widgetProperties.helpers'
+import { ThunkAction } from 'redux-thunk'
+import deepCopyJson from '../../utils/deepCopySerializable'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
@@ -74,7 +76,7 @@ const widgetsSlice = createSlice<WidgetsState>({
 				payload: ({
 					id: nanoid(),
 					type: (type: WidgetType),
-					data,
+					data: data ? deepCopyJson(data) : {},
 				}: WidgetData),
 			}),
 		},
@@ -150,11 +152,21 @@ export const setWidgetOption = <T>(
 	propertyValue: T
 ) => widgetsSlice.actions.setWidgetOption({ id, propertyName, propertyValue })
 
+export const cloneWidget = (widgetId: WidgetId): ThunkAction => (
+	dispatch: Dispatch<*>,
+	getState: () => RootState
+) => {
+	const widget = selectWidgetById(getState(), widgetId)
+	if (widget) {
+		dispatch(addWidget(widget.type, widget.data))
+	}
+}
+
 // Selectors
 const selectors = widgetsAdapter.getSelectors((state) => state.widgets)
 export const selectAllWidgets: (RootState) => WidgetData[] = selectors.selectAll
 const selectAllWidgetIds: (RootState) => WidgetId[] = selectors.selectIds
-export const selectWidgetById: (RootState, WidgetId) => WidgetData =
+export const selectWidgetById: (RootState, WidgetId) => ?WidgetData =
 	selectors.selectById
 
 export const selectAllVisibleWidgetIds: (RootState) => WidgetId[] = createSelector(
@@ -172,7 +184,11 @@ export const selectWidgetDataType: (
 	selectWidgetById,
 	(widget: WidgetData) => {
 		const type = widget?.type
-		if (type !== undefined && type !== null && isWidgetTypeSupported(type)) {
+		if (
+			type !== undefined &&
+			type !== null &&
+			isWidgetTypeSupported(type)
+		) {
 			return type
 		}
 	}
