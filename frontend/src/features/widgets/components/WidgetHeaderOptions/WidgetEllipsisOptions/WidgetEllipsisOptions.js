@@ -17,7 +17,7 @@ import {
 	useThisWidgetType,
 } from '../../../widgets.hooks'
 import { useOpenThisWidgetSettings } from '../../../widgetSettings.hooks'
-import { widgetHasSettings } from '../../../config/widgetProperties.helpers'
+import { isWidgetCloneable, widgetHasSettings } from '../../../config/widgetProperties.helpers'
 
 const { IconButton } = TC.Components
 
@@ -28,16 +28,16 @@ const directions = [
 	PopupMenu.PopupProps.Directions.TOP_RIGHT,
 ]
 
-const WidgetEllipsisOptions = () => {
+const useEllipsisListData = () => {
 	const type = useThisWidgetType()
 	const openWidgetSettings = useOpenThisWidgetSettings()
 	const removeWidget = useRemoveThisWidget()
 	const cloneWidget = useCloneThisWidget()
 
-	const data = useMemo(
+	const safeZoneData = useMemo(
 		() =>
 			[
-				{
+				isWidgetCloneable(type) && {
 					label: 'Clone widget',
 					action: 'cloneWidget',
 					key: 'clone',
@@ -53,24 +53,44 @@ const WidgetEllipsisOptions = () => {
 					glyph: MarkerIcon,
 					onClick: openWidgetSettings,
 				},
-				{
-					key: 'separator',
-					rgItemType: List.ListProps.Type.SEPARATOR,
-					action: '',
-				},
-				{
-					label: 'Remove',
-					action: 'removeWidget',
-					key: 'remove',
-					rgItemType: List.ListProps.Type.ITEM,
-					glyph: TrashIcon,
-					color: 'red',
-					onClick: removeWidget,
-					className: styles.danger,
-				},
 			].filter(Boolean),
-		[cloneWidget, openWidgetSettings, removeWidget, type]
+		[cloneWidget, openWidgetSettings, type]
 	)
+
+	const dangerZoneSeparator = useMemo(
+		() => ({
+			key: 'dangerZoneSeparator',
+			rgItemType: List.ListProps.Type.SEPARATOR,
+			action: '',
+		}),
+		[]
+	)
+
+	const removeWidgetListItem = useMemo(
+		() => ({
+			label: 'Remove',
+			action: 'removeWidget',
+			key: 'remove',
+			rgItemType: List.ListProps.Type.ITEM,
+			glyph: TrashIcon,
+			color: 'red',
+			onClick: removeWidget,
+			className: styles.danger,
+		}),
+		[removeWidget]
+	)
+
+	return useMemo(
+		() =>
+			safeZoneData.length === 0
+				? [removeWidgetListItem]
+				: [...safeZoneData, dangerZoneSeparator, removeWidgetListItem],
+		[dangerZoneSeparator, removeWidgetListItem, safeZoneData]
+	)
+}
+
+const WidgetEllipsisOptions = () => {
+	const data = useEllipsisListData()
 
 	return (
 		<Dropdown

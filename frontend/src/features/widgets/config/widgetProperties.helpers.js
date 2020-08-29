@@ -21,7 +21,11 @@ export const getWidgetName: Selector<string> = (type) =>
 	getWidgetProperties(type)?.name ?? '?'
 
 export const widgetHasSettings: Selector<boolean> = (type) =>
-getWidgetProperties(type)?.hasSettings ?? true
+	isWidgetTypeSupported(type)
+		? getWidgetProperties(type)?.hasSettings ?? true
+		: false
+
+export const isWidgetCloneable: Selector<boolean> = isWidgetTypeSupported
 
 export const shouldWidgetOpenSettingsFirst: Selector<boolean> = (type) =>
 	getWidgetProperties(type)?.openSettingsFirst ?? widgetHasSettings(type)
