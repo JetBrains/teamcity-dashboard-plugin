@@ -12,6 +12,7 @@ export type WidgetDimensionsProperties = {|
 export type WidgetProperties = {|
 	name: string,
 	openSettingsFirst?: boolean,
+	hasSettings?: boolean,
 	defaultWidth?: number,
 	defaultHeight?: number,
 	minWidth?: number,

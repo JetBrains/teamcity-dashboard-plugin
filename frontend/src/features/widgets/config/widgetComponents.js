@@ -16,7 +16,6 @@ import MyRecentBuildsWidgetBody
 	from '../../../widgets/MyRecentBuildsBuildsWidget/components/MyRecentBuildsWidgetBody/MyRecentBuildsWidgetBody'
 import MyRecentBuildsHeader
 	from '../../../widgets/MyRecentBuildsBuildsWidget/components/MyRecentBuildsHeader/MyRecentBuildsHeader'
-import React from "react"
 import CollapseAllExpandAllButton
 	from '../../../widgets/BuildTypeChangesWidget/components/CollapseAllExpandAllButton/CollapseAllExpandAllButton'
 
@@ -36,8 +35,6 @@ const widgetComponents: AllWidgetsComponents = {
 	myRecentBuildsWidget: {
 		Body: MyRecentBuildsWidgetBody,
 		Header: MyRecentBuildsHeader,
-		// eslint-disable-next-line react/display-name
-		Settings: () => (<span>no settings</span>),
 	}
 }
 

@@ -6,7 +6,7 @@ export type Component = () => React$Node
 
 export type WidgetComponents = {|
 	Header: Component,
-	Settings: Component,
+	Settings?: Component,
 	Body: Component,
 	headerOptions?: Component[],
 |}

@@ -14,7 +14,8 @@ const widgetsProperties: AllWidgetsProperties = {
 	},
 	myRecentBuildsWidget: {
 		name: 'My Recent Builds',
-	}
+		hasSettings: false,
+	},
 }
 
 export default widgetsProperties

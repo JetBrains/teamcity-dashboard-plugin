@@ -10,8 +10,9 @@ import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import List from '@jetbrains/ring-ui/components/list/list'
 import styles from './WidgetEllipsisOptions.css'
-import { useRemoveThisWidget } from '../../../widgets.hooks'
+import { useRemoveThisWidget, useThisWidgetType } from '../../../widgets.hooks'
 import { useOpenThisWidgetSettings } from '../../../widgetSettings.hooks'
+import { widgetHasSettings } from '../../../config/widgetProperties.helpers'
 
 const { IconButton } = TC.Components
 
@@ -23,32 +24,38 @@ const directions = [
 ]
 
 const WidgetEllipsisOptions = () => {
+	const type = useThisWidgetType()
 	const openWidgetSettings = useOpenThisWidgetSettings()
 	const removeWidget = useRemoveThisWidget()
 
 	const data = useMemo(
-		() => [
-			{
-				label: 'Edit...',
-				action: 'openSettings',
-				key: '0',
-				rgItemType: List.ListProps.Type.ITEM,
-				glyph: MarkerIcon,
-				onClick: openWidgetSettings,
-			},
-			{ key: '1', rgItemType: List.ListProps.Type.SEPARATOR, action: '' },
-			{
-				label: 'Remove',
-				action: 'removeWidget',
-				key: '2',
-				rgItemType: List.ListProps.Type.ITEM,
-				glyph: TrashIcon,
-				color: 'red',
-				onClick: removeWidget,
-				className: styles.danger,
-			},
-		],
-		[openWidgetSettings, removeWidget]
+		() =>
+			[
+				widgetHasSettings(type) && {
+					label: 'Edit...',
+					action: 'openSettings',
+					key: '0',
+					rgItemType: List.ListProps.Type.ITEM,
+					glyph: MarkerIcon,
+					onClick: openWidgetSettings,
+				},
+				widgetHasSettings(type) && {
+					key: '1',
+					rgItemType: List.ListProps.Type.SEPARATOR,
+					action: '',
+				},
+				{
+					label: 'Remove',
+					action: 'removeWidget',
+					key: '2',
+					rgItemType: List.ListProps.Type.ITEM,
+					glyph: TrashIcon,
+					color: 'red',
+					onClick: removeWidget,
+					className: styles.danger,
+				},
+			].filter(Boolean),
+		[openWidgetSettings, removeWidget, type]
 	)
 
 	return (
@@ -58,11 +65,7 @@ const WidgetEllipsisOptions = () => {
 				<IconButton title="Widget Options" icon={MoreOptionsIcon} />
 			}
 		>
-			<PopupMenu
-				closeOnSelect
-				data={data}
-				directions={directions}
-			/>
+			<PopupMenu closeOnSelect data={data} directions={directions} />
 		</Dropdown>
 	)
 }
