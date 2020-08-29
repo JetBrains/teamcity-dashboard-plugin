@@ -8,6 +8,7 @@ import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 
 import styles from './BuildInfo.css'
 import MultilineBuildStatusLink from '../MultilineBuildStatusLink/MultilineBuildStatusLink'
+import RunningBuildProgressBar from './RunningBuildProgressBar/RunningBuildProgressBar'
 
 const {
 	BuildBranch,
@@ -24,17 +25,15 @@ interface Properties {
 const BuildInfo = ({ buildId }: Properties) => {
 	const build = useBuild(buildId)
 
-	const progress = useRunningBuildProgress(buildId)
-
 	return (
 		<div className={styles.BuildInfo}>
 			{build?.state === 'running' && (
 				<RunningBuildUpdater buildId={buildId} />
 			)}
 			{build?.state === 'running' && (
-				<div
+				<RunningBuildProgressBar
+					buildId={buildId}
 					className={styles.progress}
-					style={{ width: `${progress ?? 0}%` }}
 				/>
 			)}
 			<div className={styles.buildInfoContainer}>

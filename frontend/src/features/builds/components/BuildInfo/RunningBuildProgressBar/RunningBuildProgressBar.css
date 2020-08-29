@@ -1,0 +1,15 @@
+.RunningBuildProgressBar {
+	box-sizing: border-box;
+
+	transition: width var(--ring-ease);
+}
+
+.success {
+	background: #EAF1EA;
+	border-top: 2px solid #59A869;
+}
+
+.failure {
+	background: #F8ECEC;
+	border-top: 2px solid #CC6063;
+}

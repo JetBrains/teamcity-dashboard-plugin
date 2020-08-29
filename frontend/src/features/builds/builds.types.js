@@ -11,6 +11,8 @@ export type BuildStatus =
 	| 'FAILURE'
 	| 'ERROR'
 
+export type BuildStatusType = 'canceled' | 'failure' | 'queued' | 'success'
+
 export type BuildState =
 	| 'queued'
 	| 'running'
