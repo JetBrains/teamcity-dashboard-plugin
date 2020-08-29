@@ -9,6 +9,8 @@ import { useLayoutData } from '../../features/dashboard/layout.hooks'
 
 const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
 
+const margin = [16, 16]
+
 const Grid = () => {
 	const [layout, setLayout] = useLayoutData()
 
@@ -29,6 +31,7 @@ const Grid = () => {
 			onLayoutChange={setLayout}
 			cols={10}
 			rowHeight={150}
+			margin={margin}
 			preventCollision
 		>
 			{children}
