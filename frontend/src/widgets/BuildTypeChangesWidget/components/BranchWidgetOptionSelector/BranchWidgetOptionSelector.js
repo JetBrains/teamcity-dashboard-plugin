@@ -5,7 +5,6 @@ import {
 	useBuildTypeIdOption,
 } from '../../options/hooks'
 import TC from '@teamcity/react-api'
-import Button from '@jetbrains/ring-ui/components/button/button'
 
 const { BranchSelect } = TC.Components
 
@@ -62,9 +61,8 @@ const BranchWidgetOptionSelector = ({ className }: Properties) => {
 			minimalistic
 			onSelect={onSelect}
 		/>
-	) : (
-		<Button disabled />
-	)
+		// eslint-disable-next-line unicorn/no-null
+	) : null
 }
 
 export default BranchWidgetOptionSelector

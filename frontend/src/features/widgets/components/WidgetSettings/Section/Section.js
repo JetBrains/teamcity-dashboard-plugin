@@ -2,11 +2,11 @@
 import React from 'react'
 import styles from './Section.css'
 
-interface Properties {
-	title?: string;
-	description?: ?string;
-	children: React$Node;
-}
+type Properties = {|
+	title?: string,
+	description?: ?string,
+	children: React$Node,
+|}
 
 const Section = ({ title, children }: Properties) => {
 	return (

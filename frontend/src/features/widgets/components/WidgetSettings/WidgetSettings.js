@@ -4,11 +4,11 @@ import Section from './Section/Section'
 import { H1 } from '@jetbrains/ring-ui/components/heading/heading'
 import styles from './WidgetSettings.css'
 
-interface Properties {
-	title: string;
-	description: string;
-	children: React$Node[];
-}
+type Properties = {|
+	title: string,
+	description: string,
+	children: React$Node,
+|}
 
 const WidgetSettings = ({ title, description, children }: Properties) => {
 	return (
