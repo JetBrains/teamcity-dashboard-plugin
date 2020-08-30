@@ -1,11 +1,8 @@
 // @flow strict
 
-import { createSelector, createSlice, nanoid } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type {
 	OpenWidgetSettingsPayload,
-	SaveWidgetSettingsActionCreatorArgument,
-	SaveWidgetSettingsActionPayload,
-	StartAddingNewWidgetPayload,
 	WidgetSettingsState,
 } from './widgetSettings.types'
 import type { WidgetId, WidgetType } from './widgets.types'
@@ -75,63 +72,6 @@ const widgetSettingsSlice = createSlice<WidgetSettingsState>({
 			state.widgetId = undefined
 			state.widgetType = undefined
 			state.isWidgetNew = false
-		},
-		startAddingNewWidget: {
-			reducer: (
-				state: WidgetSettingsState,
-				action: PayloadAction<StartAddingNewWidgetPayload>
-			) => {
-				const shouldOpenSettings = action.payload.openSettings
-				if (shouldOpenSettings) {
-					state.widgetId = undefined
-					state.areSettingsOpened = true
-					state.isWidgetNew = true
-				}
-			},
-			prepare: (type: WidgetType, openSettings?: boolean = true) => ({
-				payload: {
-					type,
-					openSettings,
-				},
-			}),
-		},
-		// startAddingNewWidget: (state: WidgetSettingsState) => {
-		// 	state.widgetId = undefined
-		// 	state.areSettingsOpened = true
-		// 	state.isWidgetNew = true
-		// },
-		cancelWidgetSettings: (state: WidgetSettingsState) => {
-			state.areSettingsOpened = false
-			state.widgetId = undefined
-			state.isWidgetNew = false
-		},
-		// saveWidgetSettings: (state: WidgetSettingsState) => {
-		// 	state.areSettingsOpened = false
-		// 	state.widgetId = undefined
-		// 	state.isWidgetNew = false
-		// },
-		saveWidgetSettings: {
-			reducer: (state: WidgetSettingsState) => {
-				state.areSettingsOpened = false
-				state.widgetId = undefined
-				state.isWidgetNew = false
-			},
-			prepare: ({
-				isNew,
-				id,
-				type,
-			}: SaveWidgetSettingsActionCreatorArgument): {|
-				payload: SaveWidgetSettingsActionPayload,
-			|} => ({
-				payload: {
-					isNew,
-					id:
-						isNew || id === null || id === undefined
-							? nanoid()
-							: id,
-					type,
-				},
-			}),
 		},
 	},
 })
