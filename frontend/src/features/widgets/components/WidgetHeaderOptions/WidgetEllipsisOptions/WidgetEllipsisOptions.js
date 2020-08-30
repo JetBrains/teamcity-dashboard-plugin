@@ -3,8 +3,8 @@ import React, { useMemo } from 'react'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import {
 	CopyIcon,
-	MarkerIcon,
 	MoreOptionsIcon,
+	PencilIcon,
 	TrashIcon,
 } from '@jetbrains/ring-ui/components/icon'
 import TC from '@teamcity/react-api'
@@ -17,7 +17,10 @@ import {
 	useThisWidgetType,
 } from '../../../widgets.hooks'
 import { useOpenThisWidgetSettings } from '../../../widgetSettings.hooks'
-import { isWidgetCloneable, widgetHasSettings } from '../../../config/widgetProperties.helpers'
+import {
+	isWidgetCloneable,
+	widgetHasSettings,
+} from '../../../config/widgetProperties.helpers'
 
 const { IconButton } = TC.Components
 
@@ -50,7 +53,7 @@ const useEllipsisListData = () => {
 					action: 'openSettings',
 					key: 'settings',
 					rgItemType: List.ListProps.Type.ITEM,
-					glyph: MarkerIcon,
+					glyph: PencilIcon,
 					onClick: openWidgetSettings,
 				},
 			].filter(Boolean),
