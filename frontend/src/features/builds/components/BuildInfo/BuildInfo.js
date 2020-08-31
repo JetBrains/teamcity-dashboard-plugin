@@ -9,7 +9,7 @@ import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 import styles from './BuildInfo.css'
 import MultilineBuildStatusLink from '../MultilineBuildStatusLink/MultilineBuildStatusLink'
 import RunningBuildProgressBar from './RunningBuildProgressBar/RunningBuildProgressBar'
-import { useThisWidgetActiveBreakpoints } from '../../../widgets/widgetsDimensions.hooks'
+import { useThisWidgetActiveBreakpoints } from '../../../widgets/widgetsBreakpoints.hooks'
 
 const {
 	BuildBranch,

@@ -34,28 +34,37 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 	const Header = type ? getWidgetHeaderComponent(type) : undefined
 	const Body = type ? getWidgetBodyComponent(type) : undefined
 
+	const title = useMemo(
+		() =>
+			Header ? (
+				<Header />
+			) : (
+				<SimpleTextWidgetHeader>!</SimpleTextWidgetHeader>
+			),
+		[Header]
+	)
+
+	const widgetBody = useMemo(
+		() => (Body ? <Body /> : <ErrorLoadingWidgetBodyMessage />),
+		[Body]
+	)
+
+	const measuredWidget = useMemo(
+		() => (
+			<MeasuredWidgetIsland title={title} headerOptions={headerOptions}>
+				{widgetBody}
+			</MeasuredWidgetIsland>
+		),
+		[headerOptions, title, widgetBody]
+	)
+
 	return (
 		<ThisWidgetGeneralDataProvider
 			// FIXME: this is a dumb fix. but without it flow for some reason gets angry
 			thisWidgetId={widgetId ?? undefined}
 			thisWidgetType={type}
 		>
-			<MeasuredWidgetIsland
-				title={
-					Header ? (
-						<Header />
-					) : (
-						<SimpleTextWidgetHeader>!</SimpleTextWidgetHeader>
-					)
-				}
-				headerOptions={headerOptions}
-			>
-				{Body ? (
-					<Body />
-				) : (
-					<ErrorLoadingWidgetBodyMessage />
-				)}
-			</MeasuredWidgetIsland>
+			{measuredWidget}
 		</ThisWidgetGeneralDataProvider>
 	)
 })
