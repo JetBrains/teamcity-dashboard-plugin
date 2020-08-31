@@ -6,7 +6,7 @@
 	display: grid;
 	grid-template: auto max-content / auto;
 
-	row-gap: 16px;
+	row-gap: 32px;
 
 	box-sizing: border-box;
 	padding: 12px 32px 16px 32px;
@@ -22,5 +22,5 @@
 }
 
 .cancel {
-	margin-left: 22px;
+	margin-left: 8px;
 }

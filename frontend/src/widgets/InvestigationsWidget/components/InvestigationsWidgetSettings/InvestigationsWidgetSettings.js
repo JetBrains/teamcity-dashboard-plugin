@@ -1,29 +1,35 @@
 // @flow strict
 import React from 'react'
-import SortByOptionSelect from '../SortByOptionSelect/SortByOptionSelect'
-import InvestigationsShowFixedOptionsSelector from '../ShowFixedOptionButton/ShowFixedOptionButton'
-import InvestigationShowOnlyDefaultBranchButton from '../../options/InvestigationShowOnlyDefaultBranchButton'
-import WidgetSettings, {
-	Section,
-} from '../../../../features/widgets/components/WidgetSettings/WidgetSettings'
-import { useThisWidgetId } from '../../../../features/widgets/widgets.hooks'
+import WidgetSettings, { Section } from '../../../../features/widgets/components/WidgetSettings/WidgetSettings'
+import ShowFixedToggle from './ShowFixedToggle/ShowFixedToggle'
+import ShowOnlyDefaultBranchToggle from './ShowOnlyDefaultBranchToggle/ShowOnlyDefaultBranchToggle'
+import SortByButtonGroup from './SortByButtonGroup/SortByButtonGroup'
+import Field from '../../../../features/widgets/components/WidgetSettings/Field/Field'
+
+import styles from './InvestigationsWidgetSettings.css'
 
 const InvestigationsWidgetSettings = () => {
-	const widgetId = useThisWidgetId()
 	return (
 		<WidgetSettings
 			title="My Investigations Widget Settings"
 			description="Widget support: ekaterina.silaeva@jetbrains.com"
 		>
-			<Section title="Sort By">
-				<SortByOptionSelect widgetId={widgetId} />
+			<Section>
+				<Field>
+					<ShowFixedToggle className={styles.toggleWithLabel} />
+				</Field>
+				<Field>
+					<ShowOnlyDefaultBranchToggle
+						className={styles.toggleWithLabel}
+					/>
+				</Field>
 			</Section>
-			<Section title="Show Fixed">
-				<InvestigationsShowFixedOptionsSelector widgetId={widgetId} />
+			<Section last>
+				<Field>
+					<SortByButtonGroup />
+				</Field>
 			</Section>
-			<Section title="Only Default Branch">
-				<InvestigationShowOnlyDefaultBranchButton widgetId={widgetId} />
-			</Section>
+
 		</WidgetSettings>
 	)
 }
