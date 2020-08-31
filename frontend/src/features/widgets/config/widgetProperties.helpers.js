@@ -1,11 +1,15 @@
 // @flow strict
 
 import type {
+	BreakpointName,
+	WidgetBreakpoints,
 	WidgetDimensionsProperties,
 	WidgetProperties,
 } from './widgetProperties.types'
 import widgetsProperties from './widgetProperties'
 import type { WidgetType } from '../widgets.types'
+
+const emptyObject = {}
 
 type Selector<T> = (type: WidgetType) => T
 
@@ -40,5 +44,45 @@ export const getWidgetDimensionsProperties: Selector<WidgetDimensionsProperties>
 		defaultHeight: defaultHeight ?? 3,
 		minHeight: minHeight ?? 1,
 		minWidth: minWidth ?? 1,
+	}
+}
+
+const getWidgetBreakpoints: Selector<WidgetBreakpoints> = (type) =>
+	getWidgetProperties(type)?.breakpoints ?? emptyObject
+
+export const getWidgetCurrentBreakpoint = (
+	type: WidgetType,
+	width: number
+): ?BreakpointName => {
+	const breakpoints = getWidgetBreakpoints(type)
+	const breakpointsNames = Object.keys(breakpoints)
+
+	if (breakpointsNames.length === 0) {
+		return
+	}
+
+	for (let i = 0; i < breakpointsNames.length; i++) {
+		const currentBreakpointName = breakpointsNames[i]
+		const currentBreakpointValue = breakpoints[currentBreakpointName]
+		if (currentBreakpointValue > width) {
+			return i !== 0 ? breakpointsNames[i - 1] : undefined
+		}
+	}
+	return breakpointsNames[breakpointsNames.length - 1]
+}
+
+export const getWidgetBreakpointsNotGreaterThan = (
+	type: WidgetType,
+	breakpoint: BreakpointName
+): BreakpointName[] => {
+	const breakpoints = getWidgetBreakpoints(type)
+	const breakpointsNames = Object.keys(breakpoints)
+
+	const indexOfCurrent = breakpointsNames.indexOf(breakpoint)
+
+	if (indexOfCurrent === -1) {
+		return []
+	} else {
+		return breakpointsNames.slice(0, indexOfCurrent + 1)
 	}
 }

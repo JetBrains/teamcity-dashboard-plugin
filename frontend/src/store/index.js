@@ -24,6 +24,8 @@ import widgetSettingsSliceReducer from '../features/widgets/widgetSettings.slice
 import type { LayoutState } from '../features/dashboard/layout.types'
 import type { CurrentTimeState } from '../features/currentTime/currentTime.types'
 import currentTimeSliceReducer from '../features/currentTime/currentTime.slice'
+import type { WidgetsDimensionsState } from '../features/widgets/widgetsDimensions.types'
+import widgetsDimensionsSliceReducer from '../features/widgets/widgetsDimensions.slice'
 
 export interface RootState {
 	layout: LayoutState;
@@ -38,6 +40,7 @@ export interface RootState {
 	widgetsState: WidgetStateState;
 	widgetSettings: WidgetSettingsState;
 	currentTime: CurrentTimeState;
+	widgetsDimensions: WidgetsDimensionsState;
 }
 
 const store = configureStore<RootState>({
@@ -54,6 +57,7 @@ const store = configureStore<RootState>({
 		widgetsState: widgetsStateSliceReducer,
 		widgetSettings: widgetSettingsSliceReducer,
 		currentTime: currentTimeSliceReducer,
+		widgetsDimensions: widgetsDimensionsSliceReducer,
 	},
 })
 

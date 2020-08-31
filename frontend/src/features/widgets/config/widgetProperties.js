@@ -15,6 +15,10 @@ const widgetsProperties: AllWidgetsProperties = {
 	myRecentBuildsWidget: {
 		name: 'My Recent Builds',
 		hasSettings: false,
+		breakpoints: {
+			small: 300,
+			medium: 500,
+		}
 	},
 }
 

@@ -3,12 +3,13 @@ import React from 'react'
 import type { BuildId } from '../../builds.types'
 import TC from '@teamcity/react-api'
 import BuildAgentIcon from '../BuildAgentIcon/BuildAgentIcon'
-import { useBuild, useRunningBuildProgress } from '../../builds.hooks'
+import { useBuild } from '../../builds.hooks'
 import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 
 import styles from './BuildInfo.css'
 import MultilineBuildStatusLink from '../MultilineBuildStatusLink/MultilineBuildStatusLink'
 import RunningBuildProgressBar from './RunningBuildProgressBar/RunningBuildProgressBar'
+import { useThisWidgetActiveBreakpoints } from '../../../widgets/widgetsDimensions.hooks'
 
 const {
 	BuildBranch,
@@ -24,9 +25,11 @@ interface Properties {
 
 const BuildInfo = ({ buildId }: Properties) => {
 	const build = useBuild(buildId)
+	const breakpoints = useThisWidgetActiveBreakpoints()
 
 	return (
 		<div className={styles.BuildInfo}>
+			<span>{breakpoints}</span>
 			{build?.state === 'running' && (
 				<RunningBuildUpdater buildId={buildId} />
 			)}

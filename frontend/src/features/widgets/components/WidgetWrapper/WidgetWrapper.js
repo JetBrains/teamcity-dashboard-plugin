@@ -2,7 +2,6 @@
 import React, { useMemo } from 'react'
 import { useWidgetType } from '../../widgets.hooks'
 import WidgetEllipsisOptions from '../WidgetHeaderOptions/WidgetEllipsisOptions/WidgetEllipsisOptions'
-import WidgetIsland from '../../../../components/WidgetIsland/WidgetIsland'
 import ThisWidgetGeneralDataProvider from '../ThisWidgetGeneralDataProvider/ThisWidgetGeneralDataProvider'
 import type { WidgetId, WidgetType } from '../../widgets.types'
 import ErrorLoadingWidgetBodyMessage from '../ErrorLoadingWidgetBodyMessage/ErrorLoadingWidgetBodyMessage'
@@ -12,6 +11,7 @@ import {
 	getWidgetHeaderComponent,
 	getWidgetHeaderOptions,
 } from '../../config/widgetComponents.helpers'
+import MeasuredWidgetIsland from './MeasuredWidgetIsland/MeasuredWidgetIsland'
 
 interface Properties {
 	widgetId: WidgetId;
@@ -40,7 +40,7 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 			thisWidgetId={widgetId ?? undefined}
 			thisWidgetType={type}
 		>
-			<WidgetIsland
+			<MeasuredWidgetIsland
 				title={
 					Header ? (
 						<Header />
@@ -55,7 +55,7 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 				) : (
 					<ErrorLoadingWidgetBodyMessage />
 				)}
-			</WidgetIsland>
+			</MeasuredWidgetIsland>
 		</ThisWidgetGeneralDataProvider>
 	)
 })

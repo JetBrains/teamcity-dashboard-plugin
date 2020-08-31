@@ -2,9 +2,9 @@
 import React from 'react'
 import styles from './SimpleTextWidgetHeader.css'
 
-interface Properties {
-	children: React$Node | string;
-}
+type Properties = {|
+	children: React$Node,
+|}
 
 const SimpleTextWidgetHeader = ({ children }: Properties) => {
 	return (

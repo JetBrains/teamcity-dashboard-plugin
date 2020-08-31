@@ -179,20 +179,13 @@ export const selectHiddenSettingsWidget = (state: RootState): ?WidgetData =>
 
 export const selectWidgetDataType: (
 	RootState,
-	widgetId: string
-) => ?$PropertyType<WidgetData, 'type'> = createSelector(
-	selectWidgetById,
-	(widget: WidgetData) => {
-		const type = widget?.type
-		if (
-			type !== undefined &&
-			type !== null &&
-			isWidgetTypeSupported(type)
-		) {
-			return type
-		}
+	WidgetId
+) => ?WidgetType = createSelector(selectWidgetById, (widget: WidgetData) => {
+	const type = widget?.type
+	if (type !== undefined && type !== null && isWidgetTypeSupported(type)) {
+		return type
 	}
-)
+})
 
 // Widget Options
 

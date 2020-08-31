@@ -9,6 +9,12 @@ export type WidgetDimensionsProperties = {|
 	minHeight: number,
 |}
 
+export type BreakpointName = 'small' | 'medium' | 'large'
+
+export type WidgetBreakpoints = {|
+	[breakpointName: BreakpointName]: number,
+|}
+
 export type WidgetProperties = {|
 	name: string,
 	openSettingsFirst?: boolean,
@@ -17,6 +23,7 @@ export type WidgetProperties = {|
 	defaultHeight?: number,
 	minWidth?: number,
 	minHeight?: number,
+	breakpoints?: WidgetBreakpoints,
 |}
 
 export type AllWidgetsProperties = {|
