@@ -1,0 +1,10 @@
+.anchor {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dropdown {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

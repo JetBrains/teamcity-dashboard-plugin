@@ -7,9 +7,8 @@ import { useBuild } from '../../builds.hooks'
 import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 
 import styles from './BuildInfo.css'
-import MultilineBuildStatusLink from '../MultilineBuildStatusLink/MultilineBuildStatusLink'
 import RunningBuildProgressBar from './RunningBuildProgressBar/RunningBuildProgressBar'
-import { useThisWidgetActiveBreakpoints } from '../../../widgets/widgetsBreakpoints.hooks'
+import BuildStatusLink from '../BuildStatusLink/BuildStatusLink'
 
 const {
 	BuildBranch,
@@ -25,11 +24,11 @@ interface Properties {
 
 const BuildInfo = ({ buildId }: Properties) => {
 	const build = useBuild(buildId)
-	const breakpoints = useThisWidgetActiveBreakpoints()
+
+	const isBuildComposite = build?.composite === true
 
 	return (
 		<div className={styles.BuildInfo}>
-			<span>{breakpoints}</span>
 			{build?.state === 'running' && (
 				<RunningBuildUpdater buildId={buildId} />
 			)}
@@ -41,28 +40,43 @@ const BuildInfo = ({ buildId }: Properties) => {
 			)}
 			<div className={styles.buildInfoContainer}>
 				<div className={styles.statusContainer}>
-					<MultilineBuildStatusLink buildId={buildId} />
+					<BuildStatusLink buildId={buildId} multiline />
 				</div>
 				<div className={styles.artifactsContainer}>
 					<BuildArtifacts buildId={buildId} />
 				</div>
-				<div className={styles.numberAndTimePropertiesContainer}>
-					<BuildNumber buildId={buildId} hideStar />
-					<BuildTimeProperties buildId={buildId} />
+				<div className={styles.secondRow}>
+					<BuildNumber
+						className={styles.buildNumber}
+						buildId={buildId}
+						hideStar
+					/>
+					<BuildTimeProperties
+						buildId={buildId}
+						className={styles.time}
+					/>
+					{isBuildComposite && (
+						<ChangesDropdown
+							buildId={buildId}
+							className={styles.changes}
+						/>
+					)}
 				</div>
 				<div className={styles.branchContainer}>
-					<BuildBranch buildId={buildId} />
+					<BuildBranch buildId={buildId} className={styles.branch} />
 				</div>
-				<div className={styles.agentAndChangesContainer}>
-					<BuildAgentIcon
-						buildId={buildId}
-						className={styles.agent}
-					/>
-					<ChangesDropdown
-						buildId={buildId}
-						className={styles.changes}
-					/>
-				</div>
+				{!isBuildComposite && (
+					<div className={styles.agentAndChangesContainer}>
+						<BuildAgentIcon
+							buildId={buildId}
+							className={styles.agent}
+						/>
+						<ChangesDropdown
+							buildId={buildId}
+							className={styles.changes}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	)

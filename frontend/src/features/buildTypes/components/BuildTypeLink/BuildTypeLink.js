@@ -9,12 +9,12 @@ import styles from './BuildTypeLink.css'
 import ClampedText from '../../../../components/ClampedText/ClampedText'
 import { getBuildTypeLinkHref } from '../../buildTypes.utils'
 
-interface Properties {
-	buildTypeId: BuildTypeId;
-	href?: ?string;
-	className?: ?string;
-	multiline?: ?boolean;
-}
+type Properties = {|
+	buildTypeId: BuildTypeId,
+	href?: ?string,
+	className?: ?string,
+	multiline?: ?boolean,
+|}
 
 const BuildTypeLink = React.memo<Properties>(
 	({ buildTypeId, className, multiline, href }: Properties) => {

@@ -1,20 +1,17 @@
 // @flow strict
 import React from 'react'
-import type { BuildId } from '../../builds.types'
+import type { BuildId } from '../../../builds.types'
 import TC from '@teamcity/react-api'
 
 import styles from './MultilineBuildStatusLink.css'
-import { useBuildStatusLink } from '../../builds.hooks'
+import { useBuildStatusLink } from '../../../builds.hooks'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import Popup from '@jetbrains/ring-ui/components/popup/popup'
 import classnames from 'classnames'
-import ClampedText from '../../../../components/ClampedText/ClampedText'
+import ClampedText from '../../../../../components/ClampedText/ClampedText'
 import Link from '@jetbrains/ring-ui/components/link/link'
 
-const {
-	Icon,
-	BuildStatusTooltip,
-} = TC.Components
+const { Icon, BuildStatusTooltip } = TC.Components
 
 interface Properties {
 	buildId: BuildId;
@@ -41,7 +38,7 @@ const MultilineBuildStatusLink = ({
 		null
 
 	return (
-		<ClampedText maxLines={maxLines}>
+		<ClampedText maxLines={maxLines} className={styles[statusType]}>
 			<Dropdown anchor={iconDiv} hoverMode clickMode={false}>
 				<Popup className={popupClasses}>
 					<BuildStatusTooltip buildId={buildId} />

@@ -8,10 +8,11 @@ const { AgentLink } = TC.Components
 
 interface Properties {
 	buildId: BuildId;
+	className?: string;
 }
 
-const BuildAgentIcon = ({ buildId }: Properties) => {
-	return <AgentLink buildId={buildId} />
+const BuildAgentIcon = ({ buildId, className }: Properties) => {
+	return <AgentLink buildId={buildId} className={className} />
 }
 
 export default BuildAgentIcon

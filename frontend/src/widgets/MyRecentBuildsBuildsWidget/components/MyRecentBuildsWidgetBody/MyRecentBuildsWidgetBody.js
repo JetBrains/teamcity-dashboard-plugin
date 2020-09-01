@@ -8,7 +8,6 @@ import styles from './MyRecentBuildsWidgetBody.css'
 const MyRecentBuildsWidgetBody = () => {
 	return (
 		<WidgetBody
-			options={[]}
 			className={styles.MyRecentBuildsWidgetBody}
 			optionsClassName={styles.options}
 		>

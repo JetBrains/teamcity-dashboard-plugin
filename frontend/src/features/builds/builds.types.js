@@ -37,5 +37,6 @@ export type Build = {
 		id: number,
 		...
 	},
+	+composite?: boolean,
 	...
 }

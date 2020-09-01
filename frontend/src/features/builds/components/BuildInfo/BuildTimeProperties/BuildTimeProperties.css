@@ -1,0 +1,20 @@
+.buildDuration {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.buildDuration > span:first-child {
+	flex-shrink: 100;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.buildDuration > span:last-child {
+	flex-shrink: 1;
+}
+
+.dropdown {
+	overflow: hidden;
+	margin-right: 8px;
+}
