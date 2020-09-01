@@ -12,6 +12,8 @@ import {
 	getWidgetHeaderOptions,
 } from '../../config/widgetComponents.helpers'
 import MeasuredWidgetIsland from './MeasuredWidgetIsland/MeasuredWidgetIsland'
+import { shouldWidgetBeMeasured } from '../../config/widgetProperties.helpers'
+import WidgetIsland from '../../../../components/WidgetIsland/WidgetIsland'
 
 interface Properties {
 	widgetId: WidgetId;
@@ -49,11 +51,16 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 		[Body]
 	)
 
+	const WidgetIslandComponent =
+		type !== null && type !== undefined && shouldWidgetBeMeasured(type)
+			? MeasuredWidgetIsland
+			: WidgetIsland
+
 	const measuredWidget = useMemo(
 		() => (
-			<MeasuredWidgetIsland title={title} headerOptions={headerOptions}>
+			<WidgetIslandComponent title={title} headerOptions={headerOptions}>
 				{widgetBody}
-			</MeasuredWidgetIsland>
+			</WidgetIslandComponent>
 		),
 		[headerOptions, title, widgetBody]
 	)

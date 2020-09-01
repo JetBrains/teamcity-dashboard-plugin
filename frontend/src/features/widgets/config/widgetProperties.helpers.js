@@ -8,6 +8,7 @@ import type {
 } from './widgetProperties.types'
 import widgetsProperties from './widgetProperties'
 import type { WidgetType } from '../widgets.types'
+import isEmpty from 'just-is-empty'
 
 const emptyObject = {}
 
@@ -49,6 +50,9 @@ export const getWidgetDimensionsProperties: Selector<WidgetDimensionsProperties>
 
 const getWidgetBreakpoints: Selector<WidgetBreakpoints> = (type) =>
 	getWidgetProperties(type)?.breakpoints ?? emptyObject
+
+export const shouldWidgetBeMeasured: Selector<boolean> = (type) =>
+	isWidgetTypeSupported(type) && !isEmpty(getWidgetBreakpoints(type))
 
 export const getWidgetCurrentBreakpoint = (
 	type: WidgetType,

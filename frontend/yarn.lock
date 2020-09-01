@@ -5121,6 +5121,11 @@ just-debounce-it@^1.1.0:
   resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-1.1.0.tgz#8e92578effc155358a44f458c52ffbee66983bef"
   integrity sha512-87Nnc0qZKgBZuhFZjYVjSraic0x7zwjhaTMrCKlj0QYKH6lh0KbFzVnfu6LHan03NO7J8ygjeBeD0epejn5Zcg==
 
+just-is-empty@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/just-is-empty/-/just-is-empty-2.0.1.tgz#a1b7f23748fd939179ad658c2012abbef38be79e"
+  integrity sha512-c05XqAnVCLRrd5u8WnKrUKjVsjQHAF8mI1fVUWvnfrAMLFiu/8tWDG/TaKEnQMcQ3YlQPZqdAcsX1gv4G9/Gcw==
+
 just-throttle@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/just-throttle/-/just-throttle-1.1.0.tgz#178d305ece9876a8a0759abd8d403aafcc6e4849"

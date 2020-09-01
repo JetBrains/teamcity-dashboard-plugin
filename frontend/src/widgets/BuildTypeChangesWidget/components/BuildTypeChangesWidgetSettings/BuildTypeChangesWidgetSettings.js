@@ -13,7 +13,7 @@ const BuildTypeChangesWidgetSettings = () => {
 			title="Changes Widget Settings"
 			description="Widget support: ekaterina.silaeva@jetbrains.com"
 		>
-			<Section>
+			<Section last>
 				<Field>
 					<BuildTypeChangesWidgetBuildTypeSelector />
 				</Field>
