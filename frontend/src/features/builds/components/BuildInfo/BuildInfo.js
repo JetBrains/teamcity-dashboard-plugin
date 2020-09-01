@@ -9,6 +9,10 @@ import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 import styles from './BuildInfo.css'
 import RunningBuildProgressBar from './RunningBuildProgressBar/RunningBuildProgressBar'
 import BuildStatusLink from '../BuildStatusLink/BuildStatusLink'
+import {
+	useActiveBreakpointClassNames,
+	useIsBreakpointActive,
+} from '../../../widgets/widgetsBreakpoints.hooks'
 
 const {
 	BuildBranch,
@@ -18,12 +22,61 @@ const {
 	BuildNumber,
 } = TC.Components
 
+const buildInfoContainerBreakpointClasses = {
+	medium: styles.buildInfoContainerMedium,
+}
+
+const secondaryInfoContainerBreakpointClasses = {
+	large: styles.secondaryInfoContainerLarge,
+}
+
+const branchContainerBreakpointClasses = {
+	large: styles.branchContainerLarge,
+}
+
+const changesBreakpointClasses = {
+	large: styles.changesLarge,
+}
+
+const agentBreakpointClasses = {
+	large: styles.agentLarge,
+}
+
 interface Properties {
 	buildId: BuildId;
 }
 
 const BuildInfo = ({ buildId }: Properties) => {
 	const build = useBuild(buildId)
+
+	const isMedium = useIsBreakpointActive('medium')
+
+	const isLarge = useIsBreakpointActive('large')
+
+	const buildInfoContainerClasses = useActiveBreakpointClassNames(
+		buildInfoContainerBreakpointClasses,
+		styles.buildInfoContainer
+	)
+
+	const secondaryInfoContainerClasses = useActiveBreakpointClassNames(
+		secondaryInfoContainerBreakpointClasses,
+		styles.secondaryInfoContainer
+	)
+
+	const branchContainerClasses = useActiveBreakpointClassNames(
+		branchContainerBreakpointClasses,
+		styles.branchContainer
+	)
+
+	const changesClasses = useActiveBreakpointClassNames(
+		changesBreakpointClasses,
+		styles.changes
+	)
+
+	const agentClasses = useActiveBreakpointClassNames(
+		agentBreakpointClasses,
+		styles.agent
+	)
 
 	const isBuildComposite = build?.composite === true
 
@@ -38,45 +91,63 @@ const BuildInfo = ({ buildId }: Properties) => {
 					className={styles.progress}
 				/>
 			)}
-			<div className={styles.buildInfoContainer}>
+			<div className={buildInfoContainerClasses}>
 				<div className={styles.statusContainer}>
-					<BuildStatusLink buildId={buildId} multiline />
-				</div>
-				<div className={styles.artifactsContainer}>
-					<BuildArtifacts buildId={buildId} />
-				</div>
-				<div className={styles.secondRow}>
-					<BuildNumber
-						className={styles.buildNumber}
-						buildId={buildId}
-						hideStar
-					/>
-					<BuildTimeProperties
-						buildId={buildId}
-						className={styles.time}
-					/>
-					{isBuildComposite && (
-						<ChangesDropdown
+					{isLarge && (
+						<BuildNumber
+							className={styles.buildNumber}
 							buildId={buildId}
-							className={styles.changes}
+							hideStar
 						/>
 					)}
+					<BuildStatusLink buildId={buildId} multiline={!isLarge} />
 				</div>
-				<div className={styles.branchContainer}>
-					<BuildBranch buildId={buildId} className={styles.branch} />
-				</div>
-				{!isBuildComposite && (
-					<div className={styles.agentAndChangesContainer}>
-						<BuildAgentIcon
-							buildId={buildId}
-							className={styles.agent}
-						/>
-						<ChangesDropdown
-							buildId={buildId}
-							className={styles.changes}
-						/>
+				{isMedium && (
+					<div className={styles.artifactsContainer}>
+						<BuildArtifacts buildId={buildId} />
 					</div>
 				)}
+				<div className={secondaryInfoContainerClasses}>
+					<div className={styles.secondaryFirstRow}>
+						{!isLarge && (
+							<BuildNumber
+								className={styles.buildNumber}
+								buildId={buildId}
+								hideStar
+							/>
+						)}
+						<BuildTimeProperties
+							buildId={buildId}
+							className={styles.time}
+						/>
+						{isBuildComposite && !isLarge && (
+							<ChangesDropdown
+								buildId={buildId}
+								className={changesClasses}
+							/>
+						)}
+					</div>
+					<div className={branchContainerClasses}>
+						<BuildBranch
+							buildId={buildId}
+							className={styles.branch}
+						/>
+					</div>
+					{(!isBuildComposite || isLarge) && (
+						<div className={styles.agentAndChangesContainer}>
+							{!isBuildComposite && (
+								<BuildAgentIcon
+									buildId={buildId}
+									className={agentClasses}
+								/>
+							)}
+							<ChangesDropdown
+								buildId={buildId}
+								className={changesClasses}
+							/>
+						</div>
+					)}
+				</div>
 			</div>
 		</div>
 	)

@@ -17,18 +17,25 @@
 	position: relative;
 	width: 100%;
 	display: grid;
-	grid-template: "status artifacts" auto
-					"numberAndTime numberAndTime" auto
-					"branch branch" auto
-					"agentAndChanges agentAndChanges" auto
-					/ minmax(0, 1fr) 20px;
+	grid-template: "status" auto
+					"secondary" auto
+					/ minmax(0, 1fr);
 
 	padding: 8px 0;
 	border-bottom: 1px solid var(--border-color);
 }
 
+.buildInfoContainerMedium {
+	grid-template: "status artifacts" auto
+					"secondary secondary" auto
+					/ minmax(0, 1fr) 20px;
+}
+
 .statusContainer {
 	grid-area: status;
+
+	display: flex;
+	align-items: baseline;
 
 	overflow: hidden;
 }
@@ -38,26 +45,6 @@
 
 	grid-area: artifacts;
 	place-self: start;
-}
-
-.numberAndTimePropertiesContainer {
-	grid-area: numberAndTime;
-
-	display: flex;
-	flex-flow: row nowrap;
-
-	align-items: baseline;
-}
-
-.secondRow {
-	margin-top: 2px;
-
-	grid-area: numberAndTime;
-
-	display: flex;
-	flex-flow: row nowrap;
-
-	align-items: baseline;
 }
 
 .buildNumber {
@@ -71,6 +58,14 @@
 
 .branchContainer {
 	grid-area: branch;
+
+	overflow: hidden;
+
+	flex-shrink: 100;
+}
+
+.branchContainerLarge {
+	margin-left: auto;
 }
 
 .branch {
@@ -79,6 +74,10 @@
 
 .agentAndChangesContainer {
 	margin-top: 2px;
+
+	flex-shrink: 10000;
+
+	min-width: 0;
 
 	grid-area: agentAndChanges;
 
@@ -92,6 +91,11 @@
 	margin-right: 8px;
 }
 
+.agentLarge {
+	margin-right: 0;
+	margin-left: 12px;
+}
+
 .changes {
 	flex-shrink: 100;
 
@@ -101,8 +105,37 @@
 	text-overflow: ellipsis;
 }
 
+.changesLarge {
+	order: -1;
+	margin-left: 12px;
+}
+
 .changes > a {
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.secondaryInfoContainer {
+	display: flex;
+	flex-flow: column nowrap;
+
+	grid-area: secondary;
+}
+
+.secondaryInfoContainerLarge {
+	flex-direction: row;
+}
+
+.secondaryFirstRow {
+	margin-top: 2px;
+
+	overflow: hidden;
+
+	flex-shrink: 1;
+
+	display: flex;
+	flex-flow: row nowrap;
+
+	align-items: baseline;
 }
 
