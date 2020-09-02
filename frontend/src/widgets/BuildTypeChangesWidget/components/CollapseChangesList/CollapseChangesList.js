@@ -27,7 +27,6 @@ const CollapseChangesList = ({
 	extraNode,
 	children,
 	compact = false,
-	compactChangesCount = false,
 }: Properties) => {
 	const [areAllExpanded] = useAreAllExpanded()
 
@@ -66,7 +65,7 @@ const CollapseChangesList = ({
 				<span className={styles.title}>{title}</span>
 				<ChangesCounter
 					locator={locator}
-					compact={compactChangesCount}
+					compact={true}
 					className={styles.changesCount}
 				/>
 				{extraNode !== undefined && extraNode !== null && (

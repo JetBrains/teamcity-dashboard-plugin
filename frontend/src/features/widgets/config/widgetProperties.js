@@ -7,10 +7,11 @@ const widgetsProperties: AllWidgetsProperties = {
 		name: 'My Investigations',
 		openSettingsFirst: false,
 		defaultWidth: 3,
-		minWidth: 3,
+		minWidth: 2,
 	},
 	buildTypeChangesWidget: {
 		name: 'BuildType Changes Widget',
+		minWidth: 2,
 		breakpoints: {
 			medium: 420,
 			large: 600,

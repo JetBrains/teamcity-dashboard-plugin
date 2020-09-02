@@ -3,6 +3,8 @@
 }
 
 .header {
+	position: relative;
+
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
@@ -33,6 +35,8 @@
 .title {
 	order: 2;
 
+	max-width: 50%;
+
 	margin-right: 12px;
 
 	flex-grow: 0;
@@ -47,6 +51,9 @@
 }
 
 .changesCount {
+	position: absolute;
+	right: 0;
+
 	order: 4;
 
 	flex-grow: 1;
@@ -59,6 +66,8 @@
 	text-overflow: ellipsis;
 
 	text-align: end;
+
+	line-height: 20px;
 }
 
 .extra {
