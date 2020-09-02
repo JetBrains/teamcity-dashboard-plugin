@@ -1,5 +1,5 @@
 // @flow strict
-import React from 'react'
+import React, { useMemo } from 'react'
 import type { Build } from '../../../../features/builds/builds.types'
 
 import TC from '@teamcity/react-api'
@@ -7,6 +7,7 @@ import MyRecentBuildsListItem from './MyRecentBuildsListItem/MyRecentBuildsListI
 import addLocatorCount from '../../../../utils/addLocatorCount'
 import { useSubscribeOnBuildsTriggeredByCurrentUser } from '../../../../features/builds/builds.hooks'
 import styles from './MyRecentBuildsList.css'
+import CenteredLoader from '../../../../components/CenteredLoader/CenteredLoader'
 
 const { BuildsList } = TC.Components
 
@@ -21,11 +22,21 @@ const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 
 const MyRecentBuildsList = () => {
 	useSubscribeOnBuildsTriggeredByCurrentUser(50)
+
+	const loader = useMemo(() => <CenteredLoader />, [])
+
 	return (
-		<ul className={styles.MyRecentBuildsList}>
+		<ol className={styles.MyRecentBuildsList}>
 			<BuildsList
-				locator={addLocatorCount('defaultFilter:false,user:current', 50)}
-				renderEachBuild={(build: Build, index: number, builds: Build[]) => (
+				locator={addLocatorCount(
+					'defaultFilter:false,user:current',
+					50
+				)}
+				renderEachBuild={(
+					build: Build,
+					index: number,
+					builds: Build[]
+				) => (
 					<MyRecentBuildsListItem
 						key={build.id}
 						withBuildTypeHeader={shouldRenderBuildTypeHeader(
@@ -37,8 +48,9 @@ const MyRecentBuildsList = () => {
 						buildId={build.id}
 					/>
 				)}
+				loadingListPlaceholder={loader}
 			/>
-		</ul>
+		</ol>
 	)
 }
 
