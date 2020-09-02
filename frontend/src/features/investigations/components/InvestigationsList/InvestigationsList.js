@@ -3,30 +3,46 @@ import React from 'react'
 import InvestigationsListItem from './InvestigationsListItem/InvestigationsListItem'
 import styles from './InvestigationsList.css'
 import type { Investigation } from '../../investigations.types'
+import Loader from '@jetbrains/ring-ui/components/loader/loader'
+import { useFilteredSortedInvestigations } from '../../investigations.hooks'
+import CenteredMessage from '../../../../components/CenteredMessage/CenteredMessage'
 
-interface Properties {
-	investigations: Investigation[];
-	loading: boolean;
-}
+const withPath = (
+	investigation: Investigation,
+	index: number,
+	investigations: Investigation[]
+): boolean =>
+	index === 0 ||
+	investigation.projectId !== investigations[index - 1].projectId
 
-const InvestigationsList = ({ investigations, loading }: Properties) => {
-	if (loading) {
-		return <span>Loading</span>
+const withDivider = (
+	investigation: Investigation,
+	index: number,
+	investigations: Investigation[]
+): boolean => index !== 0 && withPath(investigation, index, investigations)
+
+const InvestigationsList = () => {
+	const [status, investigations] = useFilteredSortedInvestigations()
+	if (status === 'loading' && investigations.length === 0) {
+		return <Loader className={styles.loader} />
 	}
-	return (
-		<div className={styles.InvestigationsList}>
-			{investigations.map((investigation, index) => (
+	return investigations.length !== 0 ? (
+		<ol className={styles.InvestigationsList}>
+			{investigations.map((investigation, index, investigations) => (
 				<InvestigationsListItem
 					key={investigation.id}
 					investigation={investigation}
-					withPath={
-						index === 0 ||
-						investigation.projectId !==
-							investigations[index - 1].projectId
-					}
+					withPath={withPath(investigation, index, investigations)}
+					withDivider={withDivider(
+						investigation,
+						index,
+						investigations
+					)}
 				/>
 			))}
-		</div>
+		</ol>
+	) : (
+		<CenteredMessage textIcon="ヽ(ヅ)ノ" text="No investigations" />
 	)
 }
 

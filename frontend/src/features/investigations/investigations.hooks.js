@@ -1,5 +1,4 @@
 // @flow strict
-import type { WidgetId } from '../widgets/widgets.types'
 import { useCallback, useEffect, useMemo } from 'react'
 import {
 	fetchInvestigations,
@@ -18,12 +17,11 @@ import { useCurrentUserId } from '../users/users.hooks'
 import type { ProjectId } from '../projects/projects.types'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
+import { useThisWidgetId } from '../widgets/widgets.hooks'
 
-export const useFilteredInvestigationsCount = (widgetId: WidgetId): number => {
-	const selector = useMemo(
-		() => selectFilteredInvestigationsCount(widgetId),
-		[widgetId]
-	)
+export const useFilteredInvestigationsCount = (): number => {
+	const id = useThisWidgetId()
+	const selector = useMemo(() => selectFilteredInvestigationsCount(id), [id])
 
 	return useSelector(selector)
 }
@@ -52,9 +50,11 @@ export const useInvestigationsSubscription = (userId: UserId) => {
 	useInvestigationsCounterOnUpdate(userId, onCounterUpdate)
 }
 
-export const useFilteredSortedInvestigations = (
-	widgetId: string
-): [AsyncStatus, Investigation[]] => {
+export const useFilteredSortedInvestigations = (): [
+	AsyncStatus,
+	Investigation[]
+] => {
+	const widgetId = useThisWidgetId()
 	const userId = useCurrentUserId()
 	useInvestigationsSubscription(userId)
 	const status = useSelector(selectInvestigationsStatus)

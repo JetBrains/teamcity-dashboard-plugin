@@ -12,23 +12,36 @@
 	overflow: hidden;
 }
 
-.user {
+.userAndTime {
 	width: 100%;
-	margin-bottom: 5px;
+
+	display: inline-flex;
+	flex-flow: row wrap;
+}
+
+.user {
+	max-width: 100%;
 
 	overflow: hidden;
 	text-overflow: ellipsis;
+
+	margin-right: 1ch;
 }
 
 .time {
-	width: 100%;
-	margin-bottom: 10px;
+	max-width: 100%;
+}
+
+.resolution {
+	margin-top: 12px;
+
+	color: var(--ring-secondary-color)
 }
 
 .buttonsContainer {
 	width: 100%;
 
-	margin-top: auto;
+	margin-top: 16px;
 
 	display: flex;
 	flex-flow: row nowrap;

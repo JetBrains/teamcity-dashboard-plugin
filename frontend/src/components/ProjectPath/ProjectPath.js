@@ -23,7 +23,11 @@ const ProjectPath = React.memo<Properties>(
 		const classes = classnames(className, styles.ProjectPath)
 		return multiline ? (
 			<ClampedText maxLines={3}>
-				<EntityPath projectId={projectId} className={classes} />
+				<EntityPath
+					projectId={projectId}
+					className={classes}
+					withLeafStatusIcon={false}
+				/>
 			</ClampedText>
 		) : (
 			<TCProjectPath

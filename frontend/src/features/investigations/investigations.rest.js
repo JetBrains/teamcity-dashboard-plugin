@@ -1,7 +1,7 @@
 // @flow strict
 import type {
 	Investigation,
-	InvestigationId,
+	InvestigationId, InvestigationResolutionType,
 	InvestigationState,
 } from './investigations.types'
 import type { BuildType } from '../buildTypes/buildTypes.types'
@@ -26,6 +26,10 @@ type FetchedInvestigationCommonFields = {
 			name?: string,
 			...
 		},
+		...
+	},
+	resolution: {
+		type: InvestigationResolutionType,
 		...
 	},
 	...
@@ -114,6 +118,10 @@ const parseInvestigationCommonFields = (
 		name?: string,
 		...
 	},
+	resolution: {
+		type: InvestigationResolutionType,
+		...
+	},
 	...
 } => {
 	return {
@@ -125,6 +133,9 @@ const parseInvestigationCommonFields = (
 			name: investigation.assignment.user.name,
 			username: investigation.assignment.user.username,
 		},
+		resolution: {
+			type: investigation.resolution.type,
+		}
 	}
 }
 const parseFetchedBuildTypeInvestigation = (
@@ -238,7 +249,7 @@ export const fetchInvestigationsByAssignee = async (
 	userId: UserId
 ): Promise<Investigation[]> => {
 	const json: FetchedInvestigations = await TC.requestJSON(
-		`app/rest/investigations?locator=assignee:(id:${userId})&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId,webUrl)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(${userFields})))`
+		`app/rest/investigations?locator=assignee:(id:${userId})&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId,webUrl)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(${userFields})),resolution(type))`
 	)
 	const investigations: Investigation[] = json.investigation
 		.map((investigation: FetchedInvestigation) =>

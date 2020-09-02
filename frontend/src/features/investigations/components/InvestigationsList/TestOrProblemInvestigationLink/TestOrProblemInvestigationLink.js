@@ -6,15 +6,21 @@ import styles from './TestOrProblemInvestigationLink.css'
 // $FlowFixMe
 import { Link } from '@jetbrains/ring-ui'
 
-interface Properties {
-	type: 'test' | 'problem';
-	name: string;
-	href: string;
-}
+type Properties = {|
+	type: 'test' | 'problem',
+	name: string,
+	href: string,
+	className?: string,
+|}
 
-const TestOrProblemInvestigationLink = ({ type, name, href }: Properties) => {
+const TestOrProblemInvestigationLink = ({
+	type,
+	name,
+	href,
+	className,
+}: Properties) => {
 	return (
-		<ClampedText maxLines={5}>
+		<ClampedText maxLines={5} className={className}>
 			<span>
 				<span className={styles.type}>
 					{type === 'test' ? 'Test: ' : 'Problem: '}

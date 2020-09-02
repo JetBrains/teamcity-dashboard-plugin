@@ -1,39 +1,14 @@
 // @flow strict
 import React, { useMemo } from 'react'
-import SortByOptionSelect from '../SortByOptionSelect/SortByOptionSelect'
-import InvestigationsShowFixedOptionsSelector from '../ShowFixedOptionButton/ShowFixedOptionButton'
-import InvestigationsWidgetContent from '../../content/InvestigationsWidgetContent'
 import WidgetBody from '../../../../components/WidgetBody/WidgetBody'
-import { useThisWidgetId } from '../../../../features/widgets/widgets.hooks'
-
 import styles from './InvestigationsWidgetBody.css'
+import InvestigationsList from '../../../../features/investigations/components/InvestigationsList/InvestigationsList'
 
 const InvestigationsWidgetBody = () => {
-	const widgetId = useThisWidgetId()
-
-	const inBodyOptions: Array<React$Node> = useMemo(
-		(): Array<React$Node> => [
-			<SortByOptionSelect
-				key={0}
-				widgetId={widgetId}
-				className={styles.sortBy}
-			/>,
-			<InvestigationsShowFixedOptionsSelector
-				key={1}
-				widgetId={widgetId}
-				className={styles.showFixed}
-			/>,
-		],
-		[widgetId]
-	)
-
-	const content = useMemo(
-		() => <InvestigationsWidgetContent widgetId={widgetId} />,
-		[widgetId]
-	)
+	const content = useMemo(() => <InvestigationsList />, [])
 
 	return (
-		<WidgetBody options={inBodyOptions} optionsClassName={styles.options}>
+		<WidgetBody optionsClassName={styles.options} className={styles.body}>
 			{content}
 		</WidgetBody>
 	)

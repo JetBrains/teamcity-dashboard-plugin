@@ -6,10 +6,14 @@ import FormattedDate from '../../../../../components/FormattedDate/FormattedDate
 import type { User } from '../../../../../api/user/schemata'
 import ReassignInvestigationButton from '../ReassignInvestigationButton/ReassignInvestigationButton'
 import styles from './InvestigationAdditionalInfo.css'
-import type { InvestigationId } from '../../../investigations.types'
+import type {
+	InvestigationId,
+	InvestigationResolutionType,
+} from '../../../investigations.types'
 import {
 	selectInvestigationAssignedBy,
 	selectInvestigationAssignmentDate,
+	selectInvestigationResolutionType,
 	selectInvestigationState,
 } from '../../../investigations.slice'
 
@@ -27,14 +31,21 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 	const state: ?string = useSelector((state) =>
 		selectInvestigationState(state, investigationId)
 	)
+	const resolutionType: ?InvestigationResolutionType = useSelector((state) =>
+		selectInvestigationResolutionType(state, investigationId)
+	)
+
 	return (
 		<div className={styles.InvestigationAdditionalInfo}>
-			<div className={styles.user}>
-				{user ? getUserDisplayName(user) : 'Loading...'}
+			<div className={styles.userAndTime}>
+				<span className={styles.user}>
+					{user ? getUserDisplayName(user) : 'Loading...'}
+				</span>
+				<span className={styles.time}>
+					at {date ? <FormattedDate date={date} /> : 'Loading...'}
+				</span>
 			</div>
-			<div className={styles.time}>
-				at {date ? <FormattedDate date={date} /> : 'Loading...'}
-			</div>
+			<div className={styles.resolution}>Resolve {resolutionType === 'manually' ? 'manually' : 'automatically when fixed'}</div>
 			<div className={styles.buttonsContainer}>
 				{state !== 'FIXED' && (
 					<ReassignInvestigationButton

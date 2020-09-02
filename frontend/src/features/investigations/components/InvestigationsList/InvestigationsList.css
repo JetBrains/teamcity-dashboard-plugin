@@ -1,3 +1,14 @@
 .InvestigationsList {
-	margin-top: -20px;
+	/*margin-top: -20px;*/
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.loader {
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	place-items: center;
 }

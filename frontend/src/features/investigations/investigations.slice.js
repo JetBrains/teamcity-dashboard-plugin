@@ -4,6 +4,7 @@ import type {
 	FetchInvestigationsArgument,
 	Investigation,
 	InvestigationId,
+	InvestigationResolutionType,
 	InvestigationsState,
 	InvestigationState,
 } from './investigations.types'
@@ -69,6 +70,14 @@ export const selectInvestigationAssignmentDate: (
 	selectInvestigationById,
 	(investigation: ?Investigation) =>
 		investigation?.date ? new Date(investigation.date) : undefined
+)
+
+export const selectInvestigationResolutionType: (
+	RootState,
+	InvestigationId
+) => ?InvestigationResolutionType = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation) => investigation?.resolution?.type
 )
 
 export const selectInvestigationsSortedByName = (

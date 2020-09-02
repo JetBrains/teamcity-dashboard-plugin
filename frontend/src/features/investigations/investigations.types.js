@@ -11,6 +11,8 @@ export type InvestigationState = 'TAKEN' | 'FIXED' | 'GIVEN_UP'
 
 export type InvestigationTargetType = 'buildType' | 'test' | 'problem'
 
+export type InvestigationResolutionType = 'whenFixed' | 'manually'
+
 export type Investigation = {
 	id: InvestigationId,
 	state: InvestigationState,
@@ -20,11 +22,16 @@ export type Investigation = {
 	assignedBy: User,
 	defaultBranch: boolean,
 	target: {
-		type: InvestigationTargetType,
-		id: BuildTypeId | number,
 		name: string,
 		buildIds: BuildId[],
 		webUrl: string,
+		...
+	} & (
+		| { type: 'buildType', id: BuildTypeId, ... }
+		| { type: 'test' | 'problem', id: number, ... }
+	),
+	resolution: {
+		type: InvestigationResolutionType,
 		...
 	},
 	...

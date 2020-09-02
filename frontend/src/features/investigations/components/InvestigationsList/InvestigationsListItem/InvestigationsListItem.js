@@ -1,28 +1,22 @@
 // @flow strict
 import React, { memo, useMemo } from 'react'
 import styles from './styles.css'
-// import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
 import InvestigationAdditionalInfoDropdown from '../../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
 import type { Investigation } from '../../../investigations.types'
 import BuildTypeInvestigationLink from '../BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
 import TestOrProblemInvestigationLink from '../TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
+import Divider from '../../../../../components/Divider/Divider'
+import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
+import LoaderInline from '@jetbrains/ring-ui/components/loader-inline/loader-inline'
 
-import TC from '@teamcity/react-api'
-
-const { ProjectPath } = TC.Components
-
-const areInvestigationsEqual = (
-	investigation1: Investigation,
-	investigation2: Investigation
-) => JSON.stringify(investigation1) === JSON.stringify(investigation2)
-
-interface Properties {
-	investigation: Investigation;
-	withPath: boolean;
-}
+type Properties = {|
+	investigation: Investigation,
+	withDivider: boolean,
+	withPath: boolean,
+|}
 
 const InvestigationsListItem = memo<Properties>(
-	({ investigation, withPath }: Properties) => {
+	({ investigation, withPath, withDivider }: Properties) => {
 		const investigationLink = useMemo(() => {
 			switch (investigation.target.type) {
 				case 'buildType':
@@ -37,6 +31,7 @@ const InvestigationsListItem = memo<Properties>(
 					return (
 						<TestOrProblemInvestigationLink
 							type={'test'}
+							className={styles.testOrProblemInvestigationLink}
 							name={investigation.target.name}
 							href={investigation.target.webUrl}
 						/>
@@ -45,15 +40,14 @@ const InvestigationsListItem = memo<Properties>(
 					return (
 						<TestOrProblemInvestigationLink
 							type={'problem'}
+							className={styles.testOrProblemInvestigationLink}
 							name={investigation.target.name}
 							href={investigation.target.webUrl}
 						/>
 					)
 				default:
 					return (
-						<span>
-							This investigation cannot be rendered, this is a bug
-						</span>
+						<LoaderInline />
 					)
 			}
 		}, [
@@ -64,35 +58,33 @@ const InvestigationsListItem = memo<Properties>(
 		])
 
 		return (
-			<div>
-				{withPath && (
-					<div className={styles.projectPathContainer}>
-						<ProjectPath
-							projectId={investigation.projectId}
-							className={styles.projectPath}
-						/>
-					</div>
-				)}
+			<li className={styles.InvestigationsListItem}>
+				{withDivider && <Divider className={styles.divider} />}
+				<div className={styles.contentWrapper}>
+					{withPath && (
+						<div className={styles.projectPathContainer}>
+							<ProjectPath
+								projectId={investigation.projectId}
+								className={styles.projectPath}
+								multiline
+							/>
+						</div>
+					)}
 
-				<div className={styles.listItem}>
-					<div className={styles.mainContent}>
-						{investigationLink}
-					</div>
-					<div className={styles.right}>
-						<InvestigationAdditionalInfoDropdown
-							investigationId={investigation.id}
-						/>
+					<div className={styles.investigationLinkContainer}>
+						<div className={styles.mainContent}>
+							{investigationLink}
+						</div>
+						<div className={styles.right}>
+							<InvestigationAdditionalInfoDropdown
+								investigationId={investigation.id}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			</li>
 		)
-	},
-	(previousProperties: Properties, nextProperties: Properties) =>
-		previousProperties.withPath === nextProperties.withPath &&
-		areInvestigationsEqual(
-			previousProperties.investigation,
-			nextProperties.investigation
-		)
+	}
 )
 
 InvestigationsListItem.displayName = 'InvestigationsListItem'
