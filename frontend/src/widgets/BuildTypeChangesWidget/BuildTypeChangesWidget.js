@@ -1,7 +1,7 @@
 // @flow strict
 import React, { useMemo } from 'react'
 import WidgetBody from '../../components/WidgetBody/WidgetBody'
-import BuildTypeChanges from '../../components/BuildTypeChanges/BuildTypeChanges'
+import BuildTypeChanges from '../../features/changes/components/BuildTypeChanges/BuildTypeChanges'
 import BranchWidgetOptionSelector from './components/BranchWidgetOptionSelector/BranchWidgetOptionSelector'
 import { useBranchLocatorOption, useBuildTypeIdOption } from './options/hooks'
 import styles from './BuildTypeChangesWidget.css'

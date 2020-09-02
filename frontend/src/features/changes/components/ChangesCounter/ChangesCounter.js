@@ -1,31 +1,27 @@
 // @flow strict
 import React from 'react'
+import classnames from 'classnames'
 import { useChangesActualCountByLocator } from '../../changes.hooks'
 import type { ChangesLocator } from '../../changes.locator'
 import LongTextShortText from '../../../../components/LongTextShortText/LongTextShortText'
 
 import styles from './ChangesCounter.css'
 
-interface Properties {
-	locator: ChangesLocator;
-	compact?: ?boolean;
-}
+type Properties = {|
+	locator: ChangesLocator,
+	compact?: ?boolean,
+	className?: string,
+|}
 
-const ChangesCounter = ({ locator, compact }: Properties) => {
+const ChangesCounter = ({ locator, compact, className }: Properties) => {
 	const count = useChangesActualCountByLocator(locator)
 	const readableCount = count > 100 ? '100+' : count.toString()
-	// return (
-	// 	<LongTextShortText
-	// 		className={styles.text}
-	// 		shortText={readableCount}
-	// 		longText={`Changes: ${readableCount}`}
-	// 	/>
-	// )
+
 	return compact === true ? (
-		readableCount
+		<span className={className}>{readableCount}</span>
 	) : (
 		<LongTextShortText
-			className={styles.text}
+			className={classnames(styles.text, className)}
 			shortText={readableCount}
 			longText={(`Changes: ${readableCount}`: React$Node)}
 		/>

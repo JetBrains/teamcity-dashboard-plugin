@@ -1,0 +1,13 @@
+.ChangeFilesDetailsButton {
+	padding: 0 8px;
+
+	white-space: nowrap;
+
+	border: none;
+	box-shadow: none;
+}
+
+
+.icon * {
+	fill: currentColor !important;
+}

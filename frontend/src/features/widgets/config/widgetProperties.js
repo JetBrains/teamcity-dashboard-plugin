@@ -11,6 +11,10 @@ const widgetsProperties: AllWidgetsProperties = {
 	},
 	buildTypeChangesWidget: {
 		name: 'BuildType Changes Widget',
+		breakpoints: {
+			medium: 420,
+			large: 600,
+		}
 	},
 	myRecentBuildsWidget: {
 		name: 'My Recent Builds',

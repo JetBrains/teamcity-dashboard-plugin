@@ -1,0 +1,7 @@
+.CenteredLoader {
+	height: 100%;
+	width: 100%;
+
+	display: flex;
+	place-items: center;
+}

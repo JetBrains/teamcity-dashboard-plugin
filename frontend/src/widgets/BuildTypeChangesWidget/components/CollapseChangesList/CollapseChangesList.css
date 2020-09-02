@@ -1,25 +1,28 @@
 .CollapseChangesList {
-	border-bottom: 1px solid var(--border-color);
-	padding: 8px 12px 0 12px;
+	padding: 8px 16px 0 16px;
 }
 
 .header {
-	display: grid;
-	grid-template: "chevron panel" 20px
-					"extra extra" auto
-					/ 18px minmax(0, auto);
-	column-gap: 4px;
-	place-items: start;
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
 
 	padding-bottom: 8px;
 }
 
-.chevron {
-	grid-area: chevron;
+.header_compact {
+	flex-wrap: nowrap;
 }
 
+/*.chevron {*/
+/*	grid-area: chevron;*/
+/*}*/
+
 .chevronButton {
+	order: 1;
 	padding: 0;
+	margin-left: -2px;
+	margin-right: 2px;
 }
 
 
@@ -27,14 +30,11 @@
 	color: #1F2326 !important;
 }
 
-.headerPanel {
-	grid-area: panel;
-
-	display: inline-flex;
-	width: 100%;
-}
-
 .title {
+	order: 2;
+
+	margin-right: 12px;
+
 	flex-grow: 0;
 	flex-shrink: 1;
 
@@ -47,10 +47,10 @@
 }
 
 .changesCount {
+	order: 4;
+
 	flex-grow: 1;
 	flex-shrink: 9999999;
-
-	font-weight: bold;
 
 	margin-left: 1ch;
 
@@ -61,36 +61,21 @@
 	text-align: end;
 }
 
-/*.title {*/
-/*	grid-area: title;*/
-/*	line-height: 20px;*/
-/*	font-weight: bold;*/
-
-/*	white-space: nowrap;*/
-/*}*/
-
-/*.changesCount {*/
-/*	grid-area: changesCount;*/
-/*	place-self: start end;*/
-
-/*	white-space: nowrap;*/
-/*	overflow: hidden;*/
-/*	text-overflow: ellipsis;*/
-/*	max-width: 100%;*/
-/*}*/
-
 .extra {
-	grid-area: extra;
+	order: 5;
 	width: 100%;
+}
+
+.extra_compact {
+	order: 3;
+	width: auto;
+
+	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
 .content {
-}
-
-.shown {
-	display: block;
 }
 
 .hidden {

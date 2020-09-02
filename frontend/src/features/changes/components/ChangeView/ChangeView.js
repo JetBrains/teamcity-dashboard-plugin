@@ -1,18 +1,18 @@
 // @flow strict
-import React, { useCallback } from 'react'
+import React from 'react'
 import classNames from 'classnames'
-import type { Change, ChangeId } from '../../changes.slice'
 import { useChange } from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import styles from './ChangeView.css'
-import FilesIcon from '../../../../resources/svg/files.svg'
-import Button from '@jetbrains/ring-ui/components/button/button'
 import ClampedText from '../../../../components/ClampedText/ClampedText'
 import Link from '@jetbrains/ring-ui/components/link/link'
 import getUserDisplayName from '../../../../api/user/getUserDisplayName'
+import type { Change, ChangeId } from '../../changes.types'
+import ChangeFilesDetailsButton from '../ChangeFilesDetailsButton/ChangeFilesDetailsButton'
+import { useActiveBreakpointClassNames } from '../../../widgets/widgetsBreakpoints.hooks'
 
 const getChangeUserDisplayName = (change: Change): string => {
-	const {username: vcsUsername, user} = change
+	const { username: vcsUsername, user } = change
 	if (user === undefined || user === null) {
 		return vcsUsername
 	} else {
@@ -20,11 +20,14 @@ const getChangeUserDisplayName = (change: Change): string => {
 	}
 }
 
-
 interface Properties {
 	changeId: ChangeId;
 	showChangeDetailsPopup: (?ChangeId) => mixed;
 	className?: string;
+}
+
+const changeViewBreakpointClasses = {
+	medium: styles.ChangeView_medium,
 }
 
 const ChangeView = ({
@@ -34,13 +37,15 @@ const ChangeView = ({
 }: Properties) => {
 	const change = useChange(changeId)
 
-	const showPopup = useCallback(() => showChangeDetailsPopup(changeId), [
-		changeId,
-		showChangeDetailsPopup,
-	])
+	const changeViewOwnClasses = useActiveBreakpointClassNames(
+		changeViewBreakpointClasses,
+		styles.ChangeView
+	)
+
+	const changeViewClasses = classNames(changeViewOwnClasses, className)
 
 	return (
-		<div className={classNames(styles.ChangeView, className ?? '')}>
+		<div className={changeViewClasses}>
 			<span className={styles.comment}>
 				<ClampedText maxLines={3}>
 					{change ? (
@@ -57,17 +62,11 @@ const ChangeView = ({
 					)}
 				</ClampedText>
 			</span>
-			<span className={styles.changesPreviewIcon}>
-				<Button
-					icon={FilesIcon}
-					onClick={showPopup}
-					title="Open Change Details"
-					className={styles.changesPreviewInnerButton}
-				/>
-			</span>
 			{change ? (
 				<div className={styles.metadata}>
-					<span className={styles.username}>{getChangeUserDisplayName(change)},</span>
+					<span className={styles.username}>
+						{getChangeUserDisplayName(change)},
+					</span>
 					<span className={styles.date}>
 						<FormattedDate date={change.date} />
 					</span>
@@ -75,6 +74,13 @@ const ChangeView = ({
 			) : (
 				<span>Loading..</span>
 			)}
+			<span className={styles.changesPreviewIconContainer}>
+				<ChangeFilesDetailsButton
+					changeId={changeId}
+					className={styles.changesPreviewButton}
+					showChangeDetailsPopup={showChangeDetailsPopup}
+				/>
+			</span>
 		</div>
 	)
 }

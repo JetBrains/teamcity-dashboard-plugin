@@ -6,9 +6,7 @@ import fetchingDashboardDataSliceReducer from '../features/dashboard/fetchingDas
 import postingDashboardDataSliceReducer from '../features/dashboard/postingDashboardData.slice'
 import investigationsSliceReducer from '../features/investigations/investigations.slice'
 import { type AsyncState } from '../commontypes'
-import changesSliceReducer, {
-	type ChangesState,
-} from '../features/changes/changes.slice'
+import changesSliceReducer from '../features/changes/changes.slice'
 import changesIdsByLocatorReducer from '../features/changes/changesIdsByLocator.slice'
 import type { BuildTypeConstantsState } from '../features/buildTypes/buildTypesConstants.types'
 import buildTypesConstantsSliceReducer from '../features/buildTypes/buildTypesConstants.slice'
@@ -26,6 +24,7 @@ import type { CurrentTimeState } from '../features/currentTime/currentTime.types
 import currentTimeSliceReducer from '../features/currentTime/currentTime.slice'
 import type { WidgetsBreakpointsState } from '../features/widgets/widgetsBreakpoints.types'
 import widgetsBreakpointsSliceReducer from '../features/widgets/widgetsBreakpoints.slice'
+import type { ChangesState } from '../features/changes/changes.types'
 
 export interface RootState {
 	layout: LayoutState;

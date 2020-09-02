@@ -5,11 +5,22 @@
 
 	grid-template:
 			"comment comment" auto
-			"changesPreviewIcon metadata" auto
-			/ 16px minmax(0, 1fr);
+			"metadata changesPreviewIcon" auto
+			/ minmax(0, 1fr) min-content;
 
-	row-gap: 8px;
-	column-gap: 8px;
+	/*row-gap: 8px;*/
+	/*column-gap: 8px;*/
+
+	box-sizing: border-box;
+	padding: 8px 0;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.ChangeView_medium {
+	grid-template:
+			"comment changesPreviewIcon" auto
+			"metadata metadata" auto
+			/ minmax(0, 1fr) min-content;
 }
 
 .comment {
@@ -18,17 +29,18 @@
 }
 
 
-.changesPreviewIcon {
+.changesPreviewIconContainer {
 	grid-area: changesPreviewIcon;
 }
 
-.changesPreviewInnerButton {
-	padding: 0;
+.changesPreviewButton {
+	position: relative;
+	right: -8px;
 }
 
 .metadata {
 	grid-area: metadata;
-	place-self: center end;
+	place-self: center start;
 
 	max-width: 100%;
 
@@ -37,7 +49,8 @@
 	display: inline-flex;
 	flex-flow: row nowrap;
 
-	line-height: 20px;
+	margin-top: 2px;
+	line-height: 18px;
 	font-size: 13px;
 
 	white-space: nowrap;

@@ -2,7 +2,7 @@
 
 import type { AsyncState } from '../../commontypes'
 import type { ChangesLocator } from './changes.locator'
-import type { Change, ChangeId } from './changes.slice'
+import type { Change, ChangeId } from './changes.types'
 
 export type ChangesIdsByLocatorEntity = {|
 	...AsyncState,

@@ -1,8 +1,11 @@
 // @flow strict
 import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectChangeById, selectChangesByLocator } from './changes.slice'
-import type { Change, ChangeId } from './changes.slice'
+import {
+	selectChangeById,
+	selectChangeFilesCount,
+	selectChangesByLocator,
+} from './changes.slice'
 import type { AsyncStatus } from '../../commontypes'
 import type { ChangesLocator } from './changes.locator'
 import {
@@ -24,6 +27,7 @@ import {
 	getBuildChangesLocator,
 	getPendingBuildTypeChangesLocator,
 } from './changes.locator'
+import type { Change, ChangeId } from './changes.types'
 
 export const usePendingBuildTypeChangesLocator = (
 	buildTypeId: BuildTypeId,
@@ -38,7 +42,7 @@ export const useBuildChangesLocator = (buildId: BuildId) =>
 	useMemo(() => getBuildChangesLocator(buildId), [buildId])
 
 export const useChangesIdsByLocator = (
-	locator: ChangesLocator,
+	locator: ChangesLocator
 ): [ChangeId[], AsyncStatus, ?string] => {
 	const changesIdsByLocator = useSelector((state) =>
 		selectChangesIdsByLocator(state, locator)
@@ -70,7 +74,7 @@ export const useChangesActualCountByLocator = (
 }
 
 export const useBuildChangesIds = (
-	buildId: BuildId,
+	buildId: BuildId
 ): [ChangeId[], AsyncStatus, ?string] => {
 	const locator = useBuildChangesLocator(buildId)
 	return useChangesIdsByLocator(locator)
@@ -166,3 +170,6 @@ export const useChangesByLocator = (
 export const useChange = (changeId: ChangeId): ?Change => {
 	return useSelector((state) => selectChangeById(state, changeId))
 }
+
+export const useChangeFilesCount = (changeId: ChangeId): number =>
+	useSelector((state) => selectChangeFilesCount(state, changeId))

@@ -1,11 +1,11 @@
 // @flow strict
-import type { ChangeId } from '../changes/changes.slice'
 import TC from '@teamcity/react-api'
 import type { BuildsLocator } from './builds.locator'
 import { stringifyBuildsLocator } from './builds.locator'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 import type { UserId } from '../users/users.types'
 import type { Build, BuildId, BuildState, BuildStatus } from './builds.types'
+import type { ChangeId } from '../changes/changes.types'
 
 type FetchedBuild = {
 	id: BuildId,

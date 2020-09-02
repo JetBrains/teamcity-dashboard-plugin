@@ -12,19 +12,21 @@ import styles from './CollapseChangesList.css'
 import useToggle from '../../../../hooks/basic/useToggle'
 import Button from '@jetbrains/ring-ui/components/button/button'
 
-interface Properties {
-	title?: React$Node;
-	locator: ChangesLocator;
-	extraNode?: React$Node;
-	children: React$Node;
-	compactChangesCount?: boolean;
-}
+type Properties = {|
+	title?: React$Node,
+	locator: ChangesLocator,
+	extraNode?: React$Node,
+	children: React$Node,
+	compactChangesCount?: boolean,
+	compact?: boolean,
+|}
 
 const CollapseChangesList = ({
 	title,
 	locator,
 	extraNode,
 	children,
+	compact = false,
 	compactChangesCount = false,
 }: Properties) => {
 	const [areAllExpanded] = useAreAllExpanded()
@@ -40,34 +42,35 @@ const CollapseChangesList = ({
 	const toggleExpanded = useToggle(isSelfExpanded, setIsSelfExpanded)
 
 	const contentClassNames = classNames(styles.content, {
-		hidden: !isSelfExpanded,
+		[styles.hidden]: !isSelfExpanded,
+	})
+
+	const headerClasses = classNames(styles.header, {
+		[styles.header_compact]: compact,
+	})
+
+	const extraClasses = classNames(styles.extra, {
+		[styles.extra_compact]: compact,
 	})
 
 	return (
 		<div className={styles.CollapseChangesList}>
-			<div className={styles.header}>
-				<span className={styles.chevron}>
-					<Button
-						icon={
-							isSelfExpanded ? ChevronDownIcon : ChevronRightIcon
-						}
-						className={styles.chevronButton}
-						iconClassName={styles.chevronButtonIcon}
-						iconSize={20}
-						onClick={toggleExpanded}
-					/>
-				</span>
-				<span className={styles.headerPanel}>
-					<span className={styles.title}>{title}</span>
-					<span className={styles.changesCount}>
-						<ChangesCounter
-							locator={locator}
-							compact={compactChangesCount}
-						/>
-					</span>
-				</span>
+			<div className={headerClasses}>
+				<Button
+					icon={isSelfExpanded ? ChevronDownIcon : ChevronRightIcon}
+					className={styles.chevronButton}
+					iconClassName={styles.chevronButtonIcon}
+					iconSize={20}
+					onClick={toggleExpanded}
+				/>
+				<span className={styles.title}>{title}</span>
+				<ChangesCounter
+					locator={locator}
+					compact={compactChangesCount}
+					className={styles.changesCount}
+				/>
 				{extraNode !== undefined && extraNode !== null && (
-					<span className={styles.extra}>{extraNode}</span>
+					<span className={extraClasses}>{extraNode}</span>
 				)}
 			</div>
 			<div className={contentClassNames}>{children}</div>

@@ -106,7 +106,7 @@ Authorization: Basic {{username}} {{password}}
 
 ###
 
-GET {{host}}/app/rest/changes?locator=id:2&fields=change(*)
+GET {{host}}/app/rest/changes?fields=change(files(count))
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}

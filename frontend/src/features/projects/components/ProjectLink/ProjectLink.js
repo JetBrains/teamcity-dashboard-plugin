@@ -16,7 +16,7 @@ interface Properties {
 
 const ProjectLink = React.memo<Properties>(
 	({ projectId, className }: Properties) => {
-		const project = useProject(projectId)
+		const project = useProject(projectId, true)
 		const href = getProjectLinkHref(projectId)
 		return (
 			<span className={classNames(styles.ProjectLink, className)}>

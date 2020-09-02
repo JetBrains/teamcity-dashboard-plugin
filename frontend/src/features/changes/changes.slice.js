@@ -7,7 +7,7 @@ import {
 } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
 import type { ChangesLocator } from './changes.locator'
-import type { AsyncState, FulfilledAction } from '../../commontypes'
+import type { FulfilledAction } from '../../commontypes'
 import {
 	fetchChangesByLocator,
 	selectChangesIdsByLocator,
@@ -19,46 +19,15 @@ import type {
 } from './changesIdsByLocator.types'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
-import type { User } from '../../api/user/schemata'
-
-export type ChangeId = number
-export type Change = {
-	id: ChangeId,
-	username: string,
-	comment: string,
-	date: string,
-	webUrl?: ?string,
-	user?: User,
-	...
-}
-
-export type ChangesHash = {|
-	[id: ChangeId]: Change,
-|}
-
-export type ChangesState = {|
-	id: ChangeId[],
-	entities: ChangesHash,
-|}
-
-export type ChangesByLocator = {|
-	...AsyncState,
-	changesIds: ChangeId[],
-	changes: Change[],
-|}
+import type {
+	Change,
+	ChangeId,
+	ChangesByLocator,
+	ChangesHash,
+	ChangesState,
+} from './changes.types'
 
 // Thunks
-
-export const fetchBuildChanges = (
-	buildId: BuildId,
-	force?: boolean
-): ThunkAction =>
-	fetchChangesByLocator(
-		{
-			buildId,
-		},
-		force
-	)
 
 export const fetchPendingBuildTypeChanges = (
 	buildTypeId: BuildTypeId,
@@ -105,8 +74,16 @@ const selectors = changesAdapter.getSelectors(selectChanges)
 export const selectChangesHash: (RootState) => ChangesHash =
 	selectors.selectEntities
 
-export const selectChangeById: (RootState, ChangeId) => Change =
+export const selectChangeById: (RootState, ChangeId) => ?Change =
 	selectors.selectById
+
+export const selectChangeFilesCount: (
+	RootState,
+	ChangeId
+) => number = createSelector(
+	selectChangeById,
+	(change: ?Change) => change?.filesCount ?? 0
+)
 
 export const selectChangesByLocator: (
 	RootState,

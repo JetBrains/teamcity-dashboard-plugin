@@ -1,11 +1,11 @@
 // @flow strict
-import type { Change, ChangeId } from './changes.slice'
 import TC from '@teamcity/react-api'
 import type { ChangesLocator } from './changes.locator'
 import { stringifyChangesLocator } from './changes.locator'
 import { parseTimestamp } from '../../utils/parseTimestamp'
 import { userFields } from '../../api/user/schemata'
 import type { User } from '../../api/user/schemata'
+import type { Change, ChangeId } from './changes.types'
 
 type FetchedChange = {
 	id: ChangeId,
@@ -14,6 +14,10 @@ type FetchedChange = {
 	date: string,
 	webUrl?: ?string,
 	user?: User,
+	files: {
+		count: number,
+		...
+	},
 	...
 }
 
@@ -22,7 +26,7 @@ type FetchedChanges = {
 	...
 }
 
-const changeFields = `id,username,comment,date,webUrl,user(${userFields})`
+const changeFields = `id,username,comment,date,webUrl,user(${userFields}),files(count)`
 
 export const parseChange = ({
 	id,
@@ -30,7 +34,8 @@ export const parseChange = ({
 	comment,
 	date,
 	webUrl,
-	user
+	user,
+	files,
 }: FetchedChange): Change => ({
 	id,
 	username,
@@ -38,6 +43,7 @@ export const parseChange = ({
 	webUrl,
 	user,
 	date: parseTimestamp(date).toUTCString(),
+	filesCount: files.count
 })
 
 export const requestChanges = async (

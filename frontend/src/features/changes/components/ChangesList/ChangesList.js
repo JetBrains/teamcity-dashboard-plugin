@@ -1,11 +1,11 @@
 // @flow strict
 import React, { useState, useCallback } from 'react'
 import classNames from 'classnames'
-import type { ChangeId } from '../../changes.slice'
 import ChangeView from '../ChangeView/ChangeView'
 import styles from './ChangesList.css'
 import { useBuildTypeIdOption } from '../../../../widgets/BuildTypeChangesWidget/options/hooks'
 import TC from '@teamcity/react-api'
+import type { ChangeId } from '../../changes.types'
 
 const { ChangeDetailsPopup } = TC.Components
 
@@ -27,7 +27,7 @@ const ChangesList = ({ changesIds }: Properties) => {
 	])
 
 	const changesListClasses = classNames(styles.ChangesList, {
-		[styles.paddings]: changesIds.length > 0,
+		[styles.ChangesList_notEmpty]: changesIds.length > 0,
 	})
 
 	return (
