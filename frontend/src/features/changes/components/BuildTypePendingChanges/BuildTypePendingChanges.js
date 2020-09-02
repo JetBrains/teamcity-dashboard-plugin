@@ -8,6 +8,8 @@ import {
 	usePendingBuildTypeChangesLocator,
 } from '../../changes.hooks'
 import ChangesList from '../ChangesList/ChangesList'
+import Divider from '../../../../components/Divider/Divider'
+import styles from './BuildTypePendingChanges.css'
 
 interface Properties {
 	buildTypeId: BuildTypeId;
@@ -24,16 +26,20 @@ const BuildTypePendingChanges = React.memo<Properties>(
 		)
 
 		return changesIds.length !== 0 ? (
-			<CollapseChangesList
-				title={('Pending': React$Node)}
-				locator={locator}
-			>
-				{changesIds ? (
-					<ChangesList changesIds={changesIds} />
-				) : (
-					<span>Loading...</span>
-				)}
-			</CollapseChangesList>
+			<>
+				<CollapseChangesList
+					title={('Pending': React$Node)}
+					locator={locator}
+				>
+					{changesIds ? (
+						<ChangesList changesIds={changesIds} />
+					) : (
+						<span>Loading...</span>
+					)}
+				</CollapseChangesList>
+				<Divider className={styles.divider} />
+			</>
+
 		) : // eslint-disable-next-line unicorn/no-null
 		null
 	}

@@ -1,0 +1,20 @@
+.settingsHeader {
+	margin-bottom: 12px;
+}
+
+.branchSelect {
+	position: relative;
+}
+
+.branchSelect::before {
+	content: 'Branch';
+
+	position: absolute;
+	top: -23px;
+
+	color: var(--ring-secondary-color)
+}
+
+.branchSelect > button {
+	margin-top: 34px !important;
+}

@@ -1,14 +1,29 @@
 // @flow strict
 import React from 'react'
-
+import classnames from 'classnames'
 import styles from './Field.css'
 
-interface Properties {
-	children: React$Node;
-}
+type Properties = {|
+	label?: string,
+	children: React$Node,
+	className?: string,
+|}
 
-const Field = ({ children }: Properties) => {
-	return <div className={styles.Field}>{children}</div>
+const Field = ({ children, label, className }: Properties) => {
+	const classes = classnames(styles.Field, className)
+
+	return (
+		<div className={classes}>
+			{label !== null && label !== undefined ? (
+				<label>
+					<span className={styles.labelText}>{label}</span>
+					{children}
+				</label>
+			) : (
+				children
+			)}
+		</div>
+	)
 }
 
 export default Field

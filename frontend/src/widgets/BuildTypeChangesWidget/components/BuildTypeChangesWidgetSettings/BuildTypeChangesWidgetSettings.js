@@ -6,19 +6,21 @@ import WidgetSettings, {
 import BuildTypeChangesWidgetBuildTypeSelector from '../../options/BuildTypeChangesWidgetBuildTypeSelector'
 import BranchWidgetOptionSelector from '../BranchWidgetOptionSelector/BranchWidgetOptionSelector'
 import Field from '../../../../features/widgets/components/WidgetSettings/Field/Field'
+import styles from './BuildTypeChangesWidgetSettings.css'
 
 const BuildTypeChangesWidgetSettings = () => {
 	return (
 		<WidgetSettings
 			title="Changes Widget Settings"
 			description="Widget support: ekaterina.silaeva@jetbrains.com"
+			headerClassName={styles.settingsHeader}
 		>
 			<Section last>
-				<Field>
+				<Field label="Build Configuration" className={styles.buildConfigurationField}>
 					<BuildTypeChangesWidgetBuildTypeSelector />
 				</Field>
 				<Field>
-					<BranchWidgetOptionSelector />
+					<BranchWidgetOptionSelector className={styles.branchSelect} />
 				</Field>
 			</Section>
 		</WidgetSettings>

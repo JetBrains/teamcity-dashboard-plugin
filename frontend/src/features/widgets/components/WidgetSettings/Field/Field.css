@@ -1,3 +1,8 @@
 .Field {
-	/*margin-bottom: 16px;*/
+	max-width: 100%;
+}
+
+.labelText {
+	color: var(--ring-secondary-color);
+	margin-bottom: 2px;
 }
