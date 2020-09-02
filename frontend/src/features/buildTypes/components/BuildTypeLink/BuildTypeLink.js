@@ -17,16 +17,10 @@ type Properties = {|
 |}
 
 const BuildTypeLink = React.memo<Properties>(
-	({ buildTypeId, className, multiline, href }: Properties) => {
-		return (
+	({ buildTypeId, className, multiline = false, href }: Properties) => {
+		return multiline === true ? (
 			<ClampedText maxLines={5}>
-				<span
-					className={classNames(
-						styles.BuildTypeLink,
-						{ [styles.oneLine]: !multiline },
-						className
-					)}
-				>
+				<span className={classNames(styles.BuildTypeLink, className)}>
 					<BuildTypeStatusIcon buildTypeId={buildTypeId} />
 					<BuildTypeName
 						buildTypeId={buildTypeId}
@@ -37,6 +31,23 @@ const BuildTypeLink = React.memo<Properties>(
 					/>
 				</span>
 			</ClampedText>
+		) : (
+			<span
+				className={classNames(
+					styles.BuildTypeLink,
+					styles.oneLine,
+					className
+				)}
+			>
+				<BuildTypeStatusIcon buildTypeId={buildTypeId} />
+				<BuildTypeName
+					buildTypeId={buildTypeId}
+					className={classNames(styles.buildTypeName, {
+						[styles.oneLine]: !multiline,
+					})}
+					href={href ?? getBuildTypeLinkHref(buildTypeId)}
+				/>
+			</span>
 		)
 	}
 )

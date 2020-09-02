@@ -2,16 +2,23 @@
 	height: 100%;
 	width: 100%;
 	display: flex;
-	flex-flow: row nowrap;
-	/*grid-template-columns: minmax(0, max-content) max-content;*/
-	place-items: center start;
-	/*column-gap: 8px;*/
+	flex-flow: column nowrap;
+	justify-content: center;
+	align-items: flex-start;
 	padding-right: 8px;
 
 }
 
+.flex {
+	max-width: 100%;
+	display: flex;
+	flex-flow: row nowrap;
+	place-items: baseline start;
+}
+
 .projectLink {
 	flex-shrink: 9999999999;
+	margin-right: 4px;
 }
 
 .buildTypeLink {

@@ -14,9 +14,14 @@ import {
 	getWidgetBreakpointsNotGreaterThan,
 	getWidgetCurrentBreakpoint,
 } from './config/widgetProperties.helpers'
-import type { WidgetBreakpointsEntity, WidgetsBreakpointsState } from './widgetsBreakpoints.types'
+import type {
+	WidgetBreakpointsEntity,
+	WidgetsBreakpointsState,
+} from './widgetsBreakpoints.types'
 
 const adapter = createEntityAdapter()
+
+const emptyArray = []
 
 // Selectors
 
@@ -44,7 +49,8 @@ export const selectWidgetActiveBreakpoints: (
 	WidgetId
 ) => BreakpointName[] = createSelector(
 	selectWidgetBreakpointsEntityById,
-	(entity: ?WidgetBreakpointsEntity) => entity?.activeBreakpoints
+	(entity: ?WidgetBreakpointsEntity) =>
+		entity?.activeBreakpoints ?? emptyArray
 )
 
 // Slice
