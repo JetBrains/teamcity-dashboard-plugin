@@ -21,6 +21,7 @@ import {
 	setWidgetStateProperty,
 } from './widgetsState.slice'
 import { usePostDashboardData } from '../dashboard/postingDashboardData.hooks'
+import { isWidgetHidden } from './widgets.utils'
 
 export const useRemoveWidget = (widgetId: WidgetId): (() => void) => {
 	const dispatch = useDispatch()
@@ -60,7 +61,9 @@ export const useWidgetOption = <T>(
 	const setWidgetOptionValue = useCallback(
 		(newValue: T) => {
 			dispatch(setWidgetOption(widgetId, optionName, newValue))
-			postDashboardData()
+			if (!isWidgetHidden(widgetId)) {
+				postDashboardData()
+			}
 		},
 		[dispatch, optionName, postDashboardData, widgetId]
 	)

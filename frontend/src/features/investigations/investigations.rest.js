@@ -26,6 +26,7 @@ type FetchedInvestigationCommonFields = {
 			name?: string,
 			...
 		},
+		text?: string,
 		...
 	},
 	resolution: {
@@ -122,6 +123,7 @@ const parseInvestigationCommonFields = (
 		type: InvestigationResolutionType,
 		...
 	},
+	comment?: string,
 	...
 } => {
 	return {
@@ -135,7 +137,8 @@ const parseInvestigationCommonFields = (
 		},
 		resolution: {
 			type: investigation.resolution.type,
-		}
+		},
+		comment: investigation.assignment.text
 	}
 }
 const parseFetchedBuildTypeInvestigation = (
@@ -249,7 +252,7 @@ export const fetchInvestigationsByAssignee = async (
 	userId: UserId
 ): Promise<Investigation[]> => {
 	const json: FetchedInvestigations = await TC.requestJSON(
-		`app/rest/investigations?locator=assignee:(id:${userId})&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId,webUrl)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(${userFields})),resolution(type))`
+		`app/rest/investigations?locator=assignee:(id:${userId})&fields=investigation(id,state,scope(buildTypes(buildType(id,name,projectName,projectId,webUrl)),project(id,name,parentProjectName)),target(anyProblem,tests(test(id,parsedTestName(testShortName))),problems(problem)),assignment(timestamp,user(${userFields}),text),resolution(type))`
 	)
 	const investigations: Investigation[] = json.investigation
 		.map((investigation: FetchedInvestigation) =>

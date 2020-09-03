@@ -28,12 +28,13 @@ export type Investigation = {
 		...
 	} & (
 		| { type: 'buildType', id: BuildTypeId, ... }
-		| { type: 'test' | 'problem', id: number, ... }
+		| { type: 'test' | 'problem', id: string, ... }
 	),
 	resolution: {
 		type: InvestigationResolutionType,
 		...
 	},
+	comment?: string,
 	...
 }
 

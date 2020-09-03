@@ -13,9 +13,11 @@ import type {
 import {
 	selectInvestigationAssignedBy,
 	selectInvestigationAssignmentDate,
+	selectInvestigationComment,
 	selectInvestigationResolutionType,
 	selectInvestigationState,
 } from '../../../investigations.slice'
+import ClampedText from '../../../../../components/ClampedText/ClampedText'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -31,6 +33,9 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 	const state: ?string = useSelector((state) =>
 		selectInvestigationState(state, investigationId)
 	)
+	const comment: ?string = useSelector((state) =>
+		selectInvestigationComment(state, investigationId)
+	)
 	const resolutionType: ?InvestigationResolutionType = useSelector((state) =>
 		selectInvestigationResolutionType(state, investigationId)
 	)
@@ -45,7 +50,17 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 					at {date ? <FormattedDate date={date} /> : 'Loading...'}
 				</span>
 			</div>
-			<div className={styles.resolution}>Resolve {resolutionType === 'manually' ? 'manually' : 'automatically when fixed'}</div>
+			{comment !== null && comment !== undefined && (
+				<div className={styles.comment}>
+					<ClampedText maxLines={8}>{comment}</ClampedText>
+				</div>
+			)}
+			<div className={styles.resolution}>
+				Resolve{' '}
+				{resolutionType === 'manually'
+					? 'manually'
+					: 'automatically when fixed'}
+			</div>
 			<div className={styles.buttonsContainer}>
 				{state !== 'FIXED' && (
 					<ReassignInvestigationButton

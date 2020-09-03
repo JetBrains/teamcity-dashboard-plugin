@@ -80,6 +80,14 @@ export const selectInvestigationResolutionType: (
 	(investigation: ?Investigation) => investigation?.resolution?.type
 )
 
+export const selectInvestigationComment: (
+	RootState,
+	InvestigationId
+) => ?string = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?string => investigation?.comment
+)
+
 export const selectInvestigationsSortedByName = (
 	state: RootState
 ): Investigation[] => {

@@ -11,6 +11,7 @@ import {
 } from './widgetSettings.slice'
 import { useThisWidgetId, useThisWidgetType } from './widgets.hooks'
 import { addWidgetFromSettings, saveWidgetSettings } from './widgets.slice'
+import { usePostDashboardData } from '../dashboard/postingDashboardData.hooks'
 
 export const useAreWidgetSettingsOpened = (): boolean =>
 	useSelector(selectAreWidgetSettingsOpened)
@@ -40,6 +41,7 @@ export const useCancelWidgetSettings = (): (() => void) => {
 
 export const useSaveThisWidgetSettings = (): (() => void) => {
 	const dispatch = useDispatch()
+	const postDashboardData = usePostDashboardData()
 	const areSettingsOpened = useAreWidgetSettingsOpened()
 	const id = useSelector(selectWidgetSettingsWidgetId)
 	const type = useSelector(selectWidgetSettingsWidgetType)
@@ -56,5 +58,6 @@ export const useSaveThisWidgetSettings = (): (() => void) => {
 			dispatch(saveWidgetSettings(id))
 			dispatch(closeWidgetSettings())
 		}
-	}, [areSettingsOpened, dispatch, id, isNew, type])
+		postDashboardData()
+	}, [areSettingsOpened, dispatch, id, isNew, postDashboardData, type])
 }
