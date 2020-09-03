@@ -29,7 +29,13 @@ const parseLayoutElementData = (
 	return { i, x, y, w, h, minH: minHeight, minW: minWidth }
 }
 
-const prepareLayoutElementData = ({ i, x, y, w, h }: LayoutElementData): FetchedLayoutElementData => ({ i, x, y, w, h })
+const prepareLayoutElementData = ({
+	i,
+	x,
+	y,
+	w,
+	h,
+}: LayoutElementData): FetchedLayoutElementData => ({ i, x, y, w, h })
 
 const parseDashboardData = ({
 	layout,
@@ -46,10 +52,11 @@ const parseDashboardData = ({
 			// $FlowFixMe
 			(element): ?LayoutElementData =>
 				widgetIdToType[element.i] !== null &&
-				widgetIdToType[element.i] !== undefined ?
-				parseLayoutElementData(element, widgetIdToType[element.i]) : undefined
+				widgetIdToType[element.i] !== undefined
+					? parseLayoutElementData(element, widgetIdToType[element.i])
+					: undefined
 		)
-		.filter(x => x !== null && x !== undefined)
+		.filter((x) => x !== null && x !== undefined)
 
 	return {
 		layout: parsedLayout,
