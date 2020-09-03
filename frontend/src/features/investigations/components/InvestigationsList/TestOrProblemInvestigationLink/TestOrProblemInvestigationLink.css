@@ -5,3 +5,15 @@
 .link {
 
 }
+
+.name {
+	color: #1F2326;
+}
+
+.name:hover {
+	color: var(--ring-link-hover-color);
+}
+
+.name:active{
+	color: var(--ring-main-color);
+}

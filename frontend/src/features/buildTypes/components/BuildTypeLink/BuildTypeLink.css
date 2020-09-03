@@ -20,7 +20,9 @@
 }
 
 .buildTypeName:hover {
-	color: #1F2326;
-	font-weight: bold;
-	font-size: 13px;
+	color: var(--ring-link-hover-color);
+}
+
+.buildTypeName:active {
+	color: var(--ring-main-color);
 }

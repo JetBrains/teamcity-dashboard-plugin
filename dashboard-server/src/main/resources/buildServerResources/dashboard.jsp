@@ -3,7 +3,7 @@
 <bs:page isExperimentalUI="true">
 <jsp:attribute name="head_include">
     <script type="text/javascript">
-        ReactUI.setIsExperimentalUI();
+        // ReactUI.setIsExperimentalUI();
     </script>
 </jsp:attribute>
 <jsp:attribute name="body_include">

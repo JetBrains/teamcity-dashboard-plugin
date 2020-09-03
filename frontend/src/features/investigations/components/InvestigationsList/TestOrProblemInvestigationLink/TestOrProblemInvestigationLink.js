@@ -25,7 +25,7 @@ const TestOrProblemInvestigationLink = ({
 				<span className={styles.type}>
 					{type === 'test' ? 'Test: ' : 'Problem: '}
 				</span>
-				<Link href={href} active>
+				<Link href={href} className={styles.name} active>
 					{name}
 				</Link>
 			</span>

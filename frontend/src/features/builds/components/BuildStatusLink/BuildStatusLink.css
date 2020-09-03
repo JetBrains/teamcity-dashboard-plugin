@@ -1,0 +1,3 @@
+.regularLink:hover {
+	color: var(--ring-link-hover-color);
+}

@@ -5,7 +5,5 @@ import App from './App'
 const dashboardTab = document.querySelector('#app')
 if (dashboardTab !== null) {
 	// eslint-disable-next-line no-undef
-	console.log(ReactUI.renderConnected)
-	// eslint-disable-next-line no-undef
 	ReactUI.renderConnected(dashboardTab, App)
 }
