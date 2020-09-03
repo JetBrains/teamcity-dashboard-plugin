@@ -15,10 +15,8 @@ interface Properties {
 }
 
 const directions = [
-	PopupMenu.PopupProps.Directions.BOTTOM_LEFT,
-	PopupMenu.PopupProps.Directions.TOP_LEFT,
 	PopupMenu.PopupProps.Directions.BOTTOM_RIGHT,
-	PopupMenu.PopupProps.Directions.TOP_RIGHT,
+	PopupMenu.PopupProps.Directions.BOTTOM_LEFT,
 ]
 
 const InvestigationAdditionalInfoDropdown = ({

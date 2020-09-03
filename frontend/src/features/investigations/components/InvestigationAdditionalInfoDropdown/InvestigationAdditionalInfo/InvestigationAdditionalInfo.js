@@ -17,7 +17,6 @@ import {
 	selectInvestigationResolutionType,
 	selectInvestigationState,
 } from '../../../investigations.slice'
-import ClampedText from '../../../../../components/ClampedText/ClampedText'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -52,7 +51,7 @@ const InvestigationAdditionalInfo = ({ investigationId }: Properties) => {
 			</div>
 			{comment !== null && comment !== undefined && (
 				<div className={styles.comment}>
-					<ClampedText maxLines={8}>{comment}</ClampedText>
+					{comment}
 				</div>
 			)}
 			<div className={styles.resolution}>
