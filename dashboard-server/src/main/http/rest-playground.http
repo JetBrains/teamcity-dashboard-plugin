@@ -132,3 +132,11 @@ GET {{host}}/app/rest/buildTypes/id:ManyProjects_DeeperProject_1PassingTest1Fail
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
+
+
+###
+# Snapshort dependencies builds
+GET {{host}}/app/rest/builds?locator=snapshotDependency:(to:(id:814),includeInitial:true),defaultFilter:false
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}

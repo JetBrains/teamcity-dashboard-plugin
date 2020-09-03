@@ -1,9 +1,8 @@
 // @flow strict
 import React from 'react'
-import TC from '@teamcity/react-api'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import type { InvestigationId } from '../../../investigations.types'
-import { useInvestigation } from '../../../investigations.hooks'
+import { useInvestigation, useReassignInvestigation } from '../../../investigations.hooks'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -16,7 +15,8 @@ const ReassignInvestigationButton = ({
 	...restProperties
 }: Properties) => {
 	const investigation = useInvestigation(investigationId)
-	const reassignInvestigation: () => void = TC.hooks.useReassignInvestigation(
+	const reassignInvestigation: () => void = useReassignInvestigation(
+		// $FlowFixMe
 		{
 			type: investigation?.target?.type,
 			fixMode: fix,
