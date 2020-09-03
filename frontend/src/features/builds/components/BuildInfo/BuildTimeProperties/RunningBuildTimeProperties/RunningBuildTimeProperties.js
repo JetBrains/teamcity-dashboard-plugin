@@ -8,18 +8,23 @@ import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import Popup from '@jetbrains/ring-ui/components/popup/popup'
 
 import styles from './RunningBuildTimeProperties.css'
+import { formatDuration } from './RunningBuildTimeProperties.utils'
 
-const {BuildDurationDetails} = TC.Components
+const { BuildDurationDetails } = TC.Components
 
 interface Properties {
-	buildId: BuildId
+	buildId: BuildId;
 }
 
 const RunningBuildTimeProperties = ({ buildId }: Properties) => {
 	const secondsLeft = useRunningBuildLeftSeconds(buildId)
 
 	const anchor = (
-		<span className={styles.anchor}>{secondsLeft !== null && secondsLeft !== undefined ? `${secondsLeft}s left` : 'Loading...'}</span>
+		<span className={styles.anchor}>
+			{secondsLeft !== null && secondsLeft !== undefined
+				? `${formatDuration(secondsLeft)} left`
+				: 'Loading...'}
+		</span>
 	)
 
 	return (

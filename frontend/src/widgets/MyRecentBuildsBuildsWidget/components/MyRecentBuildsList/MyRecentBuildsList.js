@@ -8,6 +8,7 @@ import addLocatorCount from '../../../../utils/addLocatorCount'
 import { useSubscribeOnBuildsTriggeredByCurrentUser } from '../../../../features/builds/builds.hooks'
 import styles from './MyRecentBuildsList.css'
 import CenteredLoader from '../../../../components/CenteredLoader/CenteredLoader'
+import NoBuildsMessage from '../../../../components/NoBuildsMessage/NoBuildsMessage'
 
 const { BuildsList } = TC.Components
 
@@ -22,6 +23,8 @@ const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 
 const MyRecentBuildsList = () => {
 	useSubscribeOnBuildsTriggeredByCurrentUser(50)
+
+	const noBuildsPlaceholder = useMemo(() => <NoBuildsMessage />, [])
 
 	const loader = useMemo(() => <CenteredLoader />, [])
 
@@ -48,6 +51,7 @@ const MyRecentBuildsList = () => {
 						buildId={build.id}
 					/>
 				)}
+				emptyListPlaceholder={noBuildsPlaceholder}
 				loadingListPlaceholder={loader}
 			/>
 		</ol>
