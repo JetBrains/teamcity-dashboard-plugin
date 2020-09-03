@@ -1,19 +1,10 @@
 // @flow strict
 // $FlowFixMe
-import type { WidgetData, WidgetId } from '../widgets/widgets.types'
-import type { Json } from '../../commontypes'
+import type { WidgetData, WidgetId, WidgetType } from '../widgets/widgets.types'
 import TC from '@teamcity/react-api'
 import type { DashboardData } from './dashboard.types'
 import type { LayoutElementData } from './layout.types'
-
-type FetchedWidgetData = {
-	id: WidgetId,
-	type: string,
-	data: {|
-		[key: string]: Json,
-	|},
-	...
-}
+import { getWidgetDimensionsProperties } from '../widgets/config/widgetProperties.helpers'
 
 type FetchedLayoutElementData = {
 	i: string,
@@ -26,44 +17,52 @@ type FetchedLayoutElementData = {
 
 type FetchedDashboardData = {
 	layout: FetchedLayoutElementData[],
-	widgets: FetchedWidgetData[],
+	widgets: WidgetData[],
 	...
 }
 
-// TODO: fix flow
-// $FlowFixMe
-const parseWidgetData = ({
-	id,
-	type,
-	data,
-}: FetchedWidgetData): WidgetData => ({ id, type, data })
-// $FlowFixMe
-const prepareWidgetData = (widget: WidgetData): FetchedWidgetData => widget
+const parseLayoutElementData = (
+	{ i, x, y, w, h }: FetchedLayoutElementData,
+	type: WidgetType
+): LayoutElementData => {
+	const { minHeight, minWidth } = getWidgetDimensionsProperties(type)
+	return { i, x, y, w, h, minH: minHeight, minW: minWidth }
+}
 
-const parseLayoutElementData = ({
-	i,
-	x,
-	y,
-	w,
-	h,
-}: FetchedLayoutElementData): LayoutElementData => ({ i, x, y, w, h })
-
-const prepareLayoutElementData: (LayoutElementData) => FetchedLayoutElementData = parseLayoutElementData
+const prepareLayoutElementData = ({ i, x, y, w, h }: LayoutElementData): FetchedLayoutElementData => ({ i, x, y, w, h })
 
 const parseDashboardData = ({
 	layout,
 	widgets,
-}: FetchedDashboardData): DashboardData => ({
-	layout: layout.map((element) => parseLayoutElementData(element)),
-	widgets: widgets.map((widget) => parseWidgetData(widget)),
-})
+}: FetchedDashboardData): DashboardData => {
+	const widgetIdToType: { [id: WidgetId]: WidgetType, ... } = {}
+
+	for (const widget of widgets) {
+		widgetIdToType[widget.id] = widget.type
+	}
+
+	const parsedLayout: LayoutElementData[] = layout
+		.map(
+			// $FlowFixMe
+			(element): ?LayoutElementData =>
+				widgetIdToType[element.i] !== null &&
+				widgetIdToType[element.i] !== undefined ?
+				parseLayoutElementData(element, widgetIdToType[element.i]) : undefined
+		)
+		.filter(x => x !== null && x !== undefined)
+
+	return {
+		layout: parsedLayout,
+		widgets,
+	}
+}
 
 const prepareDashboardData = ({
 	layout,
 	widgets,
 }: DashboardData): FetchedDashboardData => ({
 	layout: layout.map((element) => prepareLayoutElementData(element)),
-	widgets: widgets.map((widget) => prepareWidgetData(widget)),
+	widgets: widgets,
 })
 
 export const requestDashboardData = async (): Promise<DashboardData> => {

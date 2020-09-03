@@ -8,19 +8,21 @@ export type InvestigationsWidgetSortByOption = 'time' | 'name'
 export type InvestigationsWidgetData = {|
 	id: string,
 	type: 'investigationsWidget',
-	data: {|
-		// sortBy?: InvestigationsWidgetSortByOption,
-		// showFixed?: 'true' | 'false',
-		// showOnlyDefaultBranch?: 'true' | 'false',
-	|},
+	data: {
+		sortBy?: ?InvestigationsWidgetSortByOption,
+		showFixed?: ?boolean,
+		showOnlyDefaultBranch?: ?boolean,
+		...
+	},
 |}
 
 export type BuildTypeChangesWidgetData = {|
 	id: string,
 	type: 'buildTypeChangesWidget',
-	data: {|
-		// branchName?: string,
-	|},
+	data: {
+		branchName?: ?string,
+		...
+	},
 |}
 
 export type MyRecentBuildsWidgetData = {|
