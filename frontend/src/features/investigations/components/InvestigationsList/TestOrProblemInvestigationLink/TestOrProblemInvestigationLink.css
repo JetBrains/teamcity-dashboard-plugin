@@ -1,3 +1,7 @@
+.TestOrProblemInvestigationLink {
+	font-weight: bold;
+}
+
 .type {
 	color: var(--ring-icon-error-color)
 }

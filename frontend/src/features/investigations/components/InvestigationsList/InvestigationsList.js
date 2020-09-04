@@ -21,7 +21,7 @@ const withDivider = (
 	investigations: Investigation[]
 ): boolean => index !== 0 && withPath(investigation, index, investigations)
 
-const InvestigationsList = () => {
+const InvestigationsList = React.memo<void>(() => {
 	const [status, investigations] = useFilteredSortedInvestigations()
 	if (status === 'loading' && investigations.length === 0) {
 		return <Loader className={styles.loader} />
@@ -31,7 +31,7 @@ const InvestigationsList = () => {
 			{investigations.map((investigation, index, investigations) => (
 				<InvestigationsListItem
 					key={investigation.id}
-					investigation={investigation}
+					investigationId={investigation.id}
 					withPath={withPath(investigation, index, investigations)}
 					withDivider={withDivider(
 						investigation,
@@ -42,8 +42,10 @@ const InvestigationsList = () => {
 			))}
 		</ol>
 	) : (
-		<CenteredMessage textIcon="ヽ(ヅ)ノ" text="No investigations" />
+		<CenteredMessage textIcon="\(・‿・)/" text="No investigations" />
 	)
-}
+})
+
+InvestigationsList.displayName = 'InvestigationsList'
 
 export default InvestigationsList

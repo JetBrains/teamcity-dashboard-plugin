@@ -2,60 +2,31 @@
 import React, { memo, useMemo } from 'react'
 import styles from './styles.css'
 import InvestigationAdditionalInfoDropdown from '../../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
-import type { Investigation } from '../../../investigations.types'
-import BuildTypeInvestigationLink from '../BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
-import TestOrProblemInvestigationLink from '../TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
+import type {
+	InvestigationId,
+} from '../../../investigations.types'
 import Divider from '../../../../../components/Divider/Divider'
 import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
-import LoaderInline from '@jetbrains/ring-ui/components/loader-inline/loader-inline'
+import InvestigationLink from '../../InvestigationLink/InvestigationLink'
+import { useSelector } from 'react-redux'
+import { selectInvestigationProjectId } from '../../../investigations.slice'
 
 type Properties = {|
-	investigation: Investigation,
+	investigationId: InvestigationId,
 	withDivider: boolean,
 	withPath: boolean,
 |}
 
 const InvestigationsListItem = memo<Properties>(
-	({ investigation, withPath, withDivider }: Properties) => {
-		const investigationLink = useMemo(() => {
-			switch (investigation.target.type) {
-				case 'buildType':
-					return (
-						<BuildTypeInvestigationLink
-							// $FlowFixMe
-							buildTypeId={investigation.target.id}
-							href={investigation.target.webUrl}
-						/>
-					)
-				case 'test':
-					return (
-						<TestOrProblemInvestigationLink
-							type={'test'}
-							className={styles.testOrProblemInvestigationLink}
-							name={investigation.target.name}
-							href={investigation.target.webUrl}
-						/>
-					)
-				case 'problem':
-					return (
-						<TestOrProblemInvestigationLink
-							type={'problem'}
-							className={styles.testOrProblemInvestigationLink}
-							name={investigation.target.name}
-							href={investigation.target.webUrl}
-						/>
-					)
-				default:
-					return (
-						<LoaderInline />
-					)
-			}
-		}, [
-			investigation.target.id,
-			investigation.target.name,
-			investigation.target.type,
-			investigation.target.webUrl,
-		])
+	({ investigationId, withPath, withDivider }: Properties) => {
+		const investigationProjectId = useSelector((state) =>
+			selectInvestigationProjectId(state, investigationId)
+		)
+
+		const investigationLink = useMemo(
+			() => <InvestigationLink investigationId={investigationId} />,
+			[investigationId]
+		)
 
 		return (
 			<li className={styles.InvestigationsListItem}>
@@ -63,11 +34,16 @@ const InvestigationsListItem = memo<Properties>(
 				<div className={styles.contentWrapper}>
 					{withPath && (
 						<div className={styles.projectPathContainer}>
-							<ProjectPath
-								projectId={investigation.projectId}
-								className={styles.projectPath}
-								multiline
-							/>
+							{investigationProjectId !== null &&
+							investigationProjectId !== undefined ? (
+								<ProjectPath
+									projectId={investigationProjectId}
+									className={styles.projectPath}
+									multiline
+								/>
+							) : (
+								'...'
+							)}
 						</div>
 					)}
 
@@ -77,7 +53,7 @@ const InvestigationsListItem = memo<Properties>(
 						</div>
 						<div className={styles.right}>
 							<InvestigationAdditionalInfoDropdown
-								investigationId={investigation.id}
+								investigationId={investigationId}
 							/>
 						</div>
 					</div>

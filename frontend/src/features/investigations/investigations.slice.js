@@ -7,6 +7,7 @@ import type {
 	InvestigationResolutionType,
 	InvestigationsState,
 	InvestigationState,
+	InvestigationTargetType,
 } from './investigations.types'
 import type {
 	InvestigationsWidgetSortByOption,
@@ -22,6 +23,7 @@ import {
 } from '@reduxjs/toolkit'
 import type { User } from '../../api/user/schemata'
 import { fetchInvestigationsByAssignee } from './investigations.rest'
+import type { ProjectId } from '../projects/projects.types'
 
 const investigationsAdapter = createEntityAdapter<Investigation>({
 	sortComparer: (a: Investigation, b: Investigation) =>
@@ -37,6 +39,47 @@ export const selectInvestigationById: (
 	RootState,
 	InvestigationId
 ) => Investigation = selectors.selectById
+
+export const selectInvestigationTargetType: (
+	RootState,
+	InvestigationId
+) => ?InvestigationTargetType = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?InvestigationTargetType =>
+		investigation?.target?.type
+)
+
+export const selectInvestigationTargetId: (
+	RootState,
+	InvestigationId
+) => ?string = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?string => investigation?.target?.id
+)
+
+export const selectInvestigationTargetName: (
+	RootState,
+	InvestigationId
+) => ?string = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?string => investigation?.target?.name
+)
+
+export const selectInvestigationTargetWebUrl: (
+	RootState,
+	InvestigationId
+) => ?string = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?string => investigation?.target?.webUrl
+)
+
+export const selectInvestigationProjectId: (
+	RootState,
+	InvestigationId
+) => ?ProjectId = createSelector(
+	selectInvestigationById,
+	(investigation: ?Investigation): ?ProjectId => investigation?.projectId
+)
 
 export const selectAllInvestigations: (RootState) => Investigation[] =
 	selectors.selectAll
