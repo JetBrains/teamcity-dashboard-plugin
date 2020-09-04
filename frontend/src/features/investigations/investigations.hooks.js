@@ -18,6 +18,7 @@ import type { ProjectId } from '../projects/projects.types'
 import type { BuildId } from '../builds/builds.types'
 import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 import { useThisWidgetId } from '../widgets/widgets.hooks'
+import useThrottle from '../../hooks/useThrottle'
 
 export const useFilteredInvestigationsCount = (): number => {
 	const id = useThisWidgetId()
@@ -47,7 +48,8 @@ export const useInvestigationsSubscription = (userId: UserId) => {
 	const onCounterUpdate = useCallback(() => {
 		dispatch(fetchInvestigations({ userId, force: true }))
 	}, [dispatch, userId])
-	useInvestigationsCounterOnUpdate(userId, onCounterUpdate)
+	const throttledOnCounterUpdate = useThrottle(onCounterUpdate)
+	useInvestigationsCounterOnUpdate(userId, throttledOnCounterUpdate)
 }
 
 export const useFilteredSortedInvestigations = (): [
