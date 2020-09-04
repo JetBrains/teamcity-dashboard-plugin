@@ -3,7 +3,7 @@ import React from 'react'
 import type { BuildId } from '../../builds.types'
 import TC from '@teamcity/react-api'
 import BuildAgentIcon from '../BuildAgentIcon/BuildAgentIcon'
-import { useBuild } from '../../builds.hooks'
+import { useBuildState, useIsBuildComposite } from '../../builds.hooks'
 import BuildTimeProperties from './BuildTimeProperties/BuildTimeProperties'
 
 import styles from './BuildInfo.css'
@@ -46,8 +46,10 @@ interface Properties {
 	buildId: BuildId;
 }
 
-const BuildInfo = ({ buildId }: Properties) => {
-	const build = useBuild(buildId)
+const BuildInfo = React.memo<Properties>(({ buildId }: Properties) => {
+	const buildState = useBuildState(buildId)
+
+	const isBuildComposite = useIsBuildComposite(buildId)
 
 	const isMedium = useIsBreakpointActive('medium')
 
@@ -78,14 +80,12 @@ const BuildInfo = ({ buildId }: Properties) => {
 		styles.agent
 	)
 
-	const isBuildComposite = build?.composite === true
-
 	return (
 		<div className={styles.BuildInfo}>
-			{build?.state === 'running' && (
+			{buildState === 'running' && (
 				<RunningBuildUpdater buildId={buildId} />
 			)}
-			{build?.state === 'running' && (
+			{buildState === 'running' && (
 				<RunningBuildProgressBar
 					buildId={buildId}
 					className={styles.progress}
@@ -151,6 +151,8 @@ const BuildInfo = ({ buildId }: Properties) => {
 			</div>
 		</div>
 	)
-}
+})
+
+BuildInfo.displayName = 'BuildInfo'
 
 export default BuildInfo

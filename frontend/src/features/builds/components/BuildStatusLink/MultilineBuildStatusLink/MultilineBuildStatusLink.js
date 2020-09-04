@@ -13,42 +13,44 @@ import Link from '@jetbrains/ring-ui/components/link/link'
 
 const { Icon, BuildStatusTooltip } = TC.Components
 
-interface Properties {
-	buildId: BuildId;
-	className?: string;
-	maxLines?: number;
-}
+type Properties = {|
+	buildId: BuildId,
+	className?: string,
+	maxLines?: number,
+|}
 
-const MultilineBuildStatusLink = ({
-	buildId,
-	className,
-	maxLines = 3,
-}: Properties) => {
-	const { icon, statusText, statusType, href } = useBuildStatusLink(buildId)
+const MultilineBuildStatusLink = React.memo<Properties>(
+	({ buildId, className, maxLines = 3 }: Properties) => {
+		const { icon, statusText, statusType, href } = useBuildStatusLink(
+			buildId
+		)
 
-	const classes = classnames(styles.link, className, styles[statusType])
-	const popupClasses = classnames(styles.popup, 'popupDiv')
+		const classes = classnames(styles.link, className, styles[statusType])
+		const popupClasses = classnames(styles.popup, 'popupDiv')
 
-	const iconDiv =
-		icon !== null && icon !== undefined ? (
-			<div className={styles.icon}>
-				<Icon name={icon} />
-			</div>
-		) : // eslint-disable-next-line unicorn/no-null
-		null
+		const iconDiv =
+			icon !== null && icon !== undefined ? (
+				<div className={styles.icon}>
+					<Icon name={icon} />
+				</div>
+			) : // eslint-disable-next-line unicorn/no-null
+			null
 
-	return (
-		<ClampedText maxLines={maxLines} className={styles[statusType]}>
-			<Dropdown anchor={iconDiv} hoverMode clickMode={false}>
-				<Popup className={popupClasses}>
-					<BuildStatusTooltip buildId={buildId} />
-				</Popup>
-			</Dropdown>
-			<Link className={classes} href={href ?? '#'}>
-				{statusText}
-			</Link>
-		</ClampedText>
-	)
-}
+		return (
+			<ClampedText maxLines={maxLines} className={styles[statusType]}>
+				<Dropdown anchor={iconDiv} hoverMode clickMode={false}>
+					<Popup className={popupClasses}>
+						<BuildStatusTooltip buildId={buildId} />
+					</Popup>
+				</Dropdown>
+				<Link className={classes} href={href ?? '#'}>
+					{statusText}
+				</Link>
+			</ClampedText>
+		)
+	}
+)
+
+MultilineBuildStatusLink.displayName = 'MultilineBuildStatusLink'
 
 export default MultilineBuildStatusLink

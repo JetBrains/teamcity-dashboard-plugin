@@ -16,7 +16,7 @@ import {
 import type { BranchesLocator } from '../branches/branches.locator'
 
 import { subscribeOnAllProjectEvents } from '../projects/projects.subscribers'
-import { useBuild } from '../builds/builds.hooks'
+import { useBuildBuildTypeId } from '../builds/builds.hooks'
 import { subscribeOnAllBuildTypeEvents } from '../buildTypes/buildTypes.subscribers'
 import { useBuildTypeConstants } from '../buildTypes/buildTypesConstants.hooks'
 import noop from '../../utils/noop'
@@ -84,8 +84,8 @@ export const useBuildChangesIdsWithSubscription = (
 	buildId: BuildId
 ): [ChangeId[], AsyncStatus, ?string] => {
 	const dispatch = useDispatch()
-	const build = useBuild(buildId)
-	const buildTypeConstants = useBuildTypeConstants(build?.buildTypeId)
+	const buildTypeId = useBuildBuildTypeId(buildId)
+	const buildTypeConstants = useBuildTypeConstants(buildTypeId)
 	useEffect(
 		() =>
 			buildTypeConstants

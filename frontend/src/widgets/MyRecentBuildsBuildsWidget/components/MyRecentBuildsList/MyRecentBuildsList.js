@@ -21,6 +21,15 @@ const shouldRenderBuildTypeHeader = (
 const shouldRenderDivider = (build: Build, index: number, builds: Build[]) =>
 	shouldRenderBuildTypeHeader(build, index, builds) && index !== 0
 
+const renderEachBuild = (build: Build, index: number, builds: Build[]) => (
+	<MyRecentBuildsListItem
+		key={build.id}
+		withBuildTypeHeader={shouldRenderBuildTypeHeader(build, index, builds)}
+		withDivider={shouldRenderDivider(build, index, builds)}
+		buildId={build.id}
+	/>
+)
+
 const MyRecentBuildsList = () => {
 	useSubscribeOnBuildsTriggeredByCurrentUser(50)
 
@@ -35,24 +44,9 @@ const MyRecentBuildsList = () => {
 					'defaultFilter:false,user:current',
 					50
 				)}
-				renderEachBuild={(
-					build: Build,
-					index: number,
-					builds: Build[]
-				) => (
-					<MyRecentBuildsListItem
-						key={build.id}
-						withBuildTypeHeader={shouldRenderBuildTypeHeader(
-							build,
-							index,
-							builds
-						)}
-						withDivider={shouldRenderDivider(build, index, builds)}
-						buildId={build.id}
-					/>
-				)}
 				emptyListPlaceholder={noBuildsPlaceholder}
 				loadingListPlaceholder={loader}
+				renderEachBuild={renderEachBuild}
 			/>
 		</ol>
 	)

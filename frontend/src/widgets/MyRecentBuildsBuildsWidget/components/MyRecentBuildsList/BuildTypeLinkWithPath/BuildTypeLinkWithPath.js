@@ -11,23 +11,27 @@ interface Properties {
 	buildTypeId: BuildTypeId;
 }
 
-const BuildTypeLinkWithPath = ({ buildTypeId }: Properties) => {
-	const buildType = useBuildTypeConstants(buildTypeId)
-	return (
-		<div className={styles.BuildTypeLinkWithPath}>
-			{buildType && (
-				<ProjectPath
-					projectId={buildType.projectId}
-					className={styles.projectPath}
+const BuildTypeLinkWithPath = React.memo<Properties>(
+	({ buildTypeId }: Properties) => {
+		const buildType = useBuildTypeConstants(buildTypeId)
+		return (
+			<div className={styles.BuildTypeLinkWithPath}>
+				{buildType && (
+					<ProjectPath
+						projectId={buildType.projectId}
+						className={styles.projectPath}
+					/>
+				)}
+				<BuildTypeLink
+					buildTypeId={buildTypeId}
+					className={styles.buildTypeLink}
+					multiline
 				/>
-			)}
-			<BuildTypeLink
-				buildTypeId={buildTypeId}
-				className={styles.buildTypeLink}
-				multiline
-			/>
-		</div>
-	)
-}
+			</div>
+		)
+	}
+)
+
+BuildTypeLinkWithPath.displayName = 'BuildTypeLinkWithPath'
 
 export default BuildTypeLinkWithPath

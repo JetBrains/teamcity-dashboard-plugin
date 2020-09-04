@@ -6,7 +6,7 @@ import TC from '@teamcity/react-api'
 import MultilineBuildStatusLink from './MultilineBuildStatusLink/MultilineBuildStatusLink'
 import styles from './BuildStatusLink.css'
 import multilineStyles from './MultilineBuildStatusLink/MultilineBuildStatusLink.css'
-import { useBuildStatusLink } from '../../builds.hooks'
+import { useBuildStatusType } from '../../builds.hooks'
 
 const { BuildStatusLink: TCBuildStatusLink } = TC.Components
 
@@ -18,7 +18,7 @@ type Properties = {|
 
 const BuildStatusLink = React.memo<Properties>(
 	({ className, buildId, multiline = false }: Properties) => {
-		const { statusType } = useBuildStatusLink(buildId)
+		const statusType = useBuildStatusType(buildId)
 
 		const classes = classnames(className, {
 			// this is a hack that colors the TCBuildStatusLink component in not experimental ui

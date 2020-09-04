@@ -140,3 +140,10 @@ GET {{host}}/app/rest/builds?locator=snapshotDependency:(to:(id:814),includeInit
 Origin: http://localhost:8111
 Accept: application/json
 Authorization: Basic {{username}} {{password}}
+
+###
+
+GET {{host}}/app/rest/ui/changes?locator=build:(snapshotDependency(includeInitial:true,to:(id:816))),count:10
+Origin: http://localhost:8111
+Accept: application/json
+Authorization: Basic {{username}} {{password}}

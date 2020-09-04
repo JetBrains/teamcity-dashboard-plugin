@@ -2,7 +2,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import type { BuildId } from '../../../builds.types'
-import { useBuild } from '../../../builds.hooks'
+import { useBuildState } from '../../../builds.hooks'
 import TC from '@teamcity/react-api'
 import RunningBuildTimeProperties from './RunningBuildTimeProperties/RunningBuildTimeProperties'
 
@@ -15,24 +15,28 @@ type Properties = {|
 	className?: string,
 |}
 
-const BuildTimeProperties = ({ buildId, className }: Properties) => {
-	const build = useBuild(buildId)
-	return build ? (
-		build.state === 'running' ? (
-			<RunningBuildTimeProperties
-				buildId={buildId}
-				className={className}
-			/>
+const BuildTimeProperties = React.memo<Properties>(
+	({ buildId, className }: Properties) => {
+		const buildState = useBuildState(buildId)
+		return buildState !== null && buildState !== undefined ? (
+			buildState === 'running' ? (
+				<RunningBuildTimeProperties
+					buildId={buildId}
+					className={className}
+				/>
+			) : (
+				<BuildDuration
+					buildId={buildId}
+					className={classnames(styles.buildDuration, className)}
+					dropdownClassName={styles.dropdown}
+				/>
+			)
 		) : (
-			<BuildDuration
-				buildId={buildId}
-				className={classnames(styles.buildDuration, className)}
-				dropdownClassName={styles.dropdown}
-			/>
+			<span>Loading...</span>
 		)
-	) : (
-		<span>Loading...</span>
-	)
-}
+	}
+)
+
+BuildTimeProperties.displayName = 'BuildTimeProperties'
 
 export default BuildTimeProperties
