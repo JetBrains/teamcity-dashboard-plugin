@@ -26,6 +26,7 @@ import type {
 	ChangesHash,
 	ChangesState,
 } from './changes.types'
+import getUserDisplayName from '../../api/user/getUserDisplayName'
 
 // Thunks
 
@@ -83,6 +84,33 @@ export const selectChangeFilesCount: (
 ) => number = createSelector(
 	selectChangeById,
 	(change: ?Change) => change?.filesCount ?? 0
+)
+
+export const selectChangeWebUrl: (RootState, ChangeId) => ?string = createSelector(
+	selectChangeById,
+	(change: ?Change): ?string => change?.webUrl
+)
+
+export const selectChangeComment: (RootState, ChangeId) => ?string = createSelector(
+	selectChangeById,
+	(change: ?Change): ?string => change?.comment
+)
+
+export const selectChangeDate: (RootState, ChangeId) => ?string = createSelector(
+	selectChangeById,
+	(change: ?Change): ?string => change?.date
+)
+
+export const selectChangeUserDisplayName: (RootState, ChangeId) => ?string = createSelector(
+	selectChangeById,
+	(change: ?Change): ?string => {
+		const {username: vcsUsername, user} = change ?? {}
+		if (user === undefined || user === null) {
+			return vcsUsername
+		} else {
+			return getUserDisplayName(user)
+		}
+	}
 )
 
 export const selectChangesByLocator: (

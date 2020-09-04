@@ -11,14 +11,17 @@ type Properties = {|
 	buildId: BuildId,
 |}
 
-const BuildTypeChangesListItem = ({ withDivider, buildId }: Properties) => {
+const BuildTypeChangesListItem = React.memo<Properties>(
+	({ withDivider, buildId }: Properties) => {
+		return (
+			<li className={styles.BuildTypeChangesListItem}>
+				{withDivider && <Divider className={styles.divider} />}
+				<BuildChanges buildId={buildId} />
+			</li>
+		)
+	}
+)
 
-	return (
-		<li className={styles.BuildTypeChangesListItem}>
-			{withDivider && <Divider className={styles.divider} />}
-			<BuildChanges buildId={buildId} />
-		</li>
-	)
-}
+BuildTypeChangesListItem.displayName = 'BuildTypeChangesListItem'
 
 export default BuildTypeChangesListItem

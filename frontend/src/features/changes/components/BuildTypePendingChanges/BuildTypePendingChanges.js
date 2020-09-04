@@ -28,7 +28,7 @@ const BuildTypePendingChanges = React.memo<Properties>(
 		return changesIds.length !== 0 ? (
 			<>
 				<CollapseChangesList
-					title={('Pending': React$Node)}
+					title={'Pending'}
 					locator={locator}
 				>
 					{changesIds ? (

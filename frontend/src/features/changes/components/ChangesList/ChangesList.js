@@ -9,11 +9,11 @@ import type { ChangeId } from '../../changes.types'
 
 const { ChangeDetailsPopup } = TC.Components
 
-interface Properties {
-	changesIds: ChangeId[];
-}
+type Properties = {|
+	changesIds: ChangeId[],
+|}
 
-const ChangesList = ({ changesIds }: Properties) => {
+const ChangesList = React.memo<Properties>(({ changesIds }: Properties) => {
 	const [buildTypeId] = useBuildTypeIdOption()
 
 	const [expandedChangeId, setExpandedChangeId] = useState<?ChangeId>()
@@ -53,6 +53,8 @@ const ChangesList = ({ changesIds }: Properties) => {
 			</div>
 		</>
 	)
-}
+})
+
+ChangesList.displayName = 'ChangesList'
 
 export default ChangesList

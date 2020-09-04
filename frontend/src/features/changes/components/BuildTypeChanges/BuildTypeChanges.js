@@ -16,50 +16,56 @@ import CenteredLoader from '../../../../components/CenteredLoader/CenteredLoader
 
 const { BuildsList } = TC.Components
 
-interface Properties {
-	buildTypeId: BuildTypeId;
-	branch: BranchesLocator;
-}
+type Properties = {|
+	buildTypeId: BuildTypeId,
+	branch: BranchesLocator,
+|}
 
-const BuildTypeChanges = ({ buildTypeId, branch }: Properties) => {
-	const buildType = useBuildTypeConstants(buildTypeId)
+const renderEachBuild = (build: Build, index: number) => (
+	<BuildTypeChangesListItem
+		key={build.id}
+		withDivider={index !== 0}
+		buildId={build.id}
+	/>
+)
 
-	const locator: BuildsLocator = {
-		buildTypeId,
-		branch,
-		state: 'any',
+const BuildTypeChanges = React.memo<Properties>(
+	({ buildTypeId, branch }: Properties) => {
+		const buildType = useBuildTypeConstants(buildTypeId)
+
+		const locator: BuildsLocator = {
+			buildTypeId,
+			branch,
+			state: 'any',
+		}
+
+		const noBuildsMessage = useMemo(() => <NoBuildsMessage />, [])
+		const loader = useMemo(() => <CenteredLoader />, [])
+
+		return (
+			<div className={styles.BuildTypeChanges}>
+				<BuildTypePendingChanges
+					buildTypeId={buildTypeId}
+					branch={branch}
+				/>
+				{buildType && (
+					<ol className={styles.buildsList}>
+						<BuildsList
+							locator={stringifyBuildsLocator(locator)}
+							buildTypeId={buildTypeId}
+							buildTypeInternalId={buildType.internalId}
+							withRunningAndQueued
+							renderEachBuild={renderEachBuild}
+							emptyListPlaceholder={noBuildsMessage}
+							loadingListPlaceholder={loader}
+						/>
+					</ol>
+				)}
+			</div>
+		)
 	}
+)
 
-	const noBuildsMessage = useMemo(() => <NoBuildsMessage />, [])
-	const loader = useMemo(() => <CenteredLoader />, [])
-
-	return (
-		<div className={styles.BuildTypeChanges}>
-			<BuildTypePendingChanges
-				buildTypeId={buildTypeId}
-				branch={branch}
-			/>
-			{buildType && (
-				<ol className={styles.buildsList}>
-					<BuildsList
-						locator={stringifyBuildsLocator(locator)}
-						buildTypeId={buildTypeId}
-						buildTypeInternalId={buildType.internalId}
-						withRunningAndQueued
-						renderEachBuild={(build: Build, index: number) => (
-							<BuildTypeChangesListItem
-								key={build.id}
-								withDivider={index !== 0}
-								buildId={build.id}
-							/>
-						)}
-						emptyListPlaceholder={noBuildsMessage}
-						loadingListPlaceholder={loader}
-					/>
-				</ol>
-			)}
-		</div>
-	)
-}
+BuildTypeChanges.displayName = 'BuildTypeChanges'
 
 export default BuildTypeChanges

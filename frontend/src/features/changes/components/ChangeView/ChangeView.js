@@ -1,88 +1,89 @@
 // @flow strict
 import React from 'react'
 import classNames from 'classnames'
-import { useChange } from '../../changes.hooks'
+import {
+	useChangeComment,
+	useChangeDate,
+	useChangeUserDisplayName,
+	useChangeWebUrl,
+} from '../../changes.hooks'
 import FormattedDate from '../../../../components/FormattedDate/FormattedDate'
 import styles from './ChangeView.css'
 import ClampedText from '../../../../components/ClampedText/ClampedText'
 import Link from '@jetbrains/ring-ui/components/link/link'
-import getUserDisplayName from '../../../../api/user/getUserDisplayName'
-import type { Change, ChangeId } from '../../changes.types'
+import type { ChangeId } from '../../changes.types'
 import ChangeFilesDetailsButton from '../ChangeFilesDetailsButton/ChangeFilesDetailsButton'
 import { useActiveBreakpointClassNames } from '../../../widgets/widgetsBreakpoints.hooks'
 
-const getChangeUserDisplayName = (change: Change): string => {
-	const { username: vcsUsername, user } = change
-	if (user === undefined || user === null) {
-		return vcsUsername
-	} else {
-		return getUserDisplayName(user)
-	}
-}
-
-interface Properties {
-	changeId: ChangeId;
-	showChangeDetailsPopup: (?ChangeId) => mixed;
-	className?: string;
-}
+type Properties = {|
+	changeId: ChangeId,
+	showChangeDetailsPopup: (?ChangeId) => mixed,
+	className?: string,
+|}
 
 const changeViewBreakpointClasses = {
 	medium: styles.ChangeView_medium,
 }
 
-const ChangeView = ({
-	changeId,
-	showChangeDetailsPopup,
-	className,
-}: Properties) => {
-	const change = useChange(changeId)
+const ChangeView = React.memo<Properties>(
+	({ changeId, showChangeDetailsPopup, className }: Properties) => {
+		const changeWebUrl = useChangeWebUrl(changeId)
+		const changeComment = useChangeComment(changeId)
+		const userDisplayName = useChangeUserDisplayName(changeId)
+		const changeDate = useChangeDate(changeId)
 
-	const changeViewOwnClasses = useActiveBreakpointClassNames(
-		changeViewBreakpointClasses,
-		styles.ChangeView
-	)
+		const changeViewOwnClasses = useActiveBreakpointClassNames(
+			changeViewBreakpointClasses,
+			styles.ChangeView
+		)
 
-	const changeViewClasses = classNames(changeViewOwnClasses, className)
+		const changeViewClasses = classNames(changeViewOwnClasses, className)
 
-	return (
-		<div className={changeViewClasses}>
-			<span className={styles.comment}>
-				<ClampedText maxLines={3}>
-					{change ? (
-						change.webUrl !== undefined &&
-						change.webUrl !== null ? (
-							<Link href={change.webUrl} active>
-								{change.comment}
-							</Link>
+		return (
+			<div className={changeViewClasses}>
+				<span className={styles.comment}>
+					<ClampedText maxLines={3}>
+						{changeComment !== undefined &&
+						changeComment !== null ? (
+							changeWebUrl !== undefined &&
+							changeWebUrl !== null ? (
+								<Link href={changeWebUrl} active>
+									{changeComment}
+								</Link>
+							) : (
+								changeComment
+							)
 						) : (
-							change.comment
-						)
-					) : (
-						'Loading...'
-					)}
-				</ClampedText>
-			</span>
-			{change ? (
+							'Loading...'
+						)}
+					</ClampedText>
+				</span>
 				<div className={styles.metadata}>
 					<span className={styles.username}>
-						{getChangeUserDisplayName(change)},
+						{userDisplayName !== null &&
+						userDisplayName !== undefined
+							? userDisplayName
+							: 'Loading...'}
+						,
 					</span>
 					<span className={styles.date}>
-						<FormattedDate date={change.date} />
+						{changeDate !== null && changeDate !== undefined && (
+							<FormattedDate date={changeDate} />
+						)}
 					</span>
 				</div>
-			) : (
-				<span>Loading..</span>
-			)}
-			<span className={styles.changesPreviewIconContainer}>
-				<ChangeFilesDetailsButton
-					changeId={changeId}
-					className={styles.changesPreviewButton}
-					showChangeDetailsPopup={showChangeDetailsPopup}
-				/>
-			</span>
-		</div>
-	)
-}
+				<span className={styles.changesPreviewIconContainer}>
+					<ChangeFilesDetailsButton
+						changeId={changeId}
+						className={styles.changesPreviewButton}
+						showChangeDetailsPopup={showChangeDetailsPopup}
+					/>
+				</span>
+			</div>
+		)
+	}
+)
+
+ChangeView.displayName = 'ChangeView'
 
 export default ChangeView

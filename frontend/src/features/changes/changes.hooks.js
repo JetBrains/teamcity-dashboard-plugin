@@ -3,8 +3,12 @@ import { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
 	selectChangeById,
+	selectChangeComment,
+	selectChangeDate,
 	selectChangeFilesCount,
 	selectChangesByLocator,
+	selectChangeUserDisplayName,
+	selectChangeWebUrl,
 } from './changes.slice'
 import type { AsyncStatus } from '../../commontypes'
 import type { ChangesLocator } from './changes.locator'
@@ -38,7 +42,7 @@ export const usePendingBuildTypeChangesLocator = (
 		buildTypeId,
 	])
 
-export const useBuildChangesLocator = (buildId: BuildId) =>
+export const useBuildChangesLocator = (buildId: BuildId): ChangesLocator =>
 	useMemo(() => getBuildChangesLocator(buildId), [buildId])
 
 export const useChangesIdsByLocator = (
@@ -173,3 +177,15 @@ export const useChange = (changeId: ChangeId): ?Change => {
 
 export const useChangeFilesCount = (changeId: ChangeId): number =>
 	useSelector((state) => selectChangeFilesCount(state, changeId))
+
+export const useChangeWebUrl = (changeId: ChangeId): ?string =>
+	useSelector((state) => selectChangeWebUrl(state, changeId))
+
+export const useChangeComment = (changeId: ChangeId): ?string =>
+	useSelector((state) => selectChangeComment(state, changeId))
+
+export const useChangeDate = (changeId: ChangeId): ?string =>
+	useSelector((state) => selectChangeDate(state, changeId))
+
+export const useChangeUserDisplayName = (changeId: ChangeId): ?string =>
+	useSelector((state) => selectChangeUserDisplayName(state, changeId))
