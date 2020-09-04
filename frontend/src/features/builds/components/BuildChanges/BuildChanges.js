@@ -6,6 +6,9 @@ import type { BuildId } from '../../builds.types'
 import BuildStatusLink from '../BuildStatusLink/BuildStatusLink'
 import { useIsBreakpointActive } from '../../../widgets/widgetsBreakpoints.hooks'
 import { useBuildChangesLocator } from '../../../changes/changes.hooks'
+import TC from '@teamcity/react-api'
+
+const { BuildNumber } = TC.Components
 
 interface Properties {
 	buildId: BuildId;
@@ -15,6 +18,11 @@ const BuildChanges = React.memo<Properties>(({ buildId }: Properties) => {
 	const locator = useBuildChangesLocator(buildId)
 
 	const isLarge = useIsBreakpointActive('large')
+
+	const buildNumber = useMemo(
+		() => <BuildNumber buildId={buildId} hideStar withLink={false} />,
+		[buildId]
+	)
 
 	const buildStatusLink = useMemo(
 		() => <BuildStatusLink buildId={buildId} multiline={!isLarge} />,
@@ -27,7 +35,7 @@ const BuildChanges = React.memo<Properties>(({ buildId }: Properties) => {
 
 	return (
 		<CollapseChangesList
-			title={`#${buildId}`}
+			title={buildNumber}
 			locator={locator}
 			extraNode={buildStatusLink}
 			compactChangesCount
