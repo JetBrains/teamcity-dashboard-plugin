@@ -2,11 +2,9 @@
 import React from 'react'
 import type { InvestigationId } from '../../investigations.types'
 import { useSelector } from 'react-redux'
-import {
-	selectInvestigationTargetType,
-} from '../../investigations.slice'
-import BuildTypeInvestigationLink from '../InvestigationsList/BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
-import TestOrProblemInvestigationLink from '../InvestigationsList/TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
+import { selectInvestigationTargetType } from '../../investigations.slice'
+import BuildTypeInvestigationLink from './BuildTypeInvestigationsLink/BuildTypeInvestigationLink'
+import TestOrProblemInvestigationLink from './TestOrProblemInvestigationLink/TestOrProblemInvestigationLink'
 import LoaderInline from '@jetbrains/ring-ui/components/loader-inline/loader-inline'
 
 type Properties = {|
