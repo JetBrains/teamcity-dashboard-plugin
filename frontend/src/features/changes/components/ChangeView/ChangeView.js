@@ -47,7 +47,11 @@ const ChangeView = React.memo<Properties>(
 						changeComment !== null ? (
 							changeWebUrl !== undefined &&
 							changeWebUrl !== null ? (
-								<Link href={changeWebUrl} active>
+								<Link
+									href={changeWebUrl}
+									className={styles.commentLink}
+									active
+								>
 									{changeComment}
 								</Link>
 							) : (

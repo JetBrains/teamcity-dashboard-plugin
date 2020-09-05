@@ -28,6 +28,18 @@
 	grid-area: comment;
 }
 
+.commentLink {
+	color: #000;
+}
+
+.commentLink:hover {
+	color: var(--ring-link-hover-color);
+}
+
+.commentLink:active {
+	color: var(--ring-main-color);
+}
+
 
 .changesPreviewIconContainer {
 	grid-area: changesPreviewIcon;
