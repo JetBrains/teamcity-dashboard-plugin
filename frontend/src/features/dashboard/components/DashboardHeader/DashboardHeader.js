@@ -1,6 +1,6 @@
 // @flow strict
 import React from 'react'
-import { H1 } from '@jetbrains/ring-ui'
+import { H1 } from '@jetbrains/ring-ui/components/heading/heading'
 import AddWidgetButton from './AddWidgetButton/AddWidgetButton'
 
 import styles from './DashboardHeader.css'

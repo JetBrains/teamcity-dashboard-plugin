@@ -9,6 +9,7 @@
 
 [options]
 esproposal.optional_chaining=enable
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/SVGFlowStub.js.flow'
 
 [strict]
 nonstrict-import

@@ -2,7 +2,7 @@
 
 import type { WidgetType } from '../widgets.types'
 
-export type Component = () => React$Node
+export type Component = React$ComponentType<*>
 
 export type WidgetComponents = {|
 	Header: Component,

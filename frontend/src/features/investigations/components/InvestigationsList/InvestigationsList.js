@@ -21,7 +21,7 @@ const withDivider = (
 	investigations: Investigation[]
 ): boolean => index !== 0 && withPath(investigation, index, investigations)
 
-const InvestigationsList = React.memo<void>(() => {
+const InvestigationsList = React.memo<{ ... }>(() => {
 	const [status, investigations] = useFilteredSortedInvestigations()
 	if (status === 'loading' && investigations.length === 0) {
 		return <Loader className={styles.loader} />

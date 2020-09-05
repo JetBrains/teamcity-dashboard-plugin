@@ -6,6 +6,7 @@ import type { WidgetData, WidgetId } from '../widgets/widgets.types'
 import type { DashboardData } from './dashboard.types'
 import { fetchDashboardData } from './fetchingDashboardData.slice'
 import { getWidgetDimensionsProperties } from '../widgets/config/widgetProperties.helpers'
+import { columnsNumber } from '../../config/config'
 
 export const layoutSlice = createSlice<LayoutState>({
 	name: 'layout',
@@ -32,9 +33,9 @@ export const layoutSlice = createSlice<LayoutState>({
 				} = getWidgetDimensionsProperties(type)
 				state.push({
 					i: id,
-					x: 5,
+					x: (state.length * 2) % columnsNumber,
 					y: Infinity,
-					w: defaultWidth ?? 3,
+					w: defaultWidth ?? 2,
 					h: defaultHeight ?? 3,
 					minW: minWidth,
 					minH: minHeight,
@@ -51,6 +52,5 @@ export const layoutSlice = createSlice<LayoutState>({
 
 // Actions
 export const setLayout: (LayoutState) => void = layoutSlice.actions.setLayout
-// export const addLayoutElement = layoutSlice.actions.addLayoutElement
 
 export default layoutSlice.reducer

@@ -6,6 +6,7 @@ import { selectAllVisibleWidgetIds } from '../../features/widgets/widgets.slice'
 import styles from './style.css'
 import WidgetWrapper from '../../features/widgets/components/WidgetWrapper/WidgetWrapper'
 import { useLayoutData } from '../../features/dashboard/layout.hooks'
+import { columnsNumber } from '../../config/config'
 
 const ResponsiveGridLayout = WidthProvider(ReactGridLayout)
 
@@ -30,7 +31,7 @@ const Grid = () => {
 				layout={layout}
 				draggableHandle=".draggable-handle"
 				onLayoutChange={setLayout}
-				cols={10}
+				cols={columnsNumber}
 				rowHeight={150}
 				margin={margin}
 				preventCollision

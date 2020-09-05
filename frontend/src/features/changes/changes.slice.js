@@ -137,12 +137,4 @@ export const selectBuildChanges: (RootState, BuildId) => ChangesByLocator = (
 		buildId,
 	})
 
-export const selectPendingBuildTypeChanges: (
-	RootState,
-	BuildTypeId
-) => ChangesByLocator = (state, buildTypeId) =>
-	selectChangesByLocator(state, {
-		buildTypeId,
-		pending: true,
-	})
 export default changesSlice.reducer

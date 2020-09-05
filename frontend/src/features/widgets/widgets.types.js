@@ -6,34 +6,34 @@ export type WidgetId = string
 export type InvestigationsWidgetSortByOption = 'time' | 'name'
 
 export type InvestigationsWidgetData = {|
-	id: string,
+	id: WidgetId,
 	type: 'investigationsWidget',
 	data: {
-		sortBy?: ?InvestigationsWidgetSortByOption,
-		showFixed?: ?boolean,
-		showOnlyDefaultBranch?: ?boolean,
+		sortBy?: InvestigationsWidgetSortByOption,
+		showFixed?: boolean,
+		showOnlyDefaultBranch?: boolean,
 		...
 	},
 |}
 
 export type BuildTypeChangesWidgetData = {|
-	id: string,
+	id: WidgetId,
 	type: 'buildTypeChangesWidget',
 	data: {
-		branchName?: ?string,
+		branchName?: string,
 		...
 	},
 |}
 
 export type MyRecentBuildsWidgetData = {|
-	id: string,
+	id: WidgetId,
 	type: 'myRecentBuildsWidget',
-	data: {| |},
+	data: { ... },
 |}
 
 export type WidgetData = InvestigationsWidgetData | BuildTypeChangesWidgetData | MyRecentBuildsWidgetData
 export type WidgetType = $PropertyType<WidgetData, 'type'>
-export type WidgetDataWithoutId = $Diff<WidgetData, {| id: string |}>
+export type WidgetDataData = $PropertyType<WidgetData, 'data'>
 
 export interface WidgetsState {
 	ids: string[];

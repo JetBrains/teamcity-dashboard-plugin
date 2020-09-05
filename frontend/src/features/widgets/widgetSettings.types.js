@@ -20,18 +20,3 @@ export type SaveWidgetSettingsActionCreatorArgument =
 			isNew: false,
 	  |}
 	| {| id: void, type: WidgetType, isNew: true |}
-
-export type SaveWidgetSettingsActionPayload = {|
-	id: WidgetId,
-	type: WidgetType,
-	isNew: boolean,
-|}
-
-export type StartAddingNewWidgetPayload = {|
-	type: WidgetType,
-	openSettings: boolean,
-|}
-
-export type StartAddingNewWidgetPrepareFunction = (SaveWidgetSettingsActionCreatorArgument) => {|
-	payload: StartAddingNewWidgetPayload,
-|}

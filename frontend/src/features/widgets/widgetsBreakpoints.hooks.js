@@ -10,7 +10,7 @@ import {
 	selectWidgetCurrentBreakpoint,
 	setWidgetWidth,
 } from './widgetsBreakpoints.slice'
-import throttle from 'just-throttle'
+import useThrottle from '../../hooks/useThrottle'
 
 export const useThisWidgetCurrentBreakpoint = (): ?BreakpointName => {
 	const id = useThisWidgetId()
@@ -53,10 +53,7 @@ export const useSaveThisWidgetWidth = (currentWidth: ?number) => {
 		[dispatch, id]
 	)
 
-	const throttledSaveWidth: (
-		width: ?number
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	) => mixed = useCallback(throttle(saveWidth, 300), [saveWidth])
+	const throttledSaveWidth = useThrottle(saveWidth, 300)
 
 	useEffect(() => {
 		if (currentWidth === previousWidth) {

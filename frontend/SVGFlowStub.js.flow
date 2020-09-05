@@ -1,0 +1,7 @@
+// @flow strict
+// eslint-disable-next-line unicorn/filename-case
+import React from 'react'
+
+export default function Svg(properties: {...}) {
+  return <svg {...properties} />
+}

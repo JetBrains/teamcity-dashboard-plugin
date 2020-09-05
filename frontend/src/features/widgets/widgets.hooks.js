@@ -9,13 +9,13 @@ import {
 } from './widgets.slice'
 import { useDispatch, useSelector } from 'react-redux'
 import type { WidgetId, WidgetType } from './widgets.types'
-import thisWidgetIdContext from './components/ThisWidgetGeneralDataProvider/thisWidgetId.context'
+import ThisWidgetIdContext from './components/ThisWidgetGeneralDataProvider/ThisWidgetId.context'
 import type { Json } from '../../commontypes'
 import {
 	selectTopLevelWidgetStateProperty,
 	setTopLevelWidgetState,
 } from './topLevelWidgetsState.slice'
-import thisWidgetTypeContext from './components/ThisWidgetGeneralDataProvider/thisWidgetType.context'
+import ThisWidgetTypeContext from './components/ThisWidgetGeneralDataProvider/ThisWidgetType.context'
 import {
 	selectWidgetStateProperty,
 	setWidgetStateProperty,
@@ -119,7 +119,7 @@ export const useWidgetGlobalState = <T: Json>(
 }
 
 export const useThisWidgetId = (): WidgetId => {
-	const id = useContext(thisWidgetIdContext)
+	const id = useContext(ThisWidgetIdContext)
 
 	if (id === undefined || id === null) {
 		console.error(
@@ -131,16 +131,15 @@ export const useThisWidgetId = (): WidgetId => {
 }
 
 export const useThisWidgetType = (): WidgetType => {
-	const type = useContext(thisWidgetTypeContext)
+	const type = useContext(ThisWidgetTypeContext)
 
 	if (type === undefined || type === null) {
-		console.error(
+		throw new Error(
 			'useThisWidgetId() was called outside of a this widget type provider (maybe outside of the widget or its top level component).' +
 				'This hook uses "thisWidgetTypeContext" context which is provided by ThisWidgetGeneralDataProviderComponent react component'
 		)
 	}
-	// $FlowFixMe
-	return type ?? 'errorType'
+	return type
 }
 
 export const useThisWidgetOption = <T>(

@@ -29,7 +29,6 @@ const widgetComponents: AllWidgetsComponents = {
 		Header: BuildTypeChangesWidgetHeader,
 		Body: BuildTypeChangesWidget,
 		Settings: BuildTypeChangesWidgetSettings,
-		// $FlowFixMe
 		headerOptions: [CollapseAllExpandAllButton],
 	},
 	myRecentBuildsWidget: {

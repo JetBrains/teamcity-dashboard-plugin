@@ -1,12 +1,6 @@
 // @flow strict
 import React, { useMemo } from 'react'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
-import {
-	CopyIcon,
-	MoreOptionsIcon,
-	PencilIcon,
-	TrashIcon,
-} from '@jetbrains/ring-ui/components/icon'
 import TC from '@teamcity/react-api'
 import PopupMenu from '@jetbrains/ring-ui/components/popup-menu/popup-menu'
 import List from '@jetbrains/ring-ui/components/list/list'
@@ -21,6 +15,10 @@ import {
 	isWidgetCloneable,
 	widgetHasSettings,
 } from '../../../config/widgetProperties.helpers'
+import trashIcon from '@jetbrains/icons/trash.svg'
+import pencilIcon from '@jetbrains/icons/pencil.svg'
+import moreOptionsIcon from '@jetbrains/icons/more-options.svg'
+import copyIcon from '@jetbrains/icons/copy.svg'
 
 const { IconButton } = TC.Components
 
@@ -45,7 +43,7 @@ const useEllipsisListData = () => {
 					action: 'cloneWidget',
 					key: 'clone',
 					rgItemType: List.ListProps.Type.ITEM,
-					glyph: CopyIcon,
+					glyph: copyIcon,
 					onClick: cloneWidget,
 				},
 				widgetHasSettings(type) && {
@@ -53,7 +51,7 @@ const useEllipsisListData = () => {
 					action: 'openSettings',
 					key: 'settings',
 					rgItemType: List.ListProps.Type.ITEM,
-					glyph: PencilIcon,
+					glyph: pencilIcon,
 					onClick: openWidgetSettings,
 				},
 			].filter(Boolean),
@@ -75,7 +73,7 @@ const useEllipsisListData = () => {
 			action: 'removeWidget',
 			key: 'remove',
 			rgItemType: List.ListProps.Type.ITEM,
-			glyph: TrashIcon,
+			glyph: trashIcon,
 			color: 'red',
 			onClick: removeWidget,
 			className: styles.danger,
@@ -99,7 +97,7 @@ const WidgetEllipsisOptions = () => {
 		<Dropdown
 			hoverMode
 			anchor={
-				<IconButton title="Widget Options" icon={MoreOptionsIcon} />
+				<IconButton title="Widget Options" icon={moreOptionsIcon} />
 			}
 		>
 			<PopupMenu closeOnSelect data={data} directions={directions} />

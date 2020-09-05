@@ -67,8 +67,7 @@ const WidgetWrapper = React.memo<Properties>(({ widgetId }: Properties) => {
 
 	return (
 		<ThisWidgetGeneralDataProvider
-			// FIXME: this is a dumb fix. but without it flow for some reason gets angry
-			thisWidgetId={widgetId ?? undefined}
+			thisWidgetId={widgetId}
 			thisWidgetType={type}
 		>
 			{measuredWidget}

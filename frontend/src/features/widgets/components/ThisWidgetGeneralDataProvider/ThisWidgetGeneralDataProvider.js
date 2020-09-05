@@ -1,14 +1,14 @@
 // @flow strict
 import React from 'react'
 import type { WidgetId, WidgetType } from '../../widgets.types'
-import thisWidgetTypeContext from './thisWidgetType.context'
-import thisWidgetIdContext from './thisWidgetId.context'
+import ThisWidgetTypeContext from './ThisWidgetType.context'
+import ThisWidgetIdContext from './ThisWidgetId.context'
 
-interface Properties {
-	children: React$Node;
-	thisWidgetId: ?WidgetId;
-	thisWidgetType: ?WidgetType;
-}
+type Properties = {|
+	children: React$Node,
+	thisWidgetId: ?WidgetId,
+	thisWidgetType: ?WidgetType,
+|}
 
 const ThisWidgetGeneralDataProvider = ({
 	children,
@@ -16,11 +16,11 @@ const ThisWidgetGeneralDataProvider = ({
 	thisWidgetType,
 }: Properties) => {
 	return (
-		<thisWidgetIdContext.Provider value={thisWidgetId}>
-			<thisWidgetTypeContext.Provider value={thisWidgetType}>
+		<ThisWidgetIdContext.Provider value={thisWidgetId}>
+			<ThisWidgetTypeContext.Provider value={thisWidgetType}>
 				{children}
-			</thisWidgetTypeContext.Provider>
-		</thisWidgetIdContext.Provider>
+			</ThisWidgetTypeContext.Provider>
+		</ThisWidgetIdContext.Provider>
 	)
 }
 

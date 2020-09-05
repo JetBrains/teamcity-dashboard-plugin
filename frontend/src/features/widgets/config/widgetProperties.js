@@ -6,7 +6,7 @@ const widgetsProperties: AllWidgetsProperties = {
 	investigationsWidget: {
 		name: 'My Investigations',
 		openSettingsFirst: false,
-		defaultWidth: 3,
+		defaultWidth: 2,
 		minWidth: 2,
 	},
 	buildTypeChangesWidget: {

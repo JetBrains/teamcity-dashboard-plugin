@@ -8,7 +8,7 @@ const useThrottle = <T>(
 	timeout?: number = defaultThrottleTime
 ): ((T) => void) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	return useCallback((throttle(func, timeout): (T) => mixed), [func, timeout])
+	return useCallback((throttle(func, timeout): (T) => void), [func, timeout])
 }
 
 export default useThrottle

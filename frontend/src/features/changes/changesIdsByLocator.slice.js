@@ -70,10 +70,6 @@ export const selectBuildChangesIds: (
 
 // Thunks
 
-/**
- * @param {ChangesLocator} locator
- * @param {boolean} force
- */
 export const fetchChangesByLocator = createAsyncThunk<FetchChangesByLocatorArgument>(
 	'fetchChangesByLocator',
 	async ({

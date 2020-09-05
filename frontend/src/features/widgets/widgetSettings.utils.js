@@ -1,7 +1,7 @@
 // @flow strict
 
 import type { WidgetData, WidgetId } from './widgets.types'
-import deepCopyJson from '../../utils/deepCopySerializable'
+import deepCopyJson from '../../utils/deepCopyJson'
 import { HIDDEN_SETTINGS_WIDGET_ID } from './widgetSettings.slice'
 
 export const copyWidget = (widget: WidgetData, newId: WidgetId): WidgetData => {

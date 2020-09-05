@@ -1,16 +1,15 @@
 // @flow strict
 import React, { useState, useEffect } from 'react'
 import type { ChangesLocator } from '../../../../features/changes/changes.locator'
-import {
-	ChevronDownIcon,
-	ChevronRightIcon,
-} from '@jetbrains/ring-ui/components/icon'
 import ChangesCounter from '../../../../features/changes/components/ChangesCounter/ChangesCounter'
 import { useAreAllExpanded } from '../../options/hooks'
 import classNames from 'classnames'
 import styles from './CollapseChangesList.css'
 import useToggle from '../../../../hooks/basic/useToggle'
 import Button from '@jetbrains/ring-ui/components/button/button'
+
+import chevronDown from '@jetbrains/icons/chevron-down.svg'
+import chevronRight from '@jetbrains/icons/chevron-right.svg'
 
 type Properties = {|
 	title?: React$Node,
@@ -52,7 +51,7 @@ const CollapseChangesList = React.memo<Properties>(
 				<div className={headerClasses}>
 					<Button
 						icon={
-							isSelfExpanded ? ChevronDownIcon : ChevronRightIcon
+							isSelfExpanded ? chevronDown : chevronRight
 						}
 						className={styles.chevronButton}
 						iconClassName={styles.chevronButtonIcon}

@@ -14,6 +14,7 @@ export const isWidgetHidden = (id: WidgetId) =>
 export const filterVisibleWidgetIds = (ids: WidgetId[]): WidgetId[] =>
 	ids.filter((id) => !isWidgetHidden(id))
 
+// TODO: $FlowFixMe
 export const createEmptyWidgetData = (
 	id: WidgetId,
 	type: WidgetType

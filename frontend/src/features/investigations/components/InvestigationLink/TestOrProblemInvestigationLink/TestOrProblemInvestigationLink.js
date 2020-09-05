@@ -4,8 +4,7 @@ import classnames from 'classnames'
 import ClampedText from '../../../../../components/ClampedText/ClampedText'
 
 import styles from './TestOrProblemInvestigationLink.css'
-// $FlowFixMe
-import { Link } from '@jetbrains/ring-ui'
+import Link from '@jetbrains/ring-ui/components/link/link'
 import type { InvestigationId } from '../../../investigations.types'
 import { useSelector } from 'react-redux'
 import {

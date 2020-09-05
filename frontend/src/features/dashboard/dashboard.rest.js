@@ -1,5 +1,4 @@
 // @flow strict
-// $FlowFixMe
 import type { WidgetData, WidgetId, WidgetType } from '../widgets/widgets.types'
 import TC from '@teamcity/react-api'
 import type { DashboardData } from './dashboard.types'
@@ -49,6 +48,7 @@ const parseDashboardData = ({
 
 	const parsedLayout: LayoutElementData[] = layout
 		.map(
+			// TODO: $FlowFixMe
 			// $FlowFixMe
 			(element): ?LayoutElementData =>
 				widgetIdToType[element.i] !== null &&

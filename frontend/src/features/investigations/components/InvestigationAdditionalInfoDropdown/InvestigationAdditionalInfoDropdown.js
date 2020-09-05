@@ -1,6 +1,6 @@
 // @flow strict
 import React from 'react'
-import { OkIcon, InfoIcon } from '@jetbrains/ring-ui/components/icon'
+import Icon from '@jetbrains/ring-ui/components/icon/icon'
 import Popup from '@jetbrains/ring-ui/components/popup/popup'
 import Dropdown from '@jetbrains/ring-ui/components/dropdown/dropdown'
 import InvestigationAdditionalInfo from './InvestigationAdditionalInfo/InvestigationAdditionalInfo'
@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux'
 import styles from './InvestigationAdditionalInfoDropdown.css'
 import type { InvestigationId } from '../../investigations.types'
 import { selectInvestigationState } from '../../investigations.slice'
+import okIcon from '@jetbrains/icons/ok.svg'
+import infoIcon from '@jetbrains/icons/info.svg'
 
 interface Properties {
 	investigationId: InvestigationId;
@@ -30,9 +32,9 @@ const InvestigationAdditionalInfoDropdown = ({
 			hoverMode
 			anchor={
 				state === 'FIXED' ? (
-					<OkIcon color="green" />
+					<Icon glyph={okIcon} color="green" />
 				) : (
-					<InfoIcon className={styles.greyIcon} />
+					<Icon glyph={infoIcon} className={styles.grayIcon} />
 				)
 			}
 		>

@@ -26,7 +26,7 @@ import { type Dispatch } from 'redux'
 import { fetchDashboardData } from '../dashboard/fetchingDashboardData.slice'
 import { isWidgetTypeSupported } from './config/widgetProperties.helpers'
 import { ThunkAction } from 'redux-thunk'
-import deepCopyJson from '../../utils/deepCopySerializable'
+import deepCopyJson from '../../utils/deepCopyJson'
 
 const widgetsAdapter = createEntityAdapter<WidgetData>()
 
@@ -67,6 +67,7 @@ const widgetsSlice = createSlice<WidgetsState>({
 			) => {
 				widgetsAdapter.upsertOne(state, action.payload)
 			},
+			// TODO: $FlowFixMe
 			prepare: (
 				type: WidgetType,
 				// $FlowFixMe

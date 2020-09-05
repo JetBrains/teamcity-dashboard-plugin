@@ -5,7 +5,7 @@ import type { ChangeId } from '../../changes.types'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import FilesIcon from '../../../../resources/svg/files.svg'
 import { useChangeFilesCount } from '../../changes.hooks'
-import { Icon } from '@jetbrains/ring-ui'
+import Icon from '@jetbrains/ring-ui/components/icon/icon'
 
 import styles from './ChangeFilesDetailsButton.css'
 
