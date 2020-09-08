@@ -5,7 +5,7 @@ import Button from '@jetbrains/ring-ui/components/button/button'
 import { useAreAllExpanded } from '../../options/hooks'
 import useToggle from '../../../../hooks/basic/useToggle'
 
-import collapseIcon from '../../../../resources/svg/collapse.svg'
+import collapseIcon from '../../../../resources/svg/collapse-all.svg'
 import styles from './CollapseAllExpandAllButton.css'
 
 interface Properties {

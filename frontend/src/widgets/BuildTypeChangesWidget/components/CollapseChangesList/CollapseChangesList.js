@@ -1,7 +1,5 @@
 // @flow strict
 import React, { useState, useEffect } from 'react'
-import type { ChangesLocator } from '../../../../features/changes/changes.locator'
-import ChangesCounter from '../../../../features/changes/components/ChangesCounter/ChangesCounter'
 import { useAreAllExpanded } from '../../options/hooks'
 import classNames from 'classnames'
 import styles from './CollapseChangesList.css'
@@ -10,18 +8,27 @@ import Button from '@jetbrains/ring-ui/components/button/button'
 
 import chevronDown from '@jetbrains/icons/chevron-down.svg'
 import chevronRight from '@jetbrains/icons/chevron-right.svg'
+import disabledChevron from '../../../../resources/svg/disabled-chevron.svg'
 
 type Properties = {|
 	title?: React$Node,
-	locator: ChangesLocator,
+	count?: React$Node,
 	extraNode?: React$Node,
 	children: React$Node,
 	compactChangesCount?: boolean,
 	compact?: boolean,
+	disabled?: boolean,
 |}
 
 const CollapseChangesList = React.memo<Properties>(
-	({ title, locator, extraNode, children, compact = false }: Properties) => {
+	({
+		title,
+		count,
+		extraNode,
+		children,
+		compact = false,
+		disabled = false,
+	}: Properties) => {
 		const [areAllExpanded] = useAreAllExpanded()
 
 		const [isSelfExpanded, setIsSelfExpanded] = useState<boolean>(
@@ -51,19 +58,22 @@ const CollapseChangesList = React.memo<Properties>(
 				<div className={headerClasses}>
 					<Button
 						icon={
-							isSelfExpanded ? chevronDown : chevronRight
+							disabled
+								? disabledChevron
+								: isSelfExpanded
+								? chevronDown
+								: chevronRight
 						}
 						className={styles.chevronButton}
 						iconClassName={styles.chevronButtonIcon}
 						iconSize={20}
 						onClick={toggleExpanded}
+						disabled={disabled}
 					/>
 					<span className={styles.title}>{title}</span>
-					<ChangesCounter
-						locator={locator}
-						compact={true}
-						className={styles.changesCount}
-					/>
+					{count !== null && count !== undefined && (
+						<span className={styles.changesCount}>{count}</span>
+					)}
 					{extraNode !== undefined && extraNode !== null && (
 						<span className={extraClasses}>{extraNode}</span>
 					)}

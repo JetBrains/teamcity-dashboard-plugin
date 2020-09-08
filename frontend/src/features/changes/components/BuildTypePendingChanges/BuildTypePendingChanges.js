@@ -4,6 +4,7 @@ import type { BranchesLocator } from '../../../branches/branches.locator'
 import CollapseChangesList from '../../../../widgets/BuildTypeChangesWidget/components/CollapseChangesList/CollapseChangesList'
 import type { BuildTypeId } from '../../../buildTypes/buildTypes.types'
 import {
+	useChangesActualCountByLocator,
 	usePendingBuildTypeChangesIdsWithSubscription,
 	usePendingBuildTypeChangesLocator,
 } from '../../changes.hooks'
@@ -19,6 +20,7 @@ interface Properties {
 const BuildTypePendingChanges = React.memo<Properties>(
 	({ buildTypeId, branch }: Properties) => {
 		const locator = usePendingBuildTypeChangesLocator(buildTypeId, branch)
+		const count = useChangesActualCountByLocator(locator)
 
 		const [changesIds] = usePendingBuildTypeChangesIdsWithSubscription(
 			buildTypeId,
@@ -29,7 +31,7 @@ const BuildTypePendingChanges = React.memo<Properties>(
 			<>
 				<CollapseChangesList
 					title={'Pending'}
-					locator={locator}
+					count={count}
 				>
 					{changesIds ? (
 						<ChangesList changesIds={changesIds} />
@@ -39,7 +41,6 @@ const BuildTypePendingChanges = React.memo<Properties>(
 				</CollapseChangesList>
 				<Divider className={styles.divider} />
 			</>
-
 		) : // eslint-disable-next-line unicorn/no-null
 		null
 	}

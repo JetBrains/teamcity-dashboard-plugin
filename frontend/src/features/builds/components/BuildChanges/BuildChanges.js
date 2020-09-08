@@ -5,8 +5,9 @@ import CollapseChangesList from '../../../../widgets/BuildTypeChangesWidget/comp
 import type { BuildId } from '../../builds.types'
 import BuildStatusLink from '../BuildStatusLink/BuildStatusLink'
 import { useIsBreakpointActive } from '../../../widgets/widgetsBreakpoints.hooks'
-import { useBuildChangesLocator } from '../../../changes/changes.hooks'
+import { useBuildChangesLocator, useChangesActualCountByLocator } from '../../../changes/changes.hooks'
 import TC from '@teamcity/react-api'
+import limitCount from '../../../../utils/limitCount'
 
 const { BuildNumber } = TC.Components
 
@@ -16,6 +17,7 @@ interface Properties {
 
 const BuildChanges = React.memo<Properties>(({ buildId }: Properties) => {
 	const locator = useBuildChangesLocator(buildId)
+	const count = useChangesActualCountByLocator(locator)
 
 	const isLarge = useIsBreakpointActive('large')
 
@@ -36,10 +38,11 @@ const BuildChanges = React.memo<Properties>(({ buildId }: Properties) => {
 	return (
 		<CollapseChangesList
 			title={buildNumber}
-			locator={locator}
+			count={limitCount(count)}
 			extraNode={buildStatusLink}
 			compactChangesCount
 			compact={isLarge}
+			disabled={count === 0}
 		>
 			{content}
 		</CollapseChangesList>
