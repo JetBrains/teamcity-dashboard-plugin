@@ -12,7 +12,7 @@ const BuildTypeChangesWidgetSettings = () => {
 	return (
 		<WidgetSettings
 			title="Changes Widget Settings"
-			description="Widget support: ekaterina.silaeva@jetbrains.com"
+			description="Widget support: egor.porsev@jetbrains.com"
 			headerClassName={styles.settingsHeader}
 		>
 			<Section last>

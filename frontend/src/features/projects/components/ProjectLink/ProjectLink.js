@@ -5,8 +5,7 @@ import type { ProjectId } from '../../projects.types'
 import { useProject } from '../../projects.hooks'
 
 import styles from './ProjectLink.css'
-// $FlowFixMe
-import { Link } from '@jetbrains/ring-ui'
+import Link from '@jetbrains/ring-ui/components/link/link'
 import { getProjectLinkHref } from '../../project.utils'
 
 interface Properties {

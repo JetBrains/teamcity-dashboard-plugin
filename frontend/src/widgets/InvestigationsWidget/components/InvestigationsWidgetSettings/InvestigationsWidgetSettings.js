@@ -12,7 +12,7 @@ const InvestigationsWidgetSettings = () => {
 	return (
 		<WidgetSettings
 			title="My Investigations Widget Settings"
-			description="Widget support: ekaterina.silaeva@jetbrains.com"
+			description="Widget support: egor.porsev@jetbrains.com"
 		>
 			<Section>
 				<Field>

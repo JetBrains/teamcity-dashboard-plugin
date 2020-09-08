@@ -32,7 +32,7 @@ const InvestigationAdditionalInfoDropdown = ({
 			hoverMode
 			anchor={
 				state === 'FIXED' ? (
-					<Icon glyph={okIcon} color="green" />
+					<Icon glyph={okIcon} color={Icon.Color.GREEN} />
 				) : (
 					<Icon glyph={infoIcon} className={styles.grayIcon} />
 				)

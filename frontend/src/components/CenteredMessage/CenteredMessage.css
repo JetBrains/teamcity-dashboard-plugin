@@ -27,6 +27,8 @@
 
 .text {
 	font-size: 1rem;
+
+	font-family: var(--ring-font-family);
 }
 
 .extraNode {

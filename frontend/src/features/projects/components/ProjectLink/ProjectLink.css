@@ -5,6 +5,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+
+	font-family: var(--ring-font-family);
 }
 
 .slash {

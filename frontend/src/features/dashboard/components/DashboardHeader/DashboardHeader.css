@@ -5,4 +5,6 @@
 	align-items: flex-start;
 
 	padding: 0;
+
+	font-family: var(--ring-font-family);
 }

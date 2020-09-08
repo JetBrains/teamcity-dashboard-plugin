@@ -2,6 +2,8 @@
 	display: grid;
 	grid-template: auto / max-content auto;
 	place-items: center start;
+
+	font-family: var(--ring-font-family);
 }
 
 .buildTypeName {

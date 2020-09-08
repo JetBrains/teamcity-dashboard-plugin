@@ -26,6 +26,8 @@
 .comment {
 	/*width: 100%;*/
 	grid-area: comment;
+
+	font-family: var(--ring-font-family);
 }
 
 .commentLink {

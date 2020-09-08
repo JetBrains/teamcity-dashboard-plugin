@@ -26,20 +26,28 @@
 	text-overflow: ellipsis;
 
 	margin-right: 1ch;
+
+	font-family: var(--ring-font-family);
 }
 
 .time {
 	max-width: 100%;
+
+	font-family: var(--ring-font-family);
 }
 
 .comment {
 	margin-top: 12px;
+
+	font-family: var(--ring-font-family);
 }
 
 .resolution {
 	margin-top: 12px;
 
-	color: var(--ring-secondary-color)
+	color: var(--ring-secondary-color);
+
+	font-family: var(--ring-font-family);
 }
 
 .buttonsContainer {
