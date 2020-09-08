@@ -11,10 +11,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import type { WidgetId, WidgetType } from './widgets.types'
 import ThisWidgetIdContext from './components/ThisWidgetGeneralDataProvider/ThisWidgetId.context'
 import type { Json } from '../../commontypes'
-import {
-	selectTopLevelWidgetStateProperty,
-	setTopLevelWidgetState,
-} from './topLevelWidgetsState.slice'
 import ThisWidgetTypeContext from './components/ThisWidgetGeneralDataProvider/ThisWidgetType.context'
 import {
 	selectWidgetStateProperty,
@@ -92,32 +88,6 @@ export const useWidgetState = <T: Json>(
 	return [value, setValue]
 }
 
-export const useWidgetTopLevelState = <T: Json>(
-	type: WidgetType | '$global',
-	propertyName: string,
-	initialValue: T
-): [T, (T) => void] => {
-	const selector = useMemo(
-		() => selectTopLevelWidgetStateProperty(propertyName, initialValue),
-		[initialValue, propertyName]
-	)
-	const value = useSelector((state) => selector(state, type))
-	const dispatch = useDispatch()
-	const setValue = useCallback(
-		(newValue: T) =>
-			dispatch(setTopLevelWidgetState(type, propertyName, newValue)),
-		[dispatch, propertyName, type]
-	)
-	return [value, setValue]
-}
-
-export const useWidgetGlobalState = <T: Json>(
-	propertyName: string,
-	initialValue: T
-): [T, (T) => void] => {
-	return useWidgetTopLevelState('$global', propertyName, initialValue)
-}
-
 export const useThisWidgetId = (): WidgetId => {
 	const id = useContext(ThisWidgetIdContext)
 
@@ -156,12 +126,4 @@ export const useThisWidgetState = <T: Json>(
 ): [T, (T) => void] => {
 	const id = useThisWidgetId()
 	return useWidgetState(id, propertyName, initialValue)
-}
-
-export const useThisWidgetTopLevelState = <T: Json>(
-	propertyName: string,
-	initialValue: T
-): [T, (T) => void] => {
-	const type = useThisWidgetType()
-	return useWidgetTopLevelState(type, propertyName, initialValue)
 }

@@ -6,7 +6,7 @@ import styles from './ProjectPath.css'
 import type { ProjectId } from '../../features/projects/projects.types'
 import ClampedText from '../ClampedText/ClampedText'
 import { useThisWidgetId } from '../../features/widgets/widgets.hooks'
-import { useFetchProjects } from '../../features/projects/projects.hooks'
+import { useFetchProjectsForPath } from '../../features/projects/projects.hooks'
 
 const { EntityPath, ProjectPath: TCProjectPath } = TC.Components
 
@@ -18,7 +18,7 @@ type Properties = {|
 
 const ProjectPath = React.memo<Properties>(
 	({ projectId, className, multiline = false }: Properties) => {
-		useFetchProjects()
+		useFetchProjectsForPath(projectId)
 		const id = useThisWidgetId()
 		const classes = classnames(className, styles.ProjectPath)
 		return multiline ? (
