@@ -51,6 +51,7 @@ export const layoutSlice = createSlice<LayoutState>({
 })
 
 // Actions
+
 export const setLayout: (LayoutState) => void = layoutSlice.actions.setLayout
 
 export default layoutSlice.reducer

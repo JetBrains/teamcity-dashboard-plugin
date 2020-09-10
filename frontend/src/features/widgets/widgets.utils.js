@@ -1,6 +1,6 @@
 // @flow strict
 
-import type { WidgetData, WidgetId, WidgetType } from './widgets.types'
+import type { AbstractWidgetData, WidgetId, WidgetType } from './widgets.types'
 
 const HIDDEN_WIDGET_ID_PREFIX = '$hidden'
 
@@ -14,12 +14,10 @@ export const isWidgetHidden = (id: WidgetId) =>
 export const filterVisibleWidgetIds = (ids: WidgetId[]): WidgetId[] =>
 	ids.filter((id) => !isWidgetHidden(id))
 
-// TODO: $FlowFixMe
-export const createEmptyWidgetData = (
+export const createEmptyWidgetData = <Type : WidgetType>(
 	id: WidgetId,
-	type: WidgetType
-	// $FlowFixMe
-): WidgetData => ({
+	type: Type
+): AbstractWidgetData<Type, {...}> => ({
 	id,
 	type,
 	data: {},

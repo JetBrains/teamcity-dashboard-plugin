@@ -1,29 +1,10 @@
 // @flow strict
-import type { Json, Record } from '../../commontypes'
+import type { Json } from '../../commontypes'
+import type { BuildTypeId } from '../buildTypes/buildTypes.types'
 
 export type WidgetId = string
 
 export type InvestigationsWidgetSortByOption = 'time' | 'name'
-
-export type InvestigationsWidgetData = {|
-	id: WidgetId,
-	type: 'investigationsWidget',
-	data: {
-		sortBy?: InvestigationsWidgetSortByOption,
-		showFixed?: boolean,
-		showOnlyDefaultBranch?: boolean,
-		...
-	},
-|}
-
-export type BuildTypeChangesWidgetData = {|
-	id: WidgetId,
-	type: 'buildTypeChangesWidget',
-	data: {
-		branchName?: string,
-		...
-	},
-|}
 
 export type MyRecentBuildsWidgetData = {|
 	id: WidgetId,
@@ -31,19 +12,49 @@ export type MyRecentBuildsWidgetData = {|
 	data: { ... },
 |}
 
-export type WidgetData = InvestigationsWidgetData | BuildTypeChangesWidgetData | MyRecentBuildsWidgetData
-export type WidgetType = $PropertyType<WidgetData, 'type'>
-export type WidgetDataData = $PropertyType<WidgetData, 'data'>
-
-export interface WidgetsState {
-	ids: string[];
-	entities: Record<string, WidgetData>;
-	widgetWithOpenedSettings: ?string;
-}
-
-export type SetWidgetPropertyActionPayload<T : Json> = {|
-	id: WidgetId,
-	propertyName: string,
-	propertyValue: T
+export type AbstractWidgetData<Type: string, Data: Json> = {|
+	id: string,
+	type: Type,
+	data: Data,
 |}
 
+type InvestigationsWidgetDataData = {
+	sortBy?: InvestigationsWidgetSortByOption,
+	showFixed?: boolean,
+	showOnlyDefaultBranch?: boolean,
+	...
+}
+
+type BuildTypeChangesWidgetDataData = {
+	branchName?: string,
+	buildTypeId?: BuildTypeId,
+	...
+}
+
+type MyRecentBuildsWidgetDataData = { ... }
+
+export type WidgetData =
+	| AbstractWidgetData<'investigationsWidget', InvestigationsWidgetDataData>
+	| AbstractWidgetData<
+			'buildTypeChangesWidget',
+			BuildTypeChangesWidgetDataData
+	  >
+	| AbstractWidgetData<'myRecentBuildsWidget', MyRecentBuildsWidgetDataData>
+
+export type WidgetDataData = $PropertyType<WidgetData, 'data'>
+
+export type WidgetType = $PropertyType<WidgetData, 'type'>
+
+export type WidgetsState = {|
+	ids: WidgetId[],
+	entities: {|
+		[id: WidgetId]: AbstractWidgetData<*, *>,
+	|},
+	widgetWithOpenedSettings: ?string,
+|}
+
+export type SetWidgetPropertyActionPayload<T: Json> = {|
+	id: WidgetId,
+	propertyName: string,
+	propertyValue: T,
+|}

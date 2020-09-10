@@ -16,7 +16,6 @@ export const useBranchLocatorOption = (): [
 	})
 }
 
-// FIXME: without it IDE cannot parse the code for some reason
 type MaybeBuildTypeId = ?BuildTypeId
 
 export const useBuildTypeIdOption = (): [

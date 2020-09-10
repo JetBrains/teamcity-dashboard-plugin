@@ -48,15 +48,13 @@ const parseDashboardData = ({
 
 	const parsedLayout: LayoutElementData[] = layout
 		.map(
-			// TODO: $FlowFixMe
-			// $FlowFixMe
 			(element): ?LayoutElementData =>
 				widgetIdToType[element.i] !== null &&
 				widgetIdToType[element.i] !== undefined
 					? parseLayoutElementData(element, widgetIdToType[element.i])
 					: undefined
 		)
-		.filter((x) => x !== null && x !== undefined)
+		.filter(Boolean)
 
 	return {
 		layout: parsedLayout,

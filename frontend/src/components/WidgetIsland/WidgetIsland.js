@@ -5,7 +5,6 @@ import styles from './WidgetIsland.css'
 export type WidgetIslandProperties = {|
 	title: React$Node,
 	headerOptions: React$Node[],
-	// inBodyOptions: React$Node[];
 	children: React$Node,
 	mainRef?: ?React$Ref<*>,
 |}

@@ -1,7 +1,8 @@
 // @flow strict
 import type {
 	Investigation,
-	InvestigationId, InvestigationResolutionType,
+	InvestigationId,
+	InvestigationResolutionType,
 	InvestigationState,
 } from './investigations.types'
 import type { BuildType } from '../buildTypes/buildTypes.types'
@@ -35,7 +36,8 @@ type FetchedInvestigationCommonFields = {
 	},
 	...
 }
-type FetchedBuildTypeInvestigation = FetchedInvestigationCommonFields & {
+type FetchedBuildTypeInvestigation = {
+	...FetchedInvestigationCommonFields,
 	target: {
 		anyProblem: true,
 		...
@@ -52,7 +54,8 @@ type FetchedBuildTypeInvestigation = FetchedInvestigationCommonFields & {
 	},
 	...
 }
-type FetchedTestInvestigation = FetchedInvestigationCommonFields & {
+type FetchedTestInvestigation = {
+	...FetchedInvestigationCommonFields,
 	scope: {
 		project: {
 			id: ProjectId,
@@ -76,7 +79,8 @@ type FetchedTestInvestigation = FetchedInvestigationCommonFields & {
 	},
 	...
 }
-type FetchedProblemInvestigation = FetchedInvestigationCommonFields & {
+type FetchedProblemInvestigation = {
+	...FetchedInvestigationCommonFields,
 	scope: {
 		project: {
 			id: ProjectId,
@@ -108,7 +112,7 @@ interface FetchedInvestigations {
 }
 
 const parseInvestigationCommonFields = (
-	investigation: FetchedInvestigation
+	investigation: $ReadOnly<FetchedInvestigation>
 ): {
 	id: InvestigationId,
 	state: InvestigationState,
@@ -138,7 +142,7 @@ const parseInvestigationCommonFields = (
 		resolution: {
 			type: investigation.resolution.type,
 		},
-		comment: investigation.assignment.text
+		comment: investigation.assignment.text,
 	}
 }
 const parseFetchedBuildTypeInvestigation = (
@@ -188,7 +192,7 @@ const parseFetchedProblemInvestigation = (
 		target: {
 			type: 'problem',
 			id: investigation.target.problems.problem[0].id,
-			name: 'Problem names are not implemented yet :c',
+			name: '', // to be added later by addProblemOccurrenceFieldsToProblemInvestigation
 			buildIds: [], // to be added later by addProblemOccurrenceFieldsToProblemInvestigation
 			webUrl: '', // to be added later by addProblemOccurrenceFieldsToProblemInvestigation
 		},
@@ -220,25 +224,35 @@ const addTestOccurrencesFieldsToTestInvestigation = async (
 		(build) => (build.defaultBranch ?? true) === true
 	)
 }
+
 // TODO: many things are marked with $FlowFixMe because i'm unsure how the received data looks
-const parseFetchedInvestigation = (
-	investigation: FetchedInvestigation
+const parseFetchedInvestigation = <T : FetchedInvestigation>(
+	investigation: T
 ): ?Investigation => {
 	try {
-		if (investigation.target.anyProblem === true) {
-			// $FlowFixMe
-			return parseFetchedBuildTypeInvestigation(investigation)
-		} else if (
-			investigation.target.tests !== undefined &&
-			investigation.target.tests !== null
+		if (
+			investigation.target.anyProblem === true &&
+			investigation.scope.buildTypes !== null &&
+			investigation.scope.buildTypes !== undefined &&
+			investigation.scope.buildTypes.buildType !== null &&
+			investigation.scope.buildTypes.buildType !== undefined
 		) {
-			// $FlowFixMe
+			return parseFetchedBuildTypeInvestigation(
+				(investigation: FetchedBuildTypeInvestigation)
+			)
+		} else if (
+			investigation.target.anyProblem !== true &&
+			investigation.target.tests !== undefined &&
+			investigation.target.tests !== null &&
+			investigation.scope.project !== null &&
+			investigation.scope.project !== undefined
+		) {
 			return parseFetchedTestInvestigation(investigation)
 		} else if (
+			investigation.target.anyProblem !== true &&
 			investigation.target.problems !== undefined &&
 			investigation.target.problems !== null
 		) {
-			// $FlowFixMe
 			return parseFetchedProblemInvestigation(investigation)
 		}
 	} catch (error) {
@@ -256,13 +270,9 @@ export const fetchInvestigationsByAssignee = async (
 	)
 	const investigations: Investigation[] = json.investigation
 		.map((investigation: FetchedInvestigation) =>
-			// $FlowFixMe
 			parseFetchedInvestigation(investigation)
 		)
-		.filter(
-			(investigation) =>
-				investigation !== undefined && investigation !== null
-		)
+		.filter(Boolean)
 	await Promise.all(
 		investigations
 			.filter((investigation) => investigation.target.type === 'problem')

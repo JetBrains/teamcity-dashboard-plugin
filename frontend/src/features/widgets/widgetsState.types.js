@@ -1,7 +1,6 @@
 // @flow strict
 
 import type { WidgetId } from './widgets.types'
-import type { Json } from '../../commontypes'
 
 export type InvestigationsWidgetState = {||}
 

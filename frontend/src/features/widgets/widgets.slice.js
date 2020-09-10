@@ -7,8 +7,9 @@ import {
 } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
 import type {
+	AbstractWidgetData,
 	SetWidgetPropertyActionPayload,
-	WidgetData,
+	WidgetData, WidgetDataData,
 	WidgetId,
 	WidgetsState,
 	WidgetType,
@@ -19,7 +20,7 @@ import {
 	openWidgetSettings,
 } from './widgetSettings.slice'
 import { copyWidget, makeHiddenSettingsWidget } from './widgetSettings.utils'
-import { createEmptyWidgetData, filterVisibleWidgetIds } from './widgets.utils'
+import { filterVisibleWidgetIds } from './widgets.utils'
 import type { OpenWidgetSettingsPayload } from './widgetSettings.types'
 import type { Json, PayloadAction } from '../../commontypes'
 import { type Dispatch } from 'redux'
@@ -67,18 +68,15 @@ const widgetsSlice = createSlice<WidgetsState>({
 			) => {
 				widgetsAdapter.upsertOne(state, action.payload)
 			},
-			// TODO: $FlowFixMe
-			prepare: (
-				type: WidgetType,
-				// $FlowFixMe
-				data?: $PropertyType<WidgetData, 'data'> = {}
-			): {| payload: WidgetData |} => ({
-				// $FlowFixMe
+			prepare: <Type : WidgetType>(
+				type: Type,
+				data?: WidgetDataData = {}
+			): {| payload: AbstractWidgetData<Type, *> |} => ({
 				payload: ({
 					id: nanoid(),
-					type: (type: WidgetType),
+					type: type,
 					data: data ? deepCopyJson(data) : {},
-				}: WidgetData),
+				}),
 			}),
 		},
 		saveWidgetSettings: (
@@ -105,11 +103,11 @@ const widgetsSlice = createSlice<WidgetsState>({
 				action: PayloadAction<OpenWidgetSettingsPayload>
 			) => {
 				const { isNew, type } = action.payload
-				const widget =
+				const widget: AbstractWidgetData<WidgetType, WidgetDataData> =
 					isNew ||
 					action.payload.id === null ||
 					action.payload.id === undefined
-						? createEmptyWidgetData('anyId', type)
+						? {id: 'any', type: type, data: {}}
 						: state.entities[action.payload.id]
 				widgetsAdapter.upsertOne(
 					state,

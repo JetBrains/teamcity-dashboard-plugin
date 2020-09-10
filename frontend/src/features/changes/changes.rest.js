@@ -3,9 +3,9 @@ import TC from '@teamcity/react-api'
 import type { ChangesLocator } from './changes.locator'
 import { stringifyChangesLocator } from './changes.locator'
 import { parseTimestamp } from '../../utils/parseTimestamp'
-import { userFields } from '../../api/user/schemata'
 import type { User } from '../../api/user/schemata'
 import type { Change, ChangeId } from './changes.types'
+import { userFields } from '../users/users.rest'
 
 type FetchedChange = {
 	id: ChangeId,

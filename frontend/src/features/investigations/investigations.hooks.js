@@ -68,18 +68,28 @@ export const useFilteredSortedInvestigations = (): [
 	return [status, investigations]
 }
 
-type UseReassignInvestigationDataType = {| fixMode: boolean |} & (
-	| {
+export type UseReassignInvestigationArgument =
+	| {|
 			type: 'buildType',
+			fixMode: boolean,
+			buildTypeId: BuildTypeId,
+			buildTypeName: string,
+	  |}
+	| {|
+			type: 'problem',
+			fixMode: boolean,
+			problemId: string,
+			buildId: BuildId,
+	  |}
+	| {|
+			type: 'test',
+			fixMode: boolean,
 			projectId: ProjectId,
-			testId: number,
-			buildsIds: BuildId[],
-			...
-	  }
-	| { type: 'problem', problemId: number, buildId: BuildId, ... }
-	| { type: 'test', buildTypeId: BuildTypeId, buildTypeName: string, ... }
-)
+			testId: string,
+			buildIds: BuildId[],
+	  |}
+	| {||}
 
 export const useReassignInvestigation: (
-	data: UseReassignInvestigationDataType
+	data: UseReassignInvestigationArgument
 ) => () => void = TC.hooks.useReassignInvestigation

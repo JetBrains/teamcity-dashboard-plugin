@@ -21,15 +21,34 @@ export type Investigation = {
 	projectFullName: string, // Actually a project-path-like string `Project A / Project B`
 	assignedBy: User,
 	defaultBranch: boolean,
-	target: {
+	// target: {
+	// 	name: string,
+	// 	buildIds: BuildId[],
+	// 	webUrl: string,
+	// 	...
+	// } & (
+	// 	| { type: 'buildType', id: BuildTypeId, ... }
+	// 	| { type: 'test' | 'problem', id: string, ... }
+	// ),
+	target: {|
+		type: 'buildType',
+		id: BuildTypeId,
 		name: string,
 		buildIds: BuildId[],
 		webUrl: string,
-		...
-	} & (
-		| { type: 'buildType', id: BuildTypeId, ... }
-		| { type: 'test' | 'problem', id: string, ... }
-	),
+	|} | {|
+		type: 'test',
+		id: string,
+		name: string,
+		buildIds: BuildId[],
+		webUrl: string,
+	|} | {|
+		type: 'problem',
+		id: string,
+		name: string,
+		buildIds: BuildId[],
+		webUrl: string,
+	|},
 	resolution: {
 		type: InvestigationResolutionType,
 		...

@@ -31,8 +31,6 @@
 	"prettier/unicorn"
   ],
   "rules": {
-	// TODO: had to do it because react is unresolved. Fix later!
-	"import/no-unresolved": "off",
 	"unicorn/consistent-function-scoping": "off",
 	"unicorn/filename-case": [
 	  "error",

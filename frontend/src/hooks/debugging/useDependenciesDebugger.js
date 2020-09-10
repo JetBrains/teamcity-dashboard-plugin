@@ -18,8 +18,8 @@ const compareInputs = (inputKeys, oldInputs, newInputs) => {
 		}
 	})
 }
-// $FlowFixMe
-const useDependenciesDebugger = (inputs: { [key: string]: any, ... }) => {
+
+const useDependenciesDebugger = (inputs: { [key: string]: *, ... }) => {
 	const oldInputsReference = useRef(inputs)
 	const inputValuesArray = Object.values(inputs)
 	const inputKeysArray = Object.keys(inputs)
