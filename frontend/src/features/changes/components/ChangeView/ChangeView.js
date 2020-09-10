@@ -19,6 +19,7 @@ type Properties = {|
 	changeId: ChangeId,
 	showChangeDetailsPopup: (?ChangeId) => mixed,
 	className?: string,
+	withBottomBorder?: boolean,
 |}
 
 const changeViewBreakpointClasses = {
@@ -26,7 +27,7 @@ const changeViewBreakpointClasses = {
 }
 
 const ChangeView = React.memo<Properties>(
-	({ changeId, showChangeDetailsPopup, className }: Properties) => {
+	({ changeId, showChangeDetailsPopup, className, withBottomBorder = true }: Properties) => {
 		const changeWebUrl = useChangeWebUrl(changeId)
 		const changeComment = useChangeComment(changeId)
 		const userDisplayName = useChangeUserDisplayName(changeId)
@@ -37,7 +38,9 @@ const ChangeView = React.memo<Properties>(
 			styles.ChangeView
 		)
 
-		const changeViewClasses = classNames(changeViewOwnClasses, className)
+		const changeViewClasses = classNames(changeViewOwnClasses, className, {
+			[styles.ChangeView_withBottomBorder]: withBottomBorder,
+		})
 
 		return (
 			<div className={changeViewClasses}>

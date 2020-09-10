@@ -27,6 +27,7 @@ const renderEachBuild = (build: Build, index: number, builds: Build[]) => (
 		withBuildTypeHeader={shouldRenderBuildTypeHeader(build, index, builds)}
 		withDivider={shouldRenderDivider(build, index, builds)}
 		buildId={build.id}
+		isLast={index === builds.length - 1}
 	/>
 )
 

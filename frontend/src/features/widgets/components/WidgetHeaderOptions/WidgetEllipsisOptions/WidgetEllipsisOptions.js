@@ -23,10 +23,8 @@ import copyIcon from '@jetbrains/icons/copy.svg'
 const { IconButton } = TC.Components
 
 const directions = [
-	PopupMenu.PopupProps.Directions.BOTTOM_LEFT,
-	PopupMenu.PopupProps.Directions.TOP_LEFT,
 	PopupMenu.PopupProps.Directions.BOTTOM_RIGHT,
-	PopupMenu.PopupProps.Directions.TOP_RIGHT,
+	PopupMenu.PopupProps.Directions.BOTTOM_LEFT,
 ]
 
 const useEllipsisListData = () => {

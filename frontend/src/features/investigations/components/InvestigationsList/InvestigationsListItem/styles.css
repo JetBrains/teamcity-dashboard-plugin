@@ -26,6 +26,10 @@
 	border-bottom: 1px solid var(--border-color);
 }
 
+.investigationLinkContainer_last {
+	border-bottom: none;
+}
+
 .projectPathContainer {
 	margin-top: 8px;
 }

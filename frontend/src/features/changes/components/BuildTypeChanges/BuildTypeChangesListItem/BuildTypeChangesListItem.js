@@ -15,7 +15,7 @@ const BuildTypeChangesListItem = React.memo<Properties>(
 	({ withDivider, buildId }: Properties) => {
 		return (
 			<li className={styles.BuildTypeChangesListItem}>
-				{withDivider && <Divider className={styles.divider} />}
+				{withDivider && <Divider />}
 				<BuildChanges buildId={buildId} />
 			</li>
 		)

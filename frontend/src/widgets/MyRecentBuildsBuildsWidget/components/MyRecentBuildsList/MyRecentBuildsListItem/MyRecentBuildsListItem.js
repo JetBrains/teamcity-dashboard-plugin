@@ -8,14 +8,15 @@ import BuildTypeLinkWithPath from '../BuildTypeLinkWithPath/BuildTypeLinkWithPat
 import BuildInfo from '../../../../../features/builds/components/BuildInfo/BuildInfo'
 import Divider from '../../../../../components/Divider/Divider'
 
-interface Properties {
+type Properties = {|
 	withBuildTypeHeader: boolean;
 	withDivider: boolean;
 	buildId: BuildId;
-}
+	isLast: boolean,
+|}
 
 const MyRecentBuildsListItem = React.memo<Properties>(
-	({ buildId, withBuildTypeHeader, withDivider }: Properties) => {
+	({ buildId, withBuildTypeHeader, withDivider, isLast }: Properties) => {
 		const buildTypeId = useBuildBuildTypeId(buildId)
 
 		return buildTypeId !== null && buildTypeId !== undefined ? (
@@ -24,7 +25,7 @@ const MyRecentBuildsListItem = React.memo<Properties>(
 				{withBuildTypeHeader && (
 					<BuildTypeLinkWithPath buildTypeId={buildTypeId} />
 				)}
-				<BuildInfo buildId={buildId} />
+				<BuildInfo buildId={buildId} withBottomBorder={!isLast} />
 			</li>
 		) : (
 			<span>Loading...</span>

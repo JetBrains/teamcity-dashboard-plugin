@@ -22,6 +22,9 @@
 					/ minmax(0, 1fr);
 
 	padding: 8px 0;
+}
+
+.buildInfoContainer_withBottomBorder {
 	border-bottom: 1px solid var(--border-color);
 }
 

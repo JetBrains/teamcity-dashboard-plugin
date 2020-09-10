@@ -42,12 +42,13 @@ const ChangesList = React.memo<Properties>(({ changesIds }: Properties) => {
 				cancelDialog={cancelDialog}
 			/>
 			<div className={changesListClasses}>
-				{changesIds.map((id) => (
+				{changesIds.map((id, index) => (
 					<ChangeView
 						key={id}
 						changeId={id}
 						className={styles.change}
 						showChangeDetailsPopup={showPopup}
+						withBottomBorder={index !== changesIds.length - 1}
 					/>
 				))}
 			</div>

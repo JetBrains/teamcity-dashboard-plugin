@@ -8,11 +8,11 @@
 			"metadata changesPreviewIcon" auto
 			/ minmax(0, 1fr) min-content;
 
-	/*row-gap: 8px;*/
-	/*column-gap: 8px;*/
-
 	box-sizing: border-box;
 	padding: 8px 0;
+}
+
+.ChangeView_withBottomBorder {
 	border-bottom: 1px solid var(--border-color);
 }
 

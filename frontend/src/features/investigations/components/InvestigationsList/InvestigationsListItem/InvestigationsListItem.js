@@ -1,10 +1,9 @@
 // @flow strict
 import React, { memo, useMemo } from 'react'
+import classnames from 'classnames'
 import styles from './styles.css'
 import InvestigationAdditionalInfoDropdown from '../../InvestigationAdditionalInfoDropdown/InvestigationAdditionalInfoDropdown'
-import type {
-	InvestigationId,
-} from '../../../investigations.types'
+import type { InvestigationId } from '../../../investigations.types'
 import Divider from '../../../../../components/Divider/Divider'
 import ProjectPath from '../../../../../components/ProjectPath/ProjectPath'
 import InvestigationLink from '../../InvestigationLink/InvestigationLink'
@@ -15,10 +14,11 @@ type Properties = {|
 	investigationId: InvestigationId,
 	withDivider: boolean,
 	withPath: boolean,
+	isLast: boolean,
 |}
 
 const InvestigationsListItem = memo<Properties>(
-	({ investigationId, withPath, withDivider }: Properties) => {
+	({ investigationId, withPath, withDivider, isLast }: Properties) => {
 		const investigationProjectId = useSelector((state) =>
 			selectInvestigationProjectId(state, investigationId)
 		)
@@ -26,6 +26,13 @@ const InvestigationsListItem = memo<Properties>(
 		const investigationLink = useMemo(
 			() => <InvestigationLink investigationId={investigationId} />,
 			[investigationId]
+		)
+
+		const investigationLinkContainerClasses = classnames(
+			styles.investigationLinkContainer,
+			{
+				[styles.investigationLinkContainer_last]: isLast,
+			}
 		)
 
 		return (
@@ -47,7 +54,7 @@ const InvestigationsListItem = memo<Properties>(
 						</div>
 					)}
 
-					<div className={styles.investigationLinkContainer}>
+					<div className={investigationLinkContainerClasses}>
 						<div className={styles.mainContent}>
 							{investigationLink}
 						</div>

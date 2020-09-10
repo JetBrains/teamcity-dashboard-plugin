@@ -38,6 +38,7 @@ const InvestigationsList = React.memo<{ ... }>(() => {
 						index,
 						investigations
 					)}
+					isLast={index === investigations.length - 1}
 				/>
 			))}
 		</ol>
