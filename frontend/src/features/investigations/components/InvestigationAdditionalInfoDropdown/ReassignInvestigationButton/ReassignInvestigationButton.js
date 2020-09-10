@@ -1,5 +1,5 @@
 // @flow strict
-import React from 'react'
+import React, { useMemo } from 'react'
 import Button from '@jetbrains/ring-ui/components/button/button'
 import type {
 	Investigation,
@@ -9,9 +9,7 @@ import {
 	useInvestigation,
 	useReassignInvestigation,
 } from '../../../investigations.hooks'
-import type {
-	UseReassignInvestigationArgument,
-} from '../../../investigations.hooks'
+import type { UseReassignInvestigationArgument } from '../../../investigations.hooks'
 
 const getUseReassignInvestigationArgument = (
 	investigation: Investigation,
@@ -45,6 +43,19 @@ const getUseReassignInvestigationArgument = (
 	}
 }
 
+const useReassignInvestigationArgument = (
+	investigation: ?Investigation,
+	fixMode: boolean
+): UseReassignInvestigationArgument => {
+	return useMemo(
+		() =>
+			investigation !== null && investigation !== undefined
+				? getUseReassignInvestigationArgument(investigation, fixMode)
+				: {},
+		[fixMode, investigation]
+	)
+}
+
 interface Properties {
 	investigationId: InvestigationId;
 	fix: boolean;
@@ -57,10 +68,7 @@ const ReassignInvestigationButton = ({
 }: Properties) => {
 	const investigation = useInvestigation(investigationId)
 
-	const argument: UseReassignInvestigationArgument =
-		investigation !== null && investigation !== undefined
-			? getUseReassignInvestigationArgument(investigation, fix)
-			: {}
+	const argument = useReassignInvestigationArgument(investigation, fix)
 
 	const reassignInvestigation: () => void = useReassignInvestigation(argument)
 	return (

@@ -88,7 +88,9 @@ export type UseReassignInvestigationArgument =
 			testId: string,
 			buildIds: BuildId[],
 	  |}
-	| {||}
+	| {|
+			type?: null,
+	  |}
 
 export const useReassignInvestigation: (
 	data: UseReassignInvestigationArgument
