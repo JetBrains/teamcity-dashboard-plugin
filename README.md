@@ -1,3 +1,5 @@
+[![JetBrains incubator project](https://jb.gg/badges/incubator-plastic.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
+
 # Instructions
 
 ## 1. Build plugin
